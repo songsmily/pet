@@ -1209,20 +1209,142 @@ html.bg {
     padding-left: 0
 }
 
+@media (min-width: 768px) {
+    .app.container {
+        width: 750px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, .3)
+    }
 
+    .app.container .app-aside {
+        overflow-x: hidden
+    }
 
+    .app.container.app-aside-folded .app-aside {
+        overflow-x: visible
+    }
 
+    .app.container.app-aside-fixed .aside-wrap {
+        left: inherit
+    }
 
-.app.container {
-    width: 1300px
+    .app.container.app-aside-fixed.app-aside-folded .app-aside > ul.nav {
+        position: absolute
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 750px
+    }
+
+    .app.container .app-footer-fixed {
+        right: auto;
+        left: auto;
+        width: 100%;
+        max-width: 550px
+    }
+
+    .app.container.app-aside-folded .app-footer-fixed {
+        max-width: 690px
+    }
+
+    .app.container.app-aside-dock .app-footer-fixed {
+        max-width: 750px
+    }
 }
 
-.app.container .app-aside, .app.container .app-header {
-    max-width: 1300px
+@media (min-width: 992px) {
+    .app.container {
+        width: 970px
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 970px
+    }
+
+    .app.container .app-footer-fixed {
+        max-width: 770px
+    }
+
+    .app.container.app-aside-folded .app-footer-fixed {
+        max-width: 910px
+    }
+
+    .app.container.app-aside-dock .app-footer-fixed {
+        max-width: 970px
+    }
 }
 
-.item-thumb {
-    min-height: 280px
+@media (min-width: 1200px) {
+    .app.container {
+        width: 1170px
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 1170px
+    }
+
+    .app.container .app-footer-fixed {
+        max-width: 970px
+    }
+
+    .app.container.app-aside-folded .app-footer-fixed {
+        max-width: 1110px
+    }
+
+    .app.container.app-aside-dock .app-footer-fixed {
+        max-width: 1170px
+    }
+}
+
+@media (min-width: 1800px) {
+    .app.container {
+        width: 1300px
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 1300px
+    }
+
+    .item-thumb {
+        min-height: 280px
+    }
+}
+
+@media (min-width: 3840px) {
+    .app.container {
+        width: 3000px
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 3000px
+    }
+
+    .app-aside-fixed .aside-wrap {
+        width: 700px
+    }
+
+    .app-aside, .navbar-header {
+        width: 700px
+    }
+
+    .app-content, .app-footer, .navbar-collapse {
+        margin-left: 700px
+    }
+
+    .app-aside-fixed .aside-wrap .navi-wrap > * {
+        width: 700px
+    }
+
+    .asideBar {
+        width: 740px !important
+    }
+
+    .app-aside-fixed .aside-wrap .navi-wrap {
+        width: 799px
+    }
+
+    #tag_toc.fixed #toc {
+        width: 697px
+    }
 }
 
 .nav-sub {
@@ -5737,7 +5859,6 @@ table tr:nth-child(2n) {
 #skPlayer .skPlayer-control > .skPlayer-percent {
     width: 100%;
     height: 3px;
-    background-color: #ebebf2;
     opacity: 0;
     bottom: 0;
     margin: 0 0;

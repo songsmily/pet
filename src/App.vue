@@ -1,17 +1,21 @@
 <template>
   <div id="app" class="app app-aside-fixed container app-header-fixed ">
-    <index></index>
-<!--    <div id="skPlayer"></div>-->
+    <header-bar></header-bar>
+    <aside-bar></aside-bar>
+    <div id="content" class="app-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-import Index from "./components/content/Header"
-import skPlayer from "assets/js/music"
+import HeaderBar from "./components/content/Header"
+import AsideBar from "./components/content/AsideBar"
 export default {
   name: 'app',
   components: {
-    Index
+    HeaderBar,
+    AsideBar
   },
   methods:{
     initPlayer(){

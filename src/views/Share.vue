@@ -1,10 +1,18 @@
 <template>
-    <h1>我是分享</h1>
+    <div style="margin-left: 500px">
+    <h1>我是分dfdfdf享</h1>
+    <at-input placeholder="fsdsdf" status="success" icon="check-circle"></at-input>
+
+    </div>
 </template>
 
 <script>
+    import { Input as AtInput } from 'at-ui'
     export default {
-        name: "Share"
+        name: "Share",
+        components:{
+            AtInput
+        }
     }
 </script>
 

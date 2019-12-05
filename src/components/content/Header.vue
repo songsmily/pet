@@ -69,7 +69,7 @@
                 <!--/闲言碎语-->
                 <!--登录管理-->
                 <li class="dropdown" id="easyLogin">
-                    <a onclick="return false" data-toggle="dropdown" class="dropdown-toggle clear"> <span>登录</span>
+                    <a  data-toggle="dropdown" @click="$store.state.isShowLogRegDialog = true" class="dropdown-toggle clear"> <span>登录</span>
                         <b class="caret"></b>
                         <!--下三角符号-->
                     </a>

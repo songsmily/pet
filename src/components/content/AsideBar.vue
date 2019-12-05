@@ -47,26 +47,26 @@
                         <!--主页-->
                         <li>
                             <router-link to="/home" class="auto">
-                                <i class="iconfont icon-zhuye icon text-md"></i>
+                                <i class="fa fa-bookmark"></i>
                                 <span>发现</span>
                             </router-link>
                         </li>
                         <!-- /主页 -->
                         <li>
                             <router-link to="/share" class="auto">
-                                <i class="glyphicon glyphicon-eye-open icon text-md"></i>
+                                <i class="fa fa-send-o"></i>
                                 <span>分享</span>
                             </router-link>
                         </li>
                         <li>
                             <a target="_blank" href="http://jijianblog.com/index.php/category/3/" class="auto">
-                                <i class="glyphicon glyphicon-send icon text-md"></i>
+                                <i class="fa fa-question-circle-o"></i>
                                 <span>答疑</span>
                             </a>
                         </li>
                         <li>
                             <a target="_blank" href="http://jijianblog.com/index.php/category/4/" class="auto">
-                                <i class="glyphicon glyphicon-book icon text-md"></i>
+                                <i class="fa fa-navicon"></i>
                                 <span>归类</span>
                             </a>
                         </li>

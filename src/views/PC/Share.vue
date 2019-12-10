@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-left: 500px">
+    <div style="margin-left: 10px">
     <h1>我是分dfdfdf享</h1>
     <at-input placeholder="fsdsdf" status="success" icon="check-circle"></at-input>
 

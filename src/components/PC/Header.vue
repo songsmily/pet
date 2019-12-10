@@ -2,10 +2,10 @@
     <header id="header" class="app-header navbar" role="menu">
         <!-- navbar header（交集处） -->
         <div class="text-ellipsis navbar-header bg-black">
-            <button class="pull-right visible-xs dk" ui-toggle-class="show animated animated-lento fadeIn" target=".navbar-collapse"> <i class="fontello fontello-gear text-lg"></i>
+            <button @click="$store.state.isShowNavInfoInMobile = ! $store.state.isShowNavInfoInMobile" class="pull-right visible-xs dk" ui-toggle-class="show animated animated-lento fadeIn" target=".navbar-collapse"> <i class="fontello fontello-gear text-lg"></i>
 
             </button>
-            <button class="pull-left visible-xs" ui-toggle-class="off-screen animated" target=".app-aside" ui-scroll="app"> <i class="fontello fontello-menu text-lg"></i>
+            <button @click="$store.state.isShowNavBarInMobile = !$store.state.isShowNavBarInMobile" class="pull-left visible-xs" ui-toggle-class="off-screen animated" target=".app-aside" ui-scroll="app"> <i class="fontello fontello-menu text-lg"></i>
 
             </button>
             <!-- brand -->
@@ -18,7 +18,7 @@
         <!-- / navbar header -->
         <div class=""></div>
         <!-- navbar collapse（顶部导航栏） -->
-        <div class="collapse pos-rlt navbar-collapse box-shadow bg-black">
+        <div class="collapse pos-rlt navbar-collapse box-shadow bg-black" :class="{'show animated animated-lento fadeIn':$store.state.isShowNavInfoInMobile}">
             <!-- search form -->
             <form id="searchform1" class="searchform navbar-form navbar-form-sm navbar-left shift" method="post" role="search">
                 <div class="form-group">

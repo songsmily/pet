@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        isShowLogRegDialog:false
+        isShowLogRegDialog:false,//登录注册栏显示的标志变量
+        isShowNavBarInMobile:false,
+        isShowNavInfoInMobile:false,
+        isMobile:false
     },
     mutations: {
 

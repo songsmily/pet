@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
-import Header from "../components/content/Header"
-const Home = ()=> import("views/Home")
-const Share = ()=> import("views/Share")
+import Header from "../components/PC/Header"
+const Home = ()=> import("views/PC/Home")
+const Share = ()=> import("views/PC//Share")
 Vue.use(VueRouter)
 
 const routes = [

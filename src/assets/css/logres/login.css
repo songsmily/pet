@@ -606,7 +606,7 @@
 }
 
 .irtYus .main > div > .form-wrapper {
-    width: 520px;
+    width: 500px;
     height: auto;
     box-sizing: border-box;
     padding: 60px 90px;
@@ -615,8 +615,8 @@
 
 @media (max-width: 700px) {
     .irtYus .main > div > .form-wrapper {
-        width: 346px;
-        padding: 30px 23px;
+        width: 300px;
+        padding: 30px 10px;
         height: auto;
     }
 }

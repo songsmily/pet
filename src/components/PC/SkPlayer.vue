@@ -98,12 +98,11 @@
                 const  that = this
                 axios.get("/api/music/selectAll").then(function (res) {
                     console.log(res)
-                    //
-                    // that.musicData = res.data.data;
-                    // that.currentMusic.position = 1;
-                    // that.currentMusic.musicUrl = that.musicData[0].musicurl;
-                    // that.currentMusic.picUrl = that.musicData[0].picurl;
-                    // that.currentMusic.name = that.musicData[0].name;
+                    that.musicData = res.data.data;
+                    that.currentMusic.position = 1;
+                    that.currentMusic.musicUrl = that.musicData[0].musicurl;
+                    that.currentMusic.picUrl = that.musicData[0].picurl;
+                    that.currentMusic.name = that.musicData[0].name;
                 })
             },
             loadMusic:function (position,id) {

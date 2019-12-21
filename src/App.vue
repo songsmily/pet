@@ -2,12 +2,26 @@
     <div id="app" class="app app-aside-fixed container app-header-fixed ">
         <header-bar></header-bar>
         <nav-bar></nav-bar>
+
         <router-view></router-view>
+
         <el-dialog v-if="!this.$store.state.isMobile" :visible.sync="$store.state.isShowLogRegDialog" width="40%">
             <log-reg-p-c></log-reg-p-c>
         </el-dialog>
         <el-dialog v-else :visible.sync="$store.state.isShowLogRegDialog" width="330px" >
             <log-reg-p-c></log-reg-p-c>
+        </el-dialog>
+        <el-dialog v-if="!this.$store.state.isMobile" :visible.sync="$store.state.isShowUserInfoDialog" width="40%">
+            <user-info-pc></user-info-pc>
+        </el-dialog>
+        <el-dialog v-else :visible.sync="$store.state.isShowUserInfoDialog" width="330px" >
+            <log-reg-p-c></log-reg-p-c>
+        </el-dialog>
+        <el-dialog  v-if="!this.$store.state.isMobile" width="30%" title="账户密码修改" :visible.sync="$store.state.isShowUserSecret">
+            <user-secret></user-secret>
+        </el-dialog>
+        <el-dialog v-else  width="100%" title="账户密码设置" :visible.sync="$store.state.isShowUserSecret">
+            <user-secret></user-secret>
         </el-dialog>
 
 
@@ -18,20 +32,24 @@
 <script>
     import HeaderBar from "./components/PC/Header"
     import NavBar from "./components/PC/NavBar"
-
     import Swal from "sweetalert2"
     import Login from "./components/PC/Login"
     import LogRegPC from "./components/PC/LogReg"
     import LogRegMobile from "./components/Mobile/LogReg"
     import $ from "assets/libs/jquery/jquery.min"
     import "assets/js/core"
+    import axios from "axios"
+    import UserInfo from "./components/PC/UserInfo"
+    import UserSecret from "views/PC/User/UserSecret"
     export default {
         name: 'app',
         components: {
             HeaderBar,
             NavBar,
             LogRegPC,
-            LogRegMobile
+            LogRegMobile,
+            UserInfoPc:UserInfo,
+            UserSecret
         },
         data() {
             return {
@@ -40,38 +58,21 @@
             }
         },
         created:function(){
-            this.isMobile()
+            if (!this.$util.loginType(this)){
+                this.$util.getUserInfo(this)
+            }
+            if (this.$util.loginType(this)){
+                this.$util.setUserInfoAndLoginTypeToStore(this)
+            }
+            this.$util.isMobile(this)
         },
         methods: {
-            test: function () {
-
-                //     this.$layer.iframe({
-                //       content: {
-                //         content: Login, //传递的组件对象
-                //         parent: this,//当前的vue对象
-                //         data:{}//props
-                //       },
-                //       offset:["100px",'100px'],
-                //       area:['800px','600px'],
-                //       title: false,
-                // // cancel:()=>{//关闭事件
-                // //   alert('关闭iframe');
-                // // }
-                //   });
-            },
-            isMobile:function () {
-                if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i) ){
-                    this.$store.state.isMobile = true
-                }else{
-                    this.$store.state.isMobile = false
-                }
-            }
         },
         mounted() {
-            var _this = this;
+            const _this = this;
             window.onresize = function(){ // 定义窗口大小变更通知事件
                 console.log("窗口大小变了")
-                _this.isMobile()
+                _this.$util.isMobile(_this);
             };
         }
     }

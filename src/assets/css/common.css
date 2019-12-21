@@ -752,7 +752,7 @@ body {
 }
 
 .app-header {
-    z-index: 1020;
+    z-index: 1000;
     border-radius: 0
 }
 
@@ -823,7 +823,6 @@ body {
 .app-content-body {
     float: left;
     width: 100%;
-    padding-bottom: 50px
 }
 
 .app-footer {
@@ -1377,7 +1376,7 @@ html.bg {
 }
 
 .navi ul.nav li li a {
-    padding-left: 55px
+    padding-left: 40px
 }
 
 .navi ul.nav li li ul {
@@ -1407,9 +1406,9 @@ html.bg {
 .navi ul.nav li a > i {
     position: relative;
     float: left;
-    width: 40px;
+    width: 30px;
     margin: -10px -10px;
-    margin-right: 5px;
+    margin-right: 1px;
     overflow: hidden;
     line-height: 40px;
     text-align: center
@@ -3149,10 +3148,6 @@ html.bg {
 
 .bg-black .nav > li > a {
     color: #869fb1
-}
-
-.bg-black .nav > li > a:focus, .bg-black .nav > li > a:hover {
-    background-color: #16232d
 }
 
 .bg-black .nav .open > a {
@@ -5222,10 +5217,6 @@ img {
     background-color: #111
 }
 
-.bg-black .nav > li > a:focus, .bg-black .nav > li > a:hover {
-    background-color: #fff;
-    color: #000
-}
 
 .bg-black .dk, .bg-black.dk {
     background-color: #222
@@ -5652,7 +5643,7 @@ table tr:nth-child(2n) {
 }
 
 .app-header .navbar-header {
-    height: 50px
+    height: 55px
 }
 
 .bg-info .progress-xs {
@@ -6004,7 +5995,7 @@ table tr:nth-child(2n) {
     display: none;
     width: 250px;
     position: absolute;
-    top: 51px;
+    top: 55px;
     padding-top: 0;
     background-color: #fff;
     list-style: none;

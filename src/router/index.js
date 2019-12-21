@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
 import Header from "../components/PC/Header"
+import loginType from "@/utils/util"
 const Home = ()=> import("views/PC/Home")
-const Share = ()=> import("views/PC//Share")
+const Share = ()=> import("views/PC/Share")
+const UserManage = ()=> import("views/PC/User/UserManage")
+const UploadInfo = ()=> import("views/PC/Pet/UploadInfo")
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,6 +26,20 @@ const routes = [
         meta: {
             tittle:"分享"
         }
+    },
+    {
+        path:"/user/manage",
+        component:UserManage,
+        meta: {
+            tittle:"个人信息管理"
+        }
+    },
+    {
+        path:"/pet/upload",
+        component:UploadInfo,
+        meta: {
+            tittle:"个人信息管理"
+        }
     }
 ]
 const router = new VueRouter({
@@ -30,6 +47,14 @@ const router = new VueRouter({
     mode: 'history'
 })
 router.beforeEach((to,from,next) => {
+    // this.$uti
+    // if (sessionStorage.getItem("loginType")){
+    //     console.log(sessionStorage.getItem("loginType"))
+    //
+    // }else{
+    //     console.log("设置sessionstorage")
+    //     sessionStorage.setItem("loginType",true);
+    // }
     document.title = to.meta.tittle
     next()
 })

@@ -16,7 +16,7 @@
                     </header>
                     <!--内容页-->
                     <div class="wrapper-md" id="post-panel">
-
+                        宠物信息上传
                     </div>
                 </div>
                 <!--首页右侧栏-->
@@ -31,7 +31,7 @@
     import RightAsideBar from "components/PC/RightAsideBar"
 
     export default {
-        name: "Home",
+        name: "UploadInfo",
         components:{
             RightAsideBar
         }

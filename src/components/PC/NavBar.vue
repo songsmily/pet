@@ -132,12 +132,12 @@
                                         </router-link>
                                     </li>
                                     <li>
-                                        <a href="http://jijianblog.com/index.php/category/4/">
+                                        <router-link to="/pet/petinfo">
 
                                             <i class="glyphicon glyphicon-th"></i>
 
                                             <span>宠物信息管理</span>
-                                        </a>
+                                        </router-link>
                                     </li>
 
                                 </ul>

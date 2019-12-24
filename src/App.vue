@@ -2,8 +2,17 @@
     <div id="app" class="app app-aside-fixed container app-header-fixed ">
         <header-bar></header-bar>
         <nav-bar></nav-bar>
+        <div id="content" class="app-content">
 
-        <router-view></router-view>
+            <a class="off-screen-toggle hide"></a>
+            <main class="app-content-body ">
+                <div class="hbox hbox-auto-xs hbox-auto-sm">
+                    <router-view></router-view>
+                    <!--首页右侧栏-->
+                    <right-aside-bar></right-aside-bar>
+                </div>
+            </main>
+        </div>
 
         <el-dialog v-if="!this.$store.state.isMobile" :visible.sync="$store.state.isShowLogRegDialog" width="40%">
             <log-reg-p-c></log-reg-p-c>
@@ -41,6 +50,8 @@
     import axios from "axios"
     import UserInfo from "./components/PC/UserInfo"
     import UserSecret from "views/PC/User/UserSecret"
+    import RightAsideBar from "components/PC/RightAsideBar"
+
     export default {
         name: 'app',
         components: {
@@ -49,7 +60,8 @@
             LogRegPC,
             LogRegMobile,
             UserInfoPc:UserInfo,
-            UserSecret
+            UserSecret,
+            RightAsideBar
         },
         data() {
             return {
@@ -92,9 +104,14 @@ TabBar样式重写
         flex: 1;
     }
 
+    .at-input__original{
+        font-size: 14px;
+        color: #606266;
+    }
+
     @import "~vue-layer/lib/vue-layer.css";
     @import "~at-ui-style";
-    /*@import "~semantic-ui/dist/semantic.min.css";*/
+    @import "~semantic-ui/dist/semantic.min.css";
     @import "~assets/libs/font-awesome-4.7.0 2/css/font-awesome.min.css";
     @import "~assets/css/base.css";
 

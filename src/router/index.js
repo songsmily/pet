@@ -5,6 +5,8 @@ import loginType from "@/utils/util"
 const Home = ()=> import("views/PC/Home")
 const Share = ()=> import("views/PC/Share")
 const UserManage = ()=> import("views/PC/User/UserManage")
+const PetInfo = ()=> import("views/PC/Pet/PetInfo")
+
 const UploadInfo = ()=> import("views/PC/Pet/UploadInfo")
 Vue.use(VueRouter)
 
@@ -38,7 +40,14 @@ const routes = [
         path:"/pet/upload",
         component:UploadInfo,
         meta: {
-            tittle:"个人信息管理"
+            tittle:"宠物信息上传"
+        }
+    },
+    {
+        path:"/pet/petinfo",
+        component:PetInfo,
+        meta: {
+            tittle:"宠物信息管理"
         }
     }
 ]

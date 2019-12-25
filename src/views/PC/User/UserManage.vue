@@ -3,7 +3,7 @@
     <div class="col center-part">
         <header class="bg-light lter wrapper-md">
             <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item >个人中心</el-breadcrumb-item>
+                <el-breadcrumb-item :to="'#'">个人中心</el-breadcrumb-item>
                 <el-breadcrumb-item>个人信息管理</el-breadcrumb-item>
             </el-breadcrumb>
         </header>
@@ -133,6 +133,9 @@
                 options:[],
                 selectedOptions: []
             }
+        },
+        created(){
+            this.$Loading.start()
         },
         mounted(){
             this.getOptions()
@@ -304,6 +307,8 @@
                 axios.get(url).then(function (res) {
                     let options = [res.data.data.plotId,res.data.data.buildId]
                     that.selectedOptions = options
+                    that.$Loading.finish()
+
                 })
             },
             handleAreaChange:function(val){

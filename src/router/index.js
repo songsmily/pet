@@ -8,6 +8,7 @@ const UserManage = ()=> import("views/PC/User/UserManage")
 const PetInfo = ()=> import("views/PC/Pet/PetInfo")
 
 const UploadInfo = ()=> import("views/PC/Pet/UploadInfo")
+const PetDetail = ()=> import("views/PC/Pet/PetDetail")
 Vue.use(VueRouter)
 
 const routes = [
@@ -49,6 +50,14 @@ const routes = [
         meta: {
             tittle:"宠物信息管理"
         }
+    },
+    {
+        path:"/pet/petinfo/detail",
+        component:PetDetail,
+        name:"petinfo/detail",
+        meta: {
+            tittle:"宠物详细信息"
+        },
     }
 ]
 const router = new VueRouter({

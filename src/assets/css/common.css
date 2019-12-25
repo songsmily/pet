@@ -2992,6 +2992,7 @@ html.bg {
 }
 
 .bg-light .lter, .bg-light.lter {
+    padding-top: 25px;
     background-color: #f6f8f8
 }
 
@@ -4145,7 +4146,8 @@ a.text-#000000:hover {
 }
 
 .wrapper-md {
-    padding: 20px
+    padding: 20px;
+    padding-top: 0;
 }
 
 .wrapper-lg {

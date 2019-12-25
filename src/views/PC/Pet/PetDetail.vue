@@ -3,165 +3,113 @@
         <header class="bg-light lter wrapper-md">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="'#'">宠物管理</el-breadcrumb-item>
-                <el-breadcrumb-item>宠物信息上传</el-breadcrumb-item>
+                <el-breadcrumb-item :to="'/pet/petinfo'">宠物信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item >宠物详细信息</el-breadcrumb-item>
             </el-breadcrumb>
         </header>
         <!--内容页-->
         <div class="wrapper-md" id="post-panel">
+            <el-row :gutter="30">
+                <el-col v-if="petInfo.petId" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                        <div class="grid-content" >
+                            <div class="image">
+                                <img :src="petInfo.petImageUrl">
+                            </div>
+                            <div class="extra content">
+                                <at-tag  v-if="petInfo.petStatus == 0" class="right"   color="warning">审核中</at-tag>
+                                <at-tag  v-else class="right"   color="success">审核通过</at-tag>
+                                <span>
+                                    上传日期：{{petInfo.gmtCreate | formatDate}}
+                                </span>
+                            </div>
+                            <div class="content">
+                                <div class="row_content">
+                                    <span class="labelVal">宠物名：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petName"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物类型：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petType"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">出生日期：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petBirthday"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物毛色：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petHairColor"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物体重（Kg）：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petWeight"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物身高（Cm）：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petWeight"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物性别：</span>
+                                    <div class="row_content_input">
+                                        <at-radio  v-model="petInfo.petSex" label="1" >雄性(公)</at-radio>
+                                        <at-radio  v-model="petInfo.petSex" label="0">雌性(母)）</at-radio>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物饲养地址：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petRaiseAddr"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                                <div class="row_content">
+                                    <span class="labelVal">宠物描述：</span>
+                                    <div class="row_content_input">
+                                        <at-input  size="large"   v-model="petInfo.petDesc"
+                                                  @blur="checkWeight">
+
+                                        </at-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                </el-col>
 
 
-            <div class="row_content">
-                <span class="labelVal">宠物昵称：</span>
-                <at-input :class="{'errorType':petNameType}" size="large" placeholder="请输入宠物昵称" v-model="petInfo.petName"
-                          class="row_content_input" @blur="checkName">
+            </el-row>
 
-                </at-input>
-                <span class="errorNotice">{{petNameNotice}}</span>
-            </div>
-            <div class="row_content">
-                <span class="labelVal">宠物类型：</span>
-                <!--                <at-input  size="large" :status="petTypeType" placeholder="请选择宠物类型"  v-model="petInfo.petType" class="row_content_input">                </at-input>-->
-
-                <div class="row_content_input">
-                    <el-cascader :class="{'errorType':petTypeType}" placeholder="请选择宠物类型" ref="location" :options="options" v-model="selectedOptions" @change="handleAreaChange"
-                                 style="width: 100%"  @blur="checkPetType">
-                        <template slot-scope="{ node, data }">
-                            <span>{{ data.label }}</span>
-                            <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-                        </template>
-                    </el-cascader>
-                </div>
-
-                <span class="errorNotice">{{petTypeNotice}}</span>
-
-
-            </div>
-            <div class="row_content">
-                <span class="labelVal">出生日期：</span>
-
-                <el-date-picker :class="{'errorType':petBirthdayType}" size="large" class="timePick " @change="checkPetBirthday"
-                                @blur="checkPetBirthday"
-                                v-model="petInfo.petBirthday"
-                                type="date"
-                                placeholder="请选择出生日期"
-                                value-format="timestamp">
-                </el-date-picker>
-                <span class="errorNotice">{{petBirthdayNotice}}</span>
-
-            </div>
-
-            <div class="row_content">
-                <span class="labelVal">宠物毛色：</span>
-                <div class="row_content_input">
-<!--                    <at-input :class="{'errorType':petHairColorType}" size="large" placeholder="请输入宠物毛色"  v-model="petInfo.petHairColor"-->
-<!--                              @blur="checkPetHairColor">-->
-
-<!--                    </at-input>-->
-                    <el-autocomplete
-                            :class="{'errorType':petHairColorType}"
-                            class="row_content_input"
-                            v-model="petInfo.petHairColor"
-                            :fetch-suggestions="queryHairColor"
-                            placeholder="请输入宠物毛色"
-                            @blur="checkPetHairColor"
-                            @input="checkPetHairColor"
-                    ></el-autocomplete>
-                </div>
-
-                <span class="errorNotice">{{petHairColorNotice}}</span>
-            </div>
-
-            <div class="row_content">
-                <span class="labelVal">宠物体重（Kg)）：</span>
-                <at-input :class="{'errorType':petWeightType}" size="large" placeholder="请输入宠物体重" :status="petWeightType" v-model="petInfo.petWeight"
-                          class="row_content_input" @blur="checkWeight">
-
-                </at-input>
-<!--                <div class="row_content_input">-->
-<!--                    <el-input-number v-model="petInfo.petWeight" :precision="2" :step="0.1" :max="80" :min="2.0"></el-input-number>-->
-
-<!--                </div>-->
-
-                <span class="errorNotice">{{petWeightNotice}}</span>
-            </div>
-            <div class="row_content">
-                <span class="labelVal">宠物身高（Cm)）：</span>
-<!--                <div class="row_content_input">-->
-<!--                    <el-input-number v-model="petInfo.petHeight" :placeholder="'请输入宠物身高'" :precision="2" :step="0.1" :max="200" :min="5.0"></el-input-number>-->
-
-<!--                </div>-->
-                <at-input :class="{'errorType':petHeightType}" size="large" placeholder="请输入宠物身高" :status="petHeightType" v-model="petInfo.petHeight"
-                          class="row_content_input" @blur="checkHeight">
-
-                </at-input>
-
-                <span class="errorNotice">{{petHeightNotice}}</span>
-            </div>
-            <div class="row_content">
-                <span class="labelVal">宠物性别：</span>
-                <div class="row_content_input">
-                    <at-radio v-model="petInfo.petSex" label="1" >雄性(公)</at-radio>
-                    <at-radio v-model="petInfo.petSex" label="0">雌性(母)）</at-radio>
-                </div>
-
-                <span class="errorNotice">{{petSexNotice}}</span>
-            </div>
-            <div class="row_content">
-                <span class="labelVal">宠物饲养地址：</span>
-<!--                <at-input :class="{'errorType':petRaiseAddrType}" size="large" placeholder="请输入宠物饲养地址" :status="petRaiseAddrType" v-model="petInfo.petRaiseAddr"-->
-<!--                          class="row_content_input" @blur="checkPetAddr">-->
-
-<!--                </at-input>-->
-                <el-autocomplete
-                        :class="{'errorType':petRaiseAddrType}"
-                        class="row_content_input"
-                        v-model="petInfo.petRaiseAddr"
-                        :fetch-suggestions="queryAddr"
-                        placeholder="请输入宠物饲养地址"
-                        @blur="checkPetAddr"
-                        @input="checkPetAddr"
-                ></el-autocomplete>
-                <span class="errorNotice">{{petRaiseAddrNotice}}</span>
-            </div>
-            <div class="row_content">
-                <span class="labelVal">宠物描述：</span>
-                <at-input :class="{'errorType':petDescType}" size="large" type="textarea" placeholder="请对宠物进行描述" :status="petDescType"
-                          v-model="petInfo.petDesc" class="row_content_input" @blur="checkDesc">
-
-                </at-input>
-                <span class="errorNotice">{{petDescNotice}}</span>
-            </div>
-
-            <div class="row_content">
-                <span class="labelVal">宠物照片：<i>仅支持JPG、PNG、GIF格式，文件小于2M</i></span>
-                <div class="img_container">
-                    <div>
-                        <img style="width: 140px;height: 140px" :src="petInfo.petImageUrl" alt="">
-                    </div>
-                    <span class="img_cover" @click="choiceImg">
-                        <span class="upload_icon">
-                            <svg t="1576639130005" class="icon" viewBox="0 0 1066 1024" version="1.1"
-                                 xmlns="http://www.w3.org/2000/svg" p-id="1859" width="40" height="40"><path
-                                    d="M806.4 362.666667a38.4 38.4 0 1 1-76.8 0 196.266667 196.266667 0 0 0-392.533333 0 38.4 38.4 0 0 1-76.8 0 273.066667 273.066667 0 1 1 546.133333 0z"
-                                    fill="#ffffff" p-id="1860"></path><path
-                                    d="M768 882.858667a38.4 38.4 0 0 1 0-76.8 196.266667 196.266667 0 1 0 0-392.533334 38.4 38.4 0 0 1 0-76.8 273.066667 273.066667 0 1 1 0 546.133334zM277.333333 336.725333a38.4 38.4 0 0 1 0 76.8 196.266667 196.266667 0 1 0 0 392.533334 38.4 38.4 0 0 1 0 76.8 273.066667 273.066667 0 1 1 0-546.133334z"
-                                    fill="#ffffff" p-id="1861"></path><path
-                                    d="M484.266667 664.362667a38.4 38.4 0 0 1 76.8 0V896a38.4 38.4 0 1 1-76.8 0v-231.637333z"
-                                    fill="#ffffff" p-id="1862"></path><path
-                                    d="M359.509333 691.370667a38.4 38.4 0 0 1-54.613333-53.973334l190.421333-193.024a38.4 38.4 0 0 1 54.698667 0l190.464 193.024a38.4 38.4 0 0 1-54.656 53.973334l-163.157333-165.333334-163.157334 165.333334z"
-                                    fill="#ffffff" p-id="1863"></path></svg>
-
-                        </span>
-                        <span>上传照片</span>
-                    </span>
-                    <input :ref="'filElem'" type="file" style="display: none" @change="getImg">
-                </div>
-                <span class="errorNotice">{{petImageNotice}}</span>
-
-            </div>
-            <div class="row_content">
-                <el-button icon="el-icon-circle-check" plain  type="primary" size="large" hollow @click="openSureMessage">保存信息</el-button>
-            </div>
         </div>
 
     </div>
@@ -180,9 +128,12 @@
         InputNumber,
         Input,
         Autocomplete,
-        Table, TableColumn
+        Table, TableColumn, Row, Col,
+
     } from "element-ui"
+    import {Tag} from "at-ui"
     import axios from "axios"
+    import moment from 'moment'
 
     export default {
         name: "UploadInfo",
@@ -197,57 +148,22 @@
             AtRadio:Radio,
             ElAutocomplete:Autocomplete,
             ElTable:Table,
-            ElTableColumn:TableColumn
+            ElTableColumn:TableColumn,
+            ElRow:Row,
+            ElCol:Col,
+            AtTag:Tag
         },
         data() {
             return {
-                petInfo: {
-                    petType: "",
-                    hosteId: "",
-                    petName: "",
-                    petSex: "",
-                    petHeight: "",
-                    petBirthday: "",
-                    petHairColor: "",
-                    petRaiseAddr: "",
-                    petWeight:"",
-                    petImageUrl: "",
-                    petDesc: "",
-                },
-
-                petNameType: "",
-                petNameNotice: "",
-                petTypeType: "",
-                petTypeNotice: "",
-                petBirthdayType: "",
-                petBirthdayNotice: "",
-                petHairColorType: "",
-                petHairColorNotice: "",
-                petRaiseAddrType: "",
-                petRaiseAddrNotice: "",
-                petWeightType: "",
-                petWeightNotice: "",
-                petHeightType: "",
-                petHeightNotice: "",
-                petSexType: "",
-                petSexNotice: "",
-                petDescType: "",
-                petDescNotice: "",
-                petImageNotice:"",
-                selectedOptions: [],
-                options:[],
-                hairColors: [],
-                addrs: [
-                    { "value":this.$store.state.userInfo.address, "addr": this.$store.state.userInfo.address },
-                ]
+                petInfo: []
             }
         },
         created(){
             this.$Loading.start()
         },
         mounted() {
-            this.getOptions()
-            this.hairColors = this.loadAllColor();
+            this.getPetInfos(this.$route.query.id)
+
         },
         watch:{
 
@@ -259,18 +175,12 @@
                 // 调用 callback 返回建议列表的数据
                 cb(results);
             },
-            queryAddr(queryString, cb) {
-                var addrs = this.addrs;
-                var results = queryString ? addrs.filter(this.createFilter(queryString)) : addrs;
-                // 调用 callback 返回建议列表的数据
-                cb(results);
-            },
             createFilter(queryString) {//创建颜色过滤器
                 return (restaurant) => {
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                 };
             },
-            loadAllColor() {//加载宠物毛色
+            loadAll() {//加载宠物毛色
                 return [
                     { "value": "白色", "color": "白色" },
                     { "value": "黑色", "color": "黑色" },
@@ -535,6 +445,23 @@
                 }
 
             },
+            getPetInfos:function (id) {
+                let url = "/api/petinfo/getPetInfoById?petId=" + id;
+                const that = this
+                axios.get(url).then(function (res) {
+                    console.log(res.data.data.petBirthday)
+                    res.data.data.petBirthday = moment(parseInt(res.data.data.petBirthday)).format('YYYY-MM-DD')
+                    console.log(res.data.data.petBirthday)
+
+                    that.petInfo = res.data.data
+                    that.$Loading.finish()
+                })
+            }
+        },
+        filters:{
+            formatDate: function (value) {
+                return moment(value).format('YYYY-MM-DD')
+            }
         }
 
     }

@@ -1,7 +1,10 @@
+/*@import "~assets/semantic-ui/semantic.css";*/
 @import "~assets/css/normalize.css";
 @import "~assets/libs/bootstrap/css/bootstrap.min.css";
 @import "~assets/css/common.css";
 @import "~assets/css/function.css";
+@import "~assets/css/comment.min.css";
+@import "~assets/css/card.min.css";
 .wrap_content{
     height: 1000px;
     overflow: scroll;
@@ -24,4 +27,42 @@
 }
 ::-webkit-scrollbar-thumb:hover {
     background-color:#bbb;
+}
+.grid-content{
+    height: auto;
+    cursor: pointer;
+    border: none;
+    border-radius: .28571429rem;
+    -webkit-box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    margin-top: 30px;
+}
+.grid-content:hover{
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px)
+}
+.grid-content > .content{
+    border-top: 1px solid rgba(34,36,38,.1);
+    background: 0 0;
+    margin: 0;
+    padding: 1em 1em;
+}
+.grid-content > .content >.description{
+    margin-top: .5em;
+    clear: both;
+    color: rgba(0,0,0,.68);
+}
+.grid-content > .content >.meta{
+    margin-top: 5px;
+    font-size: 1em;
+    color: rgba(0,0,0,.4);
+}
+.grid-content > .content >.right{
+    float: right;
+}
+.grid-content > .content >.header{
+    font-weight: 700;
+    font-size: 1.28571429em;
+    margin-top: -.21425em;
+    line-height: 1.28571429em;
 }

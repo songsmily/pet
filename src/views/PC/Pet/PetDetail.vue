@@ -128,11 +128,11 @@
         InputNumber,
         Input,
         Autocomplete,
-        Table, TableColumn, Row, Col,
+        Table, TableColumn, Row, Col
 
     } from "element-ui"
     import {Tag} from "at-ui"
-    import axios from "axios"
+    import service from "network/axios"
     import moment from 'moment'
 
     export default {
@@ -332,7 +332,7 @@
             getOptions: function () {
                 let url = "/api/pettype/getPetTypeArray"
                 const that = this
-                axios.get(url).then(function (res) {
+                service.get(url).then(function (res) {
                     that.options = res.data.data
                     that.$Loading.finish()
                 })
@@ -356,7 +356,7 @@
                 if (check1 && check2 && check3 && check4 && check5 && check6 && check7 && check8 && check9 && check10){
                     const that = this
                     let url = "/api/petinfo/doUpload"
-                    axios({
+                    service({
                         "method":"post",
                         "url":url,
                         "data":that.petInfo
@@ -448,7 +448,7 @@
             getPetInfos:function (id) {
                 let url = "/api/petinfo/getPetInfoById?petId=" + id;
                 const that = this
-                axios.get(url).then(function (res) {
+                service.get(url).then(function (res) {
                     console.log(res.data.data.petBirthday)
                     res.data.data.petBirthday = moment(parseInt(res.data.data.petBirthday)).format('YYYY-MM-DD')
                     console.log(res.data.data.petBirthday)

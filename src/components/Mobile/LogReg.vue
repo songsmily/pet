@@ -6,6 +6,7 @@
     export default {
         name: "LogReg"
     }
+
 </script>
 
 <style scoped>

@@ -45,7 +45,7 @@
     import {Breadcrumb, BreadcrumbItem, Col, Row} from "element-ui"
     import moment from 'moment'
     import {Tag} from "at-ui"
-    import axios from "axios"
+    import service from "network/axios"
     export default {
         name: "PetInfo",
         components:{
@@ -75,7 +75,7 @@
             getPetInfos:function () {
                 let url = "/api/petinfo/returnPetInfos"
                 const that = this
-                axios.get(url).then(function (res) {
+                service.get(url).then(function (res) {
                     that.petInfo = res.data.data
                     that.$Loading.finish()
 

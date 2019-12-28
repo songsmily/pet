@@ -91,6 +91,7 @@
     import {Breadcrumb, BreadcrumbItem, Button, Cascader, Form, FormItem} from "element-ui"
     import axios from "axios"
     import {Input} from "at-ui"
+    import service from "network/axios"
 
     export default {
         name: "UserManage",
@@ -135,7 +136,6 @@
             }
         },
         created(){
-            this.$Loading.start()
         },
         mounted(){
             this.getOptions()
@@ -148,7 +148,7 @@
                 if (this.userInfo.name != undefined && this.userInfo.name.length >= 1){
                     let url = "/api/user/isRepeatName?name=" + this.userInfo.name
                     const that = this
-                    return axios.get(url).then(function (res) {
+                    return service.get(url).then(function (res) {
                         if(res.data.data){
                             that.nameType = ""
                             that.nameNotice = ""
@@ -234,7 +234,7 @@
                         if (checkName){
                             let url = "/api/user/isRepeatName?name=" + this.userInfo.name
                             const that = this
-                            return axios.get(url).then(function (res) {
+                            return service.get(url).then(function (res) {
                                 console.log(res)
 
                                 if(res.data.data){
@@ -259,7 +259,7 @@
                         let url = "/api/user/doUpdate"
                         const that = this
                         let data =  this.userInfo
-                        axios({
+                        service({
                             "method":"post",
                             "url":url,
                             "data":data
@@ -297,14 +297,14 @@
             getOptions:function(){
                 let url = "/api/plot/getPlotAndBuild"
                 const that = this
-                axios.get(url).then(function (res) {
+                service.get(url).then(function (res) {
                     that.options = res.data.data
                 })
             },
             getUserLocationArray:function(){
                 let url = "/api/build/getUserLocationArray?build_name=" + this.userInfo.location
                 const that = this;
-                axios.get(url).then(function (res) {
+                service.get(url).then(function (res) {
                     let options = [res.data.data.plotId,res.data.data.buildId]
                     that.selectedOptions = options
                     that.$Loading.finish()

@@ -60,19 +60,18 @@ const routes = [
         },
     }
 ]
+const authRoute = ["/user/manage","/pet/upload","/pet/petinfo/detail","/pet/petinfo"]
 const router = new VueRouter({
     routes,
     mode: 'history'
 })
 router.beforeEach((to,from,next) => {
-    // this.$uti
-    // if (sessionStorage.getItem("loginType")){
-    //     console.log(sessionStorage.getItem("loginType"))
-    //
-    // }else{
-    //     console.log("设置sessionstorage")
-    //     sessionStorage.setItem("loginType",true);
-    // }
+    if (authRoute.includes(to.path)){
+        if (!sessionStorage.getItem("userInfo")){
+            router.push("/home")
+        }
+    }
+
     document.title = to.meta.tittle
     next()
 })

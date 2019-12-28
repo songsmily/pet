@@ -49,11 +49,9 @@ const store = new Vuex.Store({
             state.isMobile = val
         },
         changeUserInfo(state,user){
-            console.log("进入user赋值")
             state.userInfo  = user
         },
         changeLoginType(state,type){
-            console.log("进入user logintype赋值")
 
             state.loginType = type
         }

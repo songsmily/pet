@@ -1,45 +1,25 @@
-import originAxios from 'axios'
-import qs from 'qs'
+import  axios from 'axios'
+import {Message} from "element-ui"
 
-export default function axios(option) {
-    return new Promise((resolve, reject) => {
-        // 1.创建axios的实例
-        const instance = originAxios.create({
-            baseURL: 'http://123.207.32.32:8000',
-            timeout: 5000
-        })
+let service = axios.create({
+    timeout: 5000
+});
 
-        // 配置请求和响应拦截
-        instance.interceptors.request.use(config => {
+service.interceptors.response.use(
+    response => {
+        var code = response.data.code;
+        if (code  === 600 || code === 700) {
+            sessionStorage.removeItem("userInfo")
+            Message.error("您未登录系统，请登录！")
+            setTimeout(()=>{
+                window.location.href = "http://localhost:8080/home"
+            },2000)
 
-            return config
-        }, err => {
+        }else {
+            return response;
+        }
 
-            return err
-        })
+    }
 
-        instance.interceptors.response.use(response => {
-            return response.data
-        }, err => {
-            console.log(err)
-            if (err && err.response) {
-                switch (err.response.status) {
-                    case 400:
-                        err.message = '请求错误'
-                        break
-                    case 401:
-                        err.message = '未授权的访问'
-                        break
-                }
-            }
-            return err
-        })
-
-        // 2.传入对象进行网络请求
-        instance(option).then(res => {
-            resolve(res)
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
+)
+export default  service;

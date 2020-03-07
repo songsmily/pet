@@ -27,22 +27,24 @@
                     </div>
                 </div>
                     <el-menu
-                            default-active="2"
+                            default-active="1"
                             class="el-menu-vertical-demo">
                         <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                             <span>社区</span>
                         </li>
-                        <router-link to="/home">
+                        <router-link to="/user/home">
                             <el-menu-item index="1">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">发现</span>
                             </el-menu-item>
                         </router-link>
+                        <router-link to="/user/share">
 
-                        <el-menu-item index="2">
-                            <i class="el-icon-s-promotion"></i>
-                            <span slot="title">分享</span>
-                        </el-menu-item>
+                            <el-menu-item index="2">
+                                <i class="el-icon-s-promotion"></i>
+                                <span slot="title">分享</span>
+                            </el-menu-item>
+                        </router-link>
 
                         <el-menu-item index="3">
                             <i class="el-icon-s-comment"></i>
@@ -90,7 +92,7 @@
                                 <span>宠物管理</span>
                             </template>
                             <el-menu-item-group>
-                                <router-link to="/pet/upload">
+                                <router-link to="/user/pet/upload">
                                 <el-menu-item index="2-1" >
                                         <i class="user-icon">
                                             <svg t="1576893651797" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7425" width="24" height="18"><path d="M512 76.8a428.8 428.8 0 1 1-428.8 428.8c0-236.8 192-428.8 428.8-428.8M512 6.4C236.8 6.4 12.8 224 12.8 499.2v6.4c0 275.2 217.6 499.2 492.8 499.2H512c275.2 0 499.2-217.6 499.2-492.8v-6.4C1011.2 230.4 793.6 6.4 512 6.4z" fill="#989898" p-id="7426"></path><path d="M512 224c-19.2-6.4-38.4 12.8-38.4 32V761.6c0 19.2 12.8 38.4 38.4 38.4 19.2 0 38.4-12.8 38.4-38.4V256c-6.4-19.2-19.2-32-38.4-32z" fill="#989898" p-id="7427"></path><path d="M761.6 473.6H262.4c-19.2 0-32 19.2-32 38.4s12.8 32 32 32h499.2c19.2 0 38.4-12.8 38.4-32 0-25.6-19.2-38.4-38.4-38.4z" fill="#989898" p-id="7428"></path></svg>
@@ -98,7 +100,7 @@
                                     <span>新增宠物信息</span>
                                 </el-menu-item>
                                 </router-link>
-                                <router-link to="/pet/petinfo">
+                                <router-link to="/user/pet/petinfo">
                                     <el-menu-item index="2-2">
                                         <i class="el-icon-collection">
                                         </i>

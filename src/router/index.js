@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
+
 import Header from "../components/PC/Header"
 import loginType from "@/utils/util"
+import Login from "../components/PC/Login"
+import User from "../views/PC/User/User"
+import Register from "../components/PC/Register"
+import AdminHome from "../views/PC/Admin/AdminHome"
 const Home = ()=> import("views/PC/Home")
 const Share = ()=> import("views/PC/Share")
 const UserManage = ()=> import("views/PC/User/UserManage")
@@ -12,53 +17,82 @@ const PetDetail = ()=> import("views/PC/Pet/PetDetail")
 Vue.use(VueRouter)
 
 const routes = [
-    {
+  {
         path:"/",
-        redirect:"/home"
+        redirect:"/login"
     },
+
     {
-        path:"/home",
-        component:Home,
+        path:"/login",
+        component:Login,
         meta:{
-            tittle:"发现"
+            tittle:"登录"
         }
     },
     {
-        path:"/share",
-        component:Share,
-        meta: {
-            tittle:"分享"
+        path:"/regist",
+        component:Register,
+        meta:{
+            tittle:"注册"
         }
     },
     {
-        path:"/user/manage",
-        component:UserManage,
-        meta: {
-            tittle:"个人信息管理"
-        }
+        path:"/admin/home",
+        component:AdminHome,
     },
     {
-        path:"/pet/upload",
-        component:UploadInfo,
-        meta: {
-            tittle:"宠物信息上传"
-        }
-    },
-    {
-        path:"/pet/petinfo",
-        component:PetInfo,
-        meta: {
-            tittle:"宠物信息管理"
-        }
-    },
-    {
-        path:"/pet/petinfo/detail",
-        component:PetDetail,
-        name:"petinfo/detail",
-        meta: {
-            tittle:"宠物详细信息"
+        path:"/user",
+        component:User,
+        meta:{
+            tittle:"用户主页"
         },
+        children:[
+            {
+                path:"home",
+                component:Home,
+                meta:{
+                    tittle:"主页"
+                }
+            },
+            {
+                path:"share",
+                component:Share,
+                meta: {
+                    tittle:"分享"
+                }
+            },
+            {
+                path: "manage",
+                component: UserManage,
+                meta: {
+                    tittle: "个人信息管理"
+                }
+            },
+            {
+                path:"pet/upload",
+                component:UploadInfo,
+                meta: {
+                    tittle:"宠物信息上传"
+                }
+            },
+            {
+                path:"pet/petinfo",
+                component:PetInfo,
+                meta: {
+                    tittle:"宠物信息管理"
+                }
+            },
+            {
+                path:"pet/petinfo/detail",
+                component:PetDetail,
+                meta: {
+                    tittle:"宠物详细信息"
+                },
+            }
+
+        ]
     }
+
 ]
 const authRoute = ["/user/manage","/pet/upload","/pet/petinfo/detail","/pet/petinfo"]
 const router = new VueRouter({
@@ -68,7 +102,7 @@ const router = new VueRouter({
 router.beforeEach((to,from,next) => {
     if (authRoute.includes(to.path)){
         if (!sessionStorage.getItem("userInfo")){
-            router.push("/home")
+            router.push("/")
         }
     }
 

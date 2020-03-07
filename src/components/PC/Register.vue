@@ -1,5 +1,14 @@
 <template>
     <div>
+        <div>
+            <div class="sc-1duRon-2 pvvuG">
+                <div  class="sm-btn-group sc-1duRon-5 dvRHZl sc-17dnj82-0 dfsiVH" style="z-index: 9999">
+                    <span class="switch-tips">已有帐号？请</span>
+                    <router-link to="/login" class="sm-button  sc-1n784rm-0 sfCUt" type="default"  >登录</router-link>
+                </div>
+
+            </div>
+        </div>
     <div>
         <div>
             <div class="sc-1duRon-1 sbfRl">
@@ -96,7 +105,7 @@
             return{
                 yzmSrc:'/api/regist/yzm',//验证码获取地址
                 nickname:'',//用户名
-                phone:1992324933,//电话
+                phone:'',//电话
                 password:'',//密码
                 repassword:'',//重复密码
                 imgYzm:'',//图片验证码

@@ -2,7 +2,7 @@ import  axios from 'axios'
 import {Message} from "element-ui"
 
 let service = axios.create({
-    timeout: 5000
+    timeout: 50000
 });
 
 service.interceptors.response.use(
@@ -12,7 +12,7 @@ service.interceptors.response.use(
             sessionStorage.removeItem("userInfo")
             Message.error("您未登录系统，请登录！")
             setTimeout(()=>{
-                window.location.href = "http://localhost:8080/home"
+                window.location.href = "http://localhost:8080/login"
             },2000)
 
         }else {

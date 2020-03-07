@@ -97,7 +97,6 @@
             loadMusicList:function () {
                 const  that = this
                 axios.get("/api/music/selectAll").then(function (res) {
-                    console.log(res)
                     that.musicData = res.data.data;
                     that.currentMusic.position = 1;
                     that.currentMusic.musicUrl = that.musicData[0].musicurl;

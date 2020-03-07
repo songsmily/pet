@@ -1,5 +1,6 @@
 <template>
     <header id="header" class="app-header navbar" role="menu">
+
         <!-- navbar header（交集处） -->
         <div class="text-ellipsis navbar-header bg-black">
             <button @click="$store.commit('changeisShowNavInfoInMobile')" class="pull-right visible-xs dk" ui-toggle-class="show animated animated-lento fadeIn" target=".navbar-collapse"> <i class="fontello fontello-gear text-lg"></i>

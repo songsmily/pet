@@ -3,7 +3,7 @@
         <header class="bg-light lter wrapper-md">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="'#'">宠物管理</el-breadcrumb-item>
-                <el-breadcrumb-item :to="'/pet/petinfo'">宠物信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item :to="'/user/pet/petinfo'">宠物信息管理</el-breadcrumb-item>
                 <el-breadcrumb-item >宠物详细信息</el-breadcrumb-item>
             </el-breadcrumb>
         </header>

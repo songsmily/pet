@@ -64,7 +64,7 @@ export  default {
             });
             sessionStorage.removeItem("userInfo")
             _this.setUserInfoAndLoginTypeToStore(that)
-            that.$router.push('/home')
+            that.$router.push('/login')
         })
     }
 }

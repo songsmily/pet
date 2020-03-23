@@ -3,14 +3,15 @@
         <header class="bg-light lter wrapper-md">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="'#'">宠物管理</el-breadcrumb-item>
-                <el-breadcrumb-item>宠物信息上传</el-breadcrumb-item>
+                <el-breadcrumb-item :to="'/user/pet/petinfo'">宠物信息管理</el-breadcrumb-item>
+                <el-breadcrumb-item>宠物信息修改</el-breadcrumb-item>
             </el-breadcrumb>
         </header>
         <!--内容页-->
         <div class="wrapper-md" id="post-panel">
 
 
-           <div class="row_content">
+            <div class="row_content">
                 <span class="labelVal">宠物昵称：</span>
                 <at-input :class="{'errorType':petNameType}" size="large" placeholder="请输入宠物昵称" v-model="petInfo.petName"
                           class="row_content_input" @blur="checkName">
@@ -170,6 +171,7 @@
 
 <script>
     import service from "network/axios"
+    import moment from 'moment'
 
     import {
         Breadcrumb,
@@ -244,8 +246,10 @@
         },
         created(){
             this.$Loading.start()
+            this.getPetInfosAndPetType()
         },
         mounted() {
+            // alert(this.$route.params.petId)
             this.getOptions()
             this.hairColors = this.loadAllColor();
         },
@@ -253,6 +257,33 @@
 
         },
         methods: {
+            getPetInfosAndPetType:function () {
+                Promise.all([
+                    new Promise((resolve,reject)=>{
+                        let url = "/api/petinfo/getPetInfoById?petId=" + sessionStorage.getItem("reUploadPetId");
+                        const that = this
+                        service.get(url).then(function (res) {
+
+                            that.petInfo = res.data.data.petInfo
+                            if (res.data.data.petInfo.petStatus === -1){
+                                that.petCheckfalse = res.data.data.petCheckfalse
+                            }
+                            resolve(true)
+                        })
+                    })
+                ]).then(res=>{
+                    let url = "/api/pettype/getPetTypeByPetTypeId?petTypeId=" + this.petInfo.petTypeId
+                    const that = this
+                    service.get(url).then(function (res) {
+                        let array = []
+                        array.push(res.data.data.petClassifyOne)
+                        array.push(res.data.data.petClassifyTwo)
+                        array.push(res.data.data.petClassifyThree)
+                        that.selectedOptions = array
+                    })
+                })
+
+            },
             queryHairColor(queryString, cb) {
                 var hairColors = this.hairColors;
                 var results = queryString ? hairColors.filter(this.createFilter(queryString)) : hairColors;
@@ -445,7 +476,7 @@
                 let  check10 = this.checkWeight()
                 if (check1 && check2 && check3 && check4 && check5 && check6 && check7 && check8 && check9 && check10){
                     const that = this
-                    let url = "/api/petinfo/doUpload"
+                    let url = "/api/petinfo/doReUpload"
                     service({
                         "method":"post",
                         "url":url,
@@ -454,16 +485,16 @@
                         that.$Message.closeAll()
                         if (res.data.code === 100){
                             that.$Notify({
-                                title: '保存成功',
-                                message: '宠物信息已保存成功，请等待管理员审核！',
+                                title: '修改成功',
+                                message: '宠物信息已修改成功，请等待管理员审核！',
                                 type: "success",
                                 duration:2000
                             })
                             that.reloadForm();
                         }else{
                             that.$Notify({
-                                title: '保存失败',
-                                message: '请重新提交保存！',
+                                title: '修改失败',
+                                message: '请重新提交修改！',
                                 type: "error",
                                 duration:2000
                             })
@@ -534,8 +565,13 @@
                     console.log(this.result)
                 }
 
-            },
+            }
+        },
+    filters:{
+        formatDate: function (value) {
+            return moment(value).format('YYYY-MM-DD')
         }
+    }
 
     }
 </script>

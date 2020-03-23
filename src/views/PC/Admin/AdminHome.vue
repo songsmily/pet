@@ -1,22 +1,24 @@
 <template>
-    <div>sgfaessr</div>
+    <div class="col center-part">
+        <header class="bg-light lter wrapper-md">
+            <h1 class="m-n font-thin text-black l-h">宠物之家</h1>
+            <small class="text-muted letterspacing indexWords"></small>
+        </header>
+        <!--内容页-->
+        <div class="wrapper-md" id="outer-box">
+            <div id="panel">
+                <div id="intro">
+                    <h3></h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
-    import service from "network/axios"
     export default {
-        name: "AdminHome",
-        data(){
-            return{
-                userInfo:""
-            }
-        },
-        created() {
-            let that = this
-            service.get("/api/admin/adminUser/returnUserInfo").then(function (res) {
-                that.userInfo = res
-            })
-        }
+        name: "AdminHome"
     }
 </script>
 

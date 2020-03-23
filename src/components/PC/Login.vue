@@ -182,6 +182,8 @@
                                 });
                                 if (redirect === "/user/home"){
                                     that.$util.getUserInfo(that)
+                                }else{
+                                    that.$adminUtil.getUserInfo(that)
                                 }
 
                                 that.$router.push(redirect)

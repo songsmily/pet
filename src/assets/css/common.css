@@ -1272,13 +1272,13 @@ html.bg {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
     .app.container {
-        width: 1170px
+        width: 1300px
     }
 
     .app.container .app-aside, .app.container .app-header {
-        max-width: 1170px
+        max-width: 1300px
     }
 
     .app.container .app-footer-fixed {
@@ -1290,7 +1290,7 @@ html.bg {
     }
 
     .app.container.app-aside-dock .app-footer-fixed {
-        max-width: 1170px
+        max-width: 1300px
     }
 }
 
@@ -5429,42 +5429,6 @@ blockquote ol:last-child, blockquote p:last-child, blockquote ul:last-child {
     margin: 10px auto
 }
 
-table {
-    width: 100%;
-    overflow: auto;
-    display: table;
-    font-size: 14px;
-    border-spacing: 0;
-    border-collapse: collapse;
-    word-break: normal;
-    word-wrap: normal;
-    margin-bottom: 1px
-}
-
-@media (max-width: 767px) {
-    table {
-        margin-bottom: 0
-    }
-}
-
-table th {
-    font-weight: 700
-}
-
-table td, table th {
-    border: 1px solid #ddd;
-    padding: 6px 13px
-}
-
-table tr {
-    border-top: 1px solid #ccc;
-    background-color: #fff
-}
-
-table tr:nth-child(2n) {
-    background-color: #f8f8f8
-}
-
 @-moz-keyframes spin {
     0% {
         -moz-transform: rotate(0);
@@ -6868,7 +6832,6 @@ label.insert_tips {
 }
 
 .item-meta-ico {
-    background: url(../img/bg-ico.png) no-repeat;
     background-size: 40px auto;
     position: relative;
     display: inline-block;
@@ -6878,6 +6841,13 @@ label.insert_tips {
     border-radius: 50%;
     float: left;
     margin-right: 25px
+}
+.item-meta-ico  >img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #eaeaea;
+
 }
 
 .bg-ico-book {
@@ -8009,7 +7979,6 @@ html::-webkit-scrollbar-thumb:hover {
 
 .app-aside-fixed .aside-wrap .navi-wrap > .footer {
     top: auto;
-    z-index: 1000;
     position: fixed;
     bottom: 0;
     min-height: 51px

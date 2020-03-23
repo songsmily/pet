@@ -24,6 +24,13 @@ export default {
     changeLoginType(state,type){
 
         state.loginType = type
+    } ,
+    changeAdminUserInfo(state,user){
+        state.adminUserInfo  = user
+    },
+    changeAdminLoginType(state,type){
+
+        state.adminLoginType = type
     }
 
 }

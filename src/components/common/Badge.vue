@@ -15,15 +15,17 @@
 <style scoped>
     .base_content{
         background-color: #f56c6c;
-        border-radius: 10px;
+        border-radius: 90%;
         color: #fff;
         display: inline-block;
         font-size: 12px;
         padding: 0 6px;
         text-align: center;
         white-space: nowrap;
-        border: 1px solid #fff;
         margin-left: 10px;
+        line-height: initial;
+        min-height: 10px;
+        min-width: 10px;
     }
     .primary{
         background-color: #409eff;

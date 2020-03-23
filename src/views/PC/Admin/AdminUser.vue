@@ -26,25 +26,21 @@
 </template>
 
 <script>
-    import HeaderBar from "components/PC/Header"
-    import NavBar from "components/PC/NavBar"
+
     import Swal from "sweetalert2"
     import Login from "../../../components/PC/Login"
-    // import LogRegPC from "../../../components/PC/LogReg"
-    // import LogRegMobile from "../../../components/Mobile/LogReg"
-    import $ from "assets/libs/jquery/jquery.min"
-    import "assets/js/core"
+     import "assets/js/core"
     import axios from "axios"
-    import UserInfo from "components/PC/UserInfo"
     import UserSecret from "views/PC/User/UserSecret"
-    import RightAsideBar from "components/PC/RightAsideBar"
+    import RightAsideBar from "components/PC/Admin/AdminRightAsideBar"
+    import HeaderBar from "components/PC/Admin/AdminHeader"
+    import NavBar from "components/PC/Admin/AdminNavBar"
 
     export default {
-        name: 'User',
+        name: 'AdminUser',
         components: {
             HeaderBar,
             NavBar,
-            UserInfoPc:UserInfo,
             UserSecret,
             RightAsideBar
         },
@@ -55,14 +51,13 @@
             }
         },
         created:function(){
-            if (!this.$util.loginType(this)){
-                this.$util.getUserInfo(this)
+            if (!this.$adminUtil.loginType(this)){
+                this.$adminUtil.getUserInfo(this)
             }
-            if (this.$util.loginType(this)){
-                this.$util.setUserInfoAndLoginTypeToStore(this)
+            if (this.$adminUtil.loginType(this)){
+                this.$adminUtil.setUserInfoAndLoginTypeToStore(this)
             }
             this.$util.isMobile(this)
-            this.$util.returnMessage(this)
         },
         methods: {
         },

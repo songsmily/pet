@@ -16,18 +16,33 @@
                                 <img :src="petInfo.petImageUrl">
                             </div>
                             <div class="extra content">
-                                <at-tag  v-if="petInfo.petStatus == 0" class="right"   color="warning">审核中</at-tag>
-                                <at-tag  v-else class="right"   color="success">审核通过</at-tag>
+<!--                                <at-tag  v-if="petInfo.petStatus == 0" class="right"   color="primary">审核中</at-tag>-->
+<!--                                <at-tag  v-else-if="petInfo.petStatus == 1" class="right"   color="success">审核通过</at-tag>-->
+<!--                                <at-tag  v-else-if="petInfo.petStatus == -1" class="right"   color="warning">审核失败</at-tag>-->
+                                <div style="text-align: center">
+                                    <el-button v-if="petInfo.petStatus == -1" type="danger" size="small" icon="el-icon-delete" style="" @click="deletePetInfo">删除宠物信息</el-button>
+                                    <el-button v-if="petInfo.petStatus == -1" type="warning" size="small" icon="el-icon-edit" style="" @click="reUpload">修改宠物信息</el-button>
+                                </div>
+                                <el-alert v-if="petInfo.petStatus==-1" style="margin-top: 20px;margin-bottom: 20px"
+                                          title="审核未通过"
+                                          type="error"
+                                          :closable="false"
+                                          :description="petCheckfalse.falseRes"
+                                          show-icon>
+                                </el-alert>
+
                                 <span>
                                     上传日期：{{petInfo.gmtCreate | formatDate}}
                                 </span>
+
+
                             </div>
                             <div class="content">
                                 <div class="row_content">
                                     <span class="labelVal">宠物名：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petName"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -36,7 +51,7 @@
                                     <span class="labelVal">宠物类型：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petType"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -45,7 +60,7 @@
                                     <span class="labelVal">出生日期：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petBirthday"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -54,7 +69,7 @@
                                     <span class="labelVal">宠物毛色：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petHairColor"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -63,7 +78,7 @@
                                     <span class="labelVal">宠物体重（Kg）：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petWeight"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -72,7 +87,7 @@
                                     <span class="labelVal">宠物身高（Cm）：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petWeight"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -88,7 +103,7 @@
                                     <span class="labelVal">宠物饲养地址：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petRaiseAddr"
-                                                  @blur="checkWeight">
+                                                  >
 
                                         </at-input>
                                     </div>
@@ -97,7 +112,7 @@
                                     <span class="labelVal">宠物描述：</span>
                                     <div class="row_content_input">
                                         <at-input  size="large"   v-model="petInfo.petDesc"
-                                                  @blur="checkWeight">
+                                                 >
 
                                         </at-input>
                                     </div>
@@ -128,7 +143,8 @@
         InputNumber,
         Input,
         Autocomplete,
-        Table, TableColumn, Row, Col
+        Table, TableColumn, Row, Col,
+        Alert
 
     } from "element-ui"
     import {Tag} from "at-ui"
@@ -151,11 +167,13 @@
             ElTableColumn:TableColumn,
             ElRow:Row,
             ElCol:Col,
-            AtTag:Tag
+            AtTag:Tag,
+            ElAlert:Alert
         },
         data() {
             return {
-                petInfo: []
+                petInfo: [],
+                petCheckfalse:[]
             }
         },
         created(){
@@ -169,292 +187,47 @@
 
         },
         methods: {
-            queryHairColor(queryString, cb) {
-                var hairColors = this.hairColors;
-                var results = queryString ? hairColors.filter(this.createFilter(queryString)) : hairColors;
-                // 调用 callback 返回建议列表的数据
-                cb(results);
-            },
-            createFilter(queryString) {//创建颜色过滤器
-                return (restaurant) => {
-                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-                };
-            },
-            loadAll() {//加载宠物毛色
-                return [
-                    { "value": "白色", "color": "白色" },
-                    { "value": "黑色", "color": "黑色" },
-                    { "value": "褐色", "color": "褐色" },
-                    { "value": "黑褐色", "color": "黑褐色" },
-                    { "value": "铁灰色", "color": "铁灰色" },
-                    { "value": "灰褐色", "color": "灰褐色" },
-                    { "value": "黄色", "color": "黄色" },
-                    { "value": "咖啡色", "color": "咖啡色" },
-                    { "value": "金黄色", "color": "金黄色" },
-                    { "value": "浅黄色", "color": "浅黄色" },
-                ];
-            },
-            checkName: function () {
-                if (this.petInfo.petName !== undefined && this.petInfo.petName.length >= 1) {
-                    this.petNameType = false
-                    this.petNameNotice = ""
-                    return true
-                } else {
-                    this.petNameType = true
-                    this.petNameNotice = "请输入宠物昵称！"
-                    return false
-                }
-            },
-            checkPetType: function () {
-                if (this.petInfo.petType === undefined || this.petInfo.petType.length === 0) {
-                    this.petTypeType = true
-                    this.petTypeNotice = "请选择宠物类型！"
-                    return false
-                } else {
-                    this.petTypeType = false
-                    this.petTypeNotice = ""
-                    return true
-                }
-            },
-            checkPetBirthday: function () {
-                if (this.petInfo.petBirthday === undefined || this.petInfo.petBirthday.length === 0) {
-                    this.petBirthdayType = true
-                    this.petBirthdayNotice = "请选择宠物出生日期！"
-                    return false
-                } else {
-                    this.petBirthdayType = false
-                    this.petBirthdayNotice = ""
-                    return true
-                }
-            },
-            checkPetHairColor: function () {
-                if (this.petInfo.petHairColor === undefined || this.petInfo.petHairColor.length === 0) {
-                    this.petHairColorType = true
-                    this.petHairColorNotice = "请输入宠物毛色！"
-                    return false
-                } else {
-                    this.petHairColorType = false
-                    this.petHairColorNotice = ""
-                    return true
-                }
-            },
-            checkPetAddr: function () {
-                if (this.petInfo.petRaiseAddr === undefined || this.petInfo.petRaiseAddr.length === 0) {
-                    this.petRaiseAddrType = true
-                    this.petRaiseAddrNotice = "请输入宠物饲养地址！"
-                    return false
-                } else {
-                    this.petRaiseAddrType = false
-                    this.petRaiseAddrNotice = ""
-                    return true
-                }
-            },
-            checkWeight(number) {
-
-                if (this.petInfo.petWeight === undefined || this.petInfo.petWeight.length === 0) {
-                    this.petWeightType = true
-                    this.petWeightNotice = "请输入宠物体重！"
-                    return false
-                } else {
-                    if (/^\d+$/.test(this.petInfo.petWeight) || /^(([^0][0-9]+|0)\.([0-9]{1,2}))$/.test(this.petInfo.petWeight))//判断是否是数字
-                    {
-                        if (this.petInfo.petWeight >= 0.5 && this.petInfo.petWeight <= 80){
-                            this.petWeightType = false
-                            this.petWeightNotice = ""
-                            return true
-                        }else{
-                            this.petWeightType = true
-                            this.petWeightNotice = "输入值不合法！"
-                            return false
-                        }
-                    }else{
-                        this.petWeightType = true
-                        this.petWeightNotice = "输入值不合法！"
-                        return false
-                    }
-
-                }
-            },
-            checkHeight() {
-                if (this.petInfo.petHeight === undefined || this.petInfo.petHeight.length === 0) {
-                    this.petHeightType = true
-                    this.petHeightNotice = "请输入宠物身高！"
-                    return false
-                } else {
-                    if (/^\d+$/.test(this.petInfo.petHeight)|| /^(([^0][0-9]+|0)\.([0-9]{1,2}))$/.test(this.petInfo.petHeight))//判断是否是数字
-                    {
-                        if (this.petInfo.petHeight >= 0.5 && this.petInfo.petHeight <= 80){
-                            this.petHeightType = false
-                            this.petHeightNotice = ""
-                            return true
-                        }else{
-                            this.petHeightType = true
-                            this.petHeightNotice = "输入值不合法！"
-                            return false
-                        }
-                    }else{
-                        this.petHeightType = true
-                        this.petHeightNotice = "输入值不合法！"
-                        return false
-                    }
-                }
-            },
-            checkDesc() {
-                if (this.petInfo.petDesc === undefined || this.petInfo.petDesc.length === 0) {
-                    this.petDescType = true
-                    this.petDescNotice = "请输入宠物描述！"
-                    return false
-                } else {
-                    this.petDescType = false
-                    this.petDescNotice = ""
-                    return true
-                }
-            },
-            checkSex() {
-                if (this.petInfo.petSex === undefined || this.petInfo.petSex.length === 0) {
-                    this.petSexNotice = "请选择宠物性别！"
-                    return false
-                } else {
-                    this.petSexNotice = ""
-                    return true
-                }
-            },
-            checkImage() {
-
-                if (this.petInfo.petImageUrl === undefined || this.petInfo.petImageUrl.length === 0) {
-                    this.petImageNotice = "请选择宠物照片！"
-                    return false
-                } else {
-                    this.petImageNotice = ""
-                    return true
-                }
-            },
-            getOptions: function () {
-                let url = "/api/pettype/getPetTypeArray"
-                const that = this
-                service.get(url).then(function (res) {
-                    that.options = res.data.data
-                    that.$Loading.finish()
-                })
-            },
-            doUpload:function(){
-                this.$Message({
-                    message: '正在上传中......',
-                    type:"success",
-                    iconClass:"el-icon-loading"
-                });
-                let  check1 = this.checkPetHairColor()
-                let  check2 = this.checkPetAddr()
-                let  check3 = this.checkName()
-                let  check4 = this.checkImage()
-                let  check5 = this.checkDesc()
-                let  check6 = this.checkHeight()
-                let  check7 = this.checkPetBirthday()
-                let  check8 = this.checkPetType()
-                let  check9 = this.checkSex()
-                let  check10 = this.checkWeight()
-                if (check1 && check2 && check3 && check4 && check5 && check6 && check7 && check8 && check9 && check10){
-                    const that = this
-                    let url = "/api/petinfo/doUpload"
-                    service({
-                        "method":"post",
-                        "url":url,
-                        "data":that.petInfo
-                    }).then(function (res) {
-                        that.$Message.closeAll()
-                        if (res.data.code === 100){
-                            that.$Notify({
-                                title: '保存成功',
-                                message: '宠物信息已保存成功，请等待管理员审核！',
-                                type: "success",
-                                duration:2000
-                            })
-                            that.reloadForm();
-                        }else{
-                            that.$Notify({
-                                title: '保存失败',
-                                message: '请重新提交保存！',
-                                type: "error",
-                                duration:2000
-                            })
-                        }
-                    })
-                }else{
-                    this.$Message.closeAll()
-                    this.$Notify({
-                        title: '信息填写错误',
-                        message: '请更正后保存！',
-                        type: "error",
-                        duration:2000
-                    })
-                }
-
-            },
-            reloadForm:function(){
-                this.petInfo.petType = ""
-                this.petInfo.petWeight = ""
-                this.petInfo.petDesc = ""
-                this.petInfo.petRaiseAddr = ""
-                this.petInfo.petBirthday = ""
-                this.petInfo.petName = ""
-                this.petInfo.petHairColor = ""
-                this.petInfo.petHeight = ""
-                this.petInfo.petSex = ""
-                this.petInfo.petImageUrl = ""
-                this.selectedOptions = []
-            },
-            openSureMessage:function(){
-                this.$msgbox.confirm('确定保存修改吗, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.doUpload()
-                })
-            },
-            handleAreaChange:function(val){
-                this.petInfo.petType = this.$refs['location'].getCheckedNodes()[0].pathLabels[2]
-                this.checkPetType()
-
-            },
-            choiceImg: function () {
-                // console.log(this.$store.state)
-                this.$refs.filElem.dispatchEvent(new MouseEvent('click'))
-            },
-            getImg: function () {
-                const that = this
-                const inputFile = this.$refs.filElem.files[0]
-                if (inputFile) {
-                    if (inputFile.size > 1024 * 1024 * 2 || inputFile.type !== 'image/jpeg' && inputFile.type !== 'image/png' && inputFile.type !== 'image/gif') {
-                        this.$Notify({
-                            title: '文件类型错误',
-                            message: '仅支持JPG、PNG、GIF格式，且小于2M！',
-                            type: "error",
-                            duration: 2000
-                        })
-                        return false
-                    }
-                } else {
-                    return false
-                }
-                let fileReader = new FileReader()
-                fileReader.readAsDataURL(inputFile)
-                fileReader.onload = function () {
-                    that.petInfo.petImageUrl = this.result
-                    console.log(this.result)
-                }
-
-            },
             getPetInfos:function (id) {
                 let url = "/api/petinfo/getPetInfoById?petId=" + id;
                 const that = this
                 service.get(url).then(function (res) {
-                    console.log(res.data.data.petBirthday)
-                    res.data.data.petBirthday = moment(parseInt(res.data.data.petBirthday)).format('YYYY-MM-DD')
-                    console.log(res.data.data.petBirthday)
-
-                    that.petInfo = res.data.data
+                    res.data.data.petInfo.petBirthday = moment(parseInt(res.data.data.petInfo.petBirthday)).format('YYYY-MM-DD')
+                    that.petInfo = res.data.data.petInfo
+                    if (res.data.data.petInfo.petStatus === -1){
+                        that.petCheckfalse = res.data.data.petCheckfalse
+                    }
                     that.$Loading.finish()
+                })
+            },
+            deletePetInfo:function(){
+                this.$msgbox.confirm('确定删除宠物信息吗, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let url = "/api/petinfo/deletePetInfoById?petId=" + this.petInfo.petId;
+                    const that = this
+                    service.get(url).then(function (res) {
+                        if (res.data.code === 100){
+                            that.$Message.success("宠物信息删除成功！")
+                            setTimeout(function () {
+                                that.$router.push("/user/pet/petinfo")
+                            },1000)
+
+                        }
+                        res.data.data.petInfo.petBirthday = moment(parseInt(res.data.data.petInfo.petBirthday)).format('YYYY-MM-DD')
+                        that.petInfo = res.data.data.petInfo
+                        if (res.data.data.petInfo.petStatus === -1){
+                            that.petCheckfalse = res.data.data.petCheckfalse
+                        }
+                        that.$Loading.finish()
+                    })
+                 })
+            },
+            reUpload:function () {
+                sessionStorage.setItem("reUploadPetId",this.petInfo.petId)
+                this.$router.push({
+                    name:"reUploadPetInfo"
                 })
             }
         },
@@ -555,6 +328,16 @@
 
     .el-input__inner {
         color: red;
+    }
+    .image{
+        text-align: center;
+        padding-top: 10px;;
+        margin-bottom: 10px;
+
+    }
+    .image >img{
+        height: 400px;
+        border-radius: 10px;
     }
 
 </style>

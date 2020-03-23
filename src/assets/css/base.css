@@ -5,6 +5,15 @@
 @import "~assets/css/function.css";
 @import "~assets/css/comment.min.css";
 @import "~assets/css/card.min.css";
+header{
+    margin-top: 10px;
+}
+#post-panel {
+    height: 900px;
+    overflow: scroll;
+    margin-top: 10px;
+    z-index: -9999;
+}
 .wrap_content{
     height: 1000px;
     overflow: scroll;
@@ -17,7 +26,7 @@
     background-color:#f8f8f8;
 }
 ::-webkit-scrollbar {
-    width:1px;
+    width:3px;
     height:5px;
 }
 ::-webkit-scrollbar-thumb {

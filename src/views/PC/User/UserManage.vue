@@ -8,7 +8,7 @@
             </el-breadcrumb>
         </header>
 
-        <div class="wrapper-md " :class="{'wrap_content':this.$store.state.isMobile === false,'wrap_content_mobile': this.$store.state.isMobile === true}" id="">
+        <div class="wrapper-md " :class="{'wrap_content':this.$store.state.isMobile === false,'wrap_content_mobile': this.$store.state.isMobile === true}"  id="post-panel">
             <div class="row_content">
                 <span class="labelVal">用户名：</span>
                 <at-input status="error" size="large" :status="nameType"  v-model="userInfo.name" class="row_content_input" @blur="checkName">
@@ -254,7 +254,6 @@
                         }
                     })
                 ]).then(results => {
-                    console.log(results)
                     if (results[0] && checkRealname && checkBio && checkAddr && checkEmail){
                         let url = "/api/user/doUpdate"
                         const that = this
@@ -421,23 +420,3 @@
     }
 
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

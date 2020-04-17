@@ -263,14 +263,41 @@
                             "url":url,
                             "data":data
                         }).then(function (res) {
-                            that.$util.replaceUserInfo(that)
-                            that.$Message.closeAll()
-                            that.$Notify({
-                                title: '信息保存成功',
-                                message: '信息保存成功！',
-                                type: "success",
-                                duration:2000
-                            })
+                            if (res.data.code === 100) {
+                                that.$util.replaceUserInfo(that)
+                                that.$Message.closeAll()
+                                that.$Notify({
+                                    title: '信息保存成功',
+                                    message: '信息保存成功！',
+                                    type: "success",
+                                    duration:2000
+                                })
+                            } else if (res.data.code === 60002)  {
+                                that.$Message.closeAll()
+                                that.$Notify({
+                                    title: '保存失败',
+                                    message: '签名信息疑似违规，请修改后重试！',
+                                    type: "error",
+                                    duration:2000
+                                })
+                            } else if (res.data.code === 60003)  {
+                                that.$Message.closeAll()
+                                that.$Notify({
+                                    title: '保存失败',
+                                    message: '头像图片疑似违规，请修改后重试！',
+                                    type: "error",
+                                    duration:2000
+                                })
+                            } else {
+                                that.$Message.closeAll()
+                                that.$Notify({
+                                    title: '保存失败',
+                                    message: '信息保存失败，请重试！',
+                                    type: "error",
+                                    duration:2000
+                                })
+                            }
+
                         })
                     }else{
                         that.$Message.closeAll()
@@ -335,7 +362,6 @@
                 fileReader.readAsDataURL(inputFile)
                 fileReader.onload = function () {
                     that.userInfo.avatarUrl = this.result
-                    console.log(this.result)
                 }
 
             },

@@ -1,9 +1,9 @@
 <template>
 
-        <div>
+        <div  style="height: 100vh">
 
             <div>
-                <div class="sc-1duRon-2 pvvuG">
+                <div class="sc-1duRon-2 pvvuG" style="margin: 0">
                     <div  class="sm-btn-group sc-1duRon-5 dvRHZl sc-17dnj82-0 dfsiVH" style="z-index: 9999">
                         <span class="switch-tips">没有帐号？请</span>
                         <router-link to="/regist" class="sm-button  sc-1n784rm-0 sfCUt" type="default"  >注册</router-link>
@@ -135,6 +135,9 @@
                 this.checkImgYzm()
           }
         },
+        created(){
+            sessionStorage.clear()
+        },
         methods:{
             userLogin:function(){
                 let uri = "/api/login/doLogin?name=" + this.phone + "&password=" + this.password
@@ -182,12 +185,22 @@
                                 });
                                 if (redirect === "/user/home"){
                                     that.$util.getUserInfo(that)
+                                    that.$router.push(redirect)
                                 }else{
                                     that.$adminUtil.getUserInfo(that)
+                                    if (res.data.data.accountType === 1){
+                                        that.$router.push(redirect)
+                                    } else if (res.data.data.accountType === 2) {
+                                        that.$router.push("/admin/community/home")
+                                    } else {
+                                        that.$router.push("/admin/system/home")
+                                    }
                                 }
 
-                                that.$router.push(redirect)
-                            }else{
+                            }else if (res.data.code === 60004){
+                                that.$Message.closeAll()
+                                that.$Message.error("当前账号已被禁止登录，请联系管理员！")
+                            } else {
 
                                 that.$Message.closeAll()
                                 that.$Message({

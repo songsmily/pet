@@ -29,7 +29,7 @@
 
             </div>
             <div class="row_content">
-                <span class="labelVal">疫苗标签：<i>请将免疫证书内页中该支疫苗的标签信息完整拍摄并上传，仅支持JPG、PNG、GIF格式，文件小于2M</i></span>
+                <span class="labelVal">免疫证书图片：<i>请将免疫证书内页完整拍摄并上传，仅支持JPG、PNG、GIF格式，文件小于2M</i></span>
                 <div class="img_container">
                     <div>
                         <img :src="petCard.cardImageUrl" alt="">
@@ -57,7 +57,7 @@
             </div>
             <div class="row_content">
                 <el-button icon="el-icon-circle-check" plain type="primary" size="large" hollow
-                           @click="openSureMessage">保存免疫信息
+                           @click="openSureMessage">保存免疫证书信息
                 </el-button>
             </div>
 

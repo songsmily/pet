@@ -1,27 +1,42 @@
-<template >
-    <div class="col center-part" >
+<template>
+    <div class="col center-part">
         <header class="bg-light lter wrapper-md">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item :to="'#'">宠物管理</el-breadcrumb-item>
                 <el-breadcrumb-item :to="'/user/pet/petinfo'">宠物信息管理</el-breadcrumb-item>
-                <el-breadcrumb-item >宠物详细信息</el-breadcrumb-item>
+                <el-breadcrumb-item>宠物详细信息</el-breadcrumb-item>
             </el-breadcrumb>
         </header>
         <!--内容页-->
         <div class="wrapper-md" id="post-panel">
             <el-row :gutter="30">
                 <el-col v-if="petInfo.petId" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                        <div class="grid-content" >
-                            <div class="image">
-                                <img :src="petInfo.petImageUrl">
-                            </div>
-                            <div class="extra content">
-<!--                                <at-tag  v-if="petInfo.petStatus == 0" class="right"   color="primary">审核中</at-tag>-->
-<!--                                <at-tag  v-else-if="petInfo.petStatus == 1" class="right"   color="success">审核通过</at-tag>-->
-<!--                                <at-tag  v-else-if="petInfo.petStatus == -1" class="right"   color="warning">审核失败</at-tag>-->
-                                <div style="text-align: center">
-                                    <el-button v-if="petInfo.petStatus == -1" type="danger" size="small" icon="el-icon-delete" style="" @click="deletePetInfo">删除宠物信息</el-button>
-                                    <el-button v-if="petInfo.petStatus == -1" type="warning" size="small" icon="el-icon-edit" style="" @click="reUpload">修改宠物信息</el-button>
+                    <div class="grid-content">
+                        <div class="image">
+                            <img :src="petInfo.petImageUrl">
+                        </div>
+                        <div class="extra content">
+                            <!--                                <at-tag  v-if="petInfo.petStatus == 0" class="right"   color="primary">审核中</at-tag>-->
+                            <!--                                <at-tag  v-else-if="petInfo.petStatus == 1" class="right"   color="success">审核通过</at-tag>-->
+                            <!--                                <at-tag  v-else-if="petInfo.petStatus == -1" class="right"   color="warning">审核失败</at-tag>-->
+                            <div v-if="petInfo.isCancel != 1">
+
+                                <div v-if="petInfo.petStatus == -1" style="text-align: center">
+                                    <el-button type="danger" size="small" icon="el-icon-delete" style=""
+                                               @click="deletePetInfo">删除宠物信息
+                                    </el-button>
+                                    <el-button type="warning" size="small" icon="el-icon-edit" style=""
+                                               @click="reUpload">修改宠物信息
+                                    </el-button>
+                                </div>
+                                <div v-if="petInfo.petStatus == 1" style="text-align: center">
+                                    <el-button type="danger" size="small" icon="el-icon-delete" style=""
+                                               @click="cancelPet">注销宠物信息
+                                    </el-button>
+                                    <el-button type="warning" size="small" icon="el-icon-edit" style=""
+                                               @click="reUpload">修改宠物信息
+                                    </el-button>
+
                                 </div>
                                 <el-alert v-if="petInfo.petStatus==-1" style="margin-top: 20px;margin-bottom: 20px"
                                           title="审核未通过"
@@ -30,96 +45,121 @@
                                           :description="petCheckfalse.falseRes"
                                           show-icon>
                                 </el-alert>
+                            </div>
+                            <div v-else style="text-align: center">
+                                <el-button type="danger" size="small" icon="el-icon-delete" style=""
+                                           @click="deletePetInfo">删除宠物信息
+                                </el-button>
+                                <el-alert  style="margin-top: 20px;margin-bottom: 20px"
+                                          title="宠物已注销！"
+                                          type="error"
+                                          :closable="false"
+                                          :description="petCheckfalse.falseRes"
+                                          show-icon>
+                                </el-alert>
+                            </div>
 
-                                <span>
+
+
+                            <span>
                                     上传日期：{{petInfo.gmtCreate | formatDate}}
                                 </span>
 
 
-                            </div>
-                            <div class="content">
-                                <div class="row_content">
-                                    <span class="labelVal">宠物名：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petName"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物类型：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petType"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">出生日期：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petBirthday"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物毛色：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petHairColor"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物体重（Kg）：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petWeight"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物身高（Cm）：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petWeight"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物性别：</span>
-                                    <div class="row_content_input">
-                                        <at-radio  v-model="petInfo.petSex" label="1" >雄性(公)</at-radio>
-                                        <at-radio  v-model="petInfo.petSex" label="0">雌性(母)）</at-radio>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物饲养地址：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petRaiseAddr"
-                                                  >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                                <div class="row_content">
-                                    <span class="labelVal">宠物描述：</span>
-                                    <div class="row_content_input">
-                                        <at-input  size="large"   v-model="petInfo.petDesc"
-                                                 >
-
-                                        </at-input>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+                        <div class="content">
+                            <div class="row_content">
+                                <span class="labelVal">宠物名：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petName"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物编号：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petNo"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+
+                            <div class="row_content">
+                                <span class="labelVal">宠物类型：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petType"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">出生日期：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petBirthday"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物毛色：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petHairColor"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物体重（Kg）：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petWeight"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物身高（Cm）：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petWeight"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物性别：</span>
+                                <div class="row_content_input">
+                                    <at-radio v-model="petInfo.petSex" label="1">雄性(公)</at-radio>
+                                    <at-radio v-model="petInfo.petSex" label="0">雌性(母)）</at-radio>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物饲养地址：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petRaiseAddr"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                            <div class="row_content">
+                                <span class="labelVal">宠物描述：</span>
+                                <div class="row_content_input">
+                                    <at-input size="large" v-model="petInfo.petDesc"
+                                    >
+
+                                    </at-input>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </el-col>
 
 
@@ -160,78 +200,79 @@
             ElInputNumber: InputNumber,
             ElDatePicker: DatePicker,
             ElCascader: Cascader,
-            ElButton:Button,
-            AtRadio:Radio,
-            ElAutocomplete:Autocomplete,
-            ElTable:Table,
-            ElTableColumn:TableColumn,
-            ElRow:Row,
-            ElCol:Col,
-            AtTag:Tag,
-            ElAlert:Alert
+            ElButton: Button,
+            AtRadio: Radio,
+            ElAutocomplete: Autocomplete,
+            ElTable: Table,
+            ElTableColumn: TableColumn,
+            ElRow: Row,
+            ElCol: Col,
+            AtTag: Tag,
+            ElAlert: Alert
         },
         data() {
             return {
                 petInfo: [],
-                petCheckfalse:[]
+                petCheckfalse: []
             }
         },
-        created(){
+        created() {
             this.$Loading.start()
         },
         mounted() {
             this.getPetInfos(this.$route.query.id)
 
         },
-        watch:{
-
-        },
+        watch: {},
         methods: {
-            getPetInfos:function (id) {
-                let url = "/api/petinfo/getPetInfoById?petId=" + id;
+            getPetInfos: function (id) {
+                let url = "/api/petinfo/getPetInfoById?petId=" + id
                 const that = this
                 service.get(url).then(function (res) {
                     res.data.data.petInfo.petBirthday = moment(parseInt(res.data.data.petInfo.petBirthday)).format('YYYY-MM-DD')
                     that.petInfo = res.data.data.petInfo
-                    if (res.data.data.petInfo.petStatus === -1){
+                    if (res.data.data.petInfo.petStatus === -1) {
                         that.petCheckfalse = res.data.data.petCheckfalse
                     }
                     that.$Loading.finish()
                 })
             },
-            deletePetInfo:function(){
+            cancelPet: function () {
+                this.$router.push("/user/pet/cancelPet?id=" + this.petInfo.petId)
+            },
+            deletePetInfo: function () {
                 this.$msgbox.confirm('确定删除宠物信息吗, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    let url = "/api/petinfo/deletePetInfoById?petId=" + this.petInfo.petId;
+                    let url = "/api/petinfo/deletePetInfoById?petId=" + this.petInfo.petId
                     const that = this
                     service.get(url).then(function (res) {
-                        if (res.data.code === 100){
+                        if (res.data.code === 100) {
                             that.$Message.success("宠物信息删除成功！")
                             setTimeout(function () {
                                 that.$router.push("/user/pet/petinfo")
-                            },1000)
+                            }, 1000)
 
                         }
                         res.data.data.petInfo.petBirthday = moment(parseInt(res.data.data.petInfo.petBirthday)).format('YYYY-MM-DD')
                         that.petInfo = res.data.data.petInfo
-                        if (res.data.data.petInfo.petStatus === -1){
+                        if (res.data.data.petInfo.petStatus === -1) {
                             that.petCheckfalse = res.data.data.petCheckfalse
                         }
                         that.$Loading.finish()
                     })
-                 })
+                })
             },
-            reUpload:function () {
-                sessionStorage.setItem("reUploadPetId",this.petInfo.petId)
+            reUpload: function () {
+                sessionStorage.setItem("reUploadPetId", this.petInfo.petId)
                 this.$router.push({
-                    name:"reUploadPetInfo"
+                    name: "reUploadPetInfo"
                 })
             }
         },
-        filters:{
+        filters: {
             formatDate: function (value) {
                 return moment(value).format('YYYY-MM-DD')
             }
@@ -240,10 +281,11 @@
     }
 </script>
 <style>
-    .errorType  input {
+    .errorType input {
         border: red 1px solid;
     }
-    .errorType > textarea{
+
+    .errorType > textarea {
         border: red 1px solid;
     }
 </style>
@@ -325,17 +367,18 @@
     }
 
 
-
     .el-input__inner {
         color: red;
     }
-    .image{
+
+    .image {
         text-align: center;
         padding-top: 10px;;
         margin-bottom: 10px;
 
     }
-    .image >img{
+
+    .image > img {
         height: 400px;
         border-radius: 10px;
     }

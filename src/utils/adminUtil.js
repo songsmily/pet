@@ -1,17 +1,19 @@
 import axios from "axios"
+import router from "../router"
 export  default {
     getUserInfo(that){
         const _this = this
         if (!sessionStorage.getItem("adminUserInfo")){
             axios.get("/api/admin/adminUser/returnUserInfo").then(function (res) {
-                console.log(res)
                 if (res.data.data){
                     sessionStorage.setItem('adminUserInfo',JSON.stringify(res.data.data))
                     that.$store.commit("changeAdminUserInfo",_this.returnUserInfo())
                     that.$store.commit("changeAdminLoginType",true)
+                }else {
+                    that.router.replace("/login")
+
                 }
             }).catch(function (res) {
-                console.log(res)
             })
         }
 
@@ -20,11 +22,13 @@ export  default {
         const _this = this
         axios.get("/api/admin/adminUser/returnUserInfo").then(function (res) {
             console.log(res)
-            if (res.data.data){
+            if (res.data.code === 100){
                 sessionStorage.setItem('adminUserInfo',JSON.stringify(res.data.data))
                 that.$store.commit("changeAdminUserInfo",_this.returnUserInfo())
                 that.$store.commit("changeAdminLoginType",true)
                 // that.reloadAdminUserInfoForm();
+            } else {
+                that.router.replace("/login")
             }
         }).catch(function (res) {
             console.log(res)

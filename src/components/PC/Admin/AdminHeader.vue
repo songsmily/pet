@@ -20,24 +20,7 @@
         <div class=""></div>
         <!-- navbar collapse（顶部导航栏） -->
         <div class="collapse pos-rlt navbar-collapse box-shadow bg-black" :class="{'show animated animated-lento fadeIn':$store.state.isShowNavInfoInMobile}">
-            <!-- search form -->
-            <form id="searchform1" class="searchform navbar-form navbar-form-sm navbar-left shift" method="post" role="search">
-                <div class="form-group">
-                    <div class="input-group rounded bg-light">
-                        <input data-status="false"  autocomplete="off" id="search_input" type="search" name="s" class="transparent rounded form-control input-sm no-border padder" required="" placeholder="输入关键词搜索…">
-                        <!--搜索提示-->
-                        <ul id="search_tips_drop" class="dropdown-menu hide" style="display: block;top: 30px; left: 0px;"></ul>
-                        <span id="search_submit" @click="" class="transparent input-group-btn">
-                            <button type="button" class="transparent btn btn-sm">
-                                <i class="fontello fontello-search" id="icon-search"></i>
-                                <i class="animate-spin  fontello fontello-spinner hide" id="spin-search"></i>
-                            </button>
-                        </span>
 
-                    </div>
-                </div>
-            </form>
-            <a href="" style="display: none" id="searchUrl"></a>
             <!-- / search form -->
             <ul class="nav navbar-nav navbar-right">
                 <li class="music-box hidden-xs hidden-sm">
@@ -49,19 +32,7 @@
                     </i><span class="visible-xs-inline"></span>
                     </a>
                 </li>
-                <!--闲言碎语-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">
-                    <i>
-                        <svg t="1576481500173" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11679" width="20" height="20"><path d="M900.3 689v-0.2c-3.1-37.2-32-69-96.5-106.4V425.1c-1.7-116.2-72.4-219.8-180.1-263.9l-12.9-3.4c-3.2-52.4-46.8-93.5-99.4-93.5h-1c-50.8 0-93.2 39.6-96.7 90.1-113.4 41.1-190.9 149.8-193 270.6v154.1c-80.4 43.6-90.8 80-96.3 99.5l-0.2 0.8c-3.5 24.3 3.6 48.9 19.4 67.5l0.2 0.2c17.7 19.2 57.4 33.8 118.1 43.5 60.6 9.6 143.2 14.5 245.7 14.5 54.2 0 133.8-1.5 205.1-8.8 83.4-8.5 137.9-22.9 161.9-42.8 18.8-15.9 28.4-39.9 25.7-64.5z m-62 25.2c-16.6 13.6-58.2 24.3-123.6 31.7C656.6 752.5 583.8 756 504 756c-75.9 0-147.8-3.4-202.6-9.5C236 739.1 195 728 182.8 714.3c-4.8-5.4-6.5-12.1-5-19.2 5.6-26.9 55.8-61.4 88.2-76.4h0.2c3.2-0.3 5.9-2.6 6.7-5.8l0.2-0.7V425.3c2.8-107.8 78-200.2 183-224.7l0.3-0.1 0.4-0.2c0.3-0.1 6.3-3 6.2-10v-25.9c1.7-25.4 22.2-45.8 47.6-47.6h0.1c12.3-0.5 24.1 4 33 12.4 9 8.5 14.2 19.9 14.6 32v26.4c0 0.3 0.2 6.4 6 8.7l0.2 0.1c0.3 0.1 25.2 7.8 35.6 13.5l0.6 0.3c87.2 36.2 145 120.5 147.3 214.8v187l0.2 0.6c0.7 3.3 3.4 5.6 6.7 5.8 19.9 9.2 41.1 21.7 57 33.6 21.6 16.1 33.3 30.4 34.9 42.6v0.1c1.1 7.5-1.7 14-8.5 19.5zM591.2 826.6h-0.6c-7 0-13.5 2.7-18.3 7.6-5 5-7.7 11.8-7.6 18.7 0.1 14.3-5.6 28.3-15.7 38.5-10.2 10.2-23.7 15.7-38.1 15.7h-0.5c-14.6 0.7-28.5-4.8-38.9-15.1-10.2-10.2-15.7-24.3-15.1-38.8v-0.6c-1.1-13.7-11.9-24.5-25.6-25.8h-1c-13.6 1.2-24.6 12.3-25.6 25.9v0.6c0.1 58.7 47.9 106.4 106.6 106.4S617.2 912 617.3 853.3v-0.5c-1.1-13.8-12.3-25.1-26.1-26.2z" fill="#cdcdcd" p-id="11680"></path><path d="M697.6 392.4c-3.3-22-12.1-43-25.7-60.7l-0.1-0.2c-12.7-19.9-32.2-34.8-54.9-42l-0.3-0.1c-11.2-3.9-22.9-6-35-6.3h-0.6c-13.8 1.1-24.6 11.9-25.8 25.6v1c1.2 13.7 12.5 24.8 26.2 25.6 11.7 0.9 22.7 5.2 31.8 12.6l0.3 0.2c18.1 13.6 29.7 34.4 31.9 56.8v0.7l0.2 0.6c3.3 11.7 14.1 19.9 26.2 19.9 2.3 0 4.5-0.3 6.4-0.8l0.3-0.1c7.2-1.3 13.5-5.5 17.2-11.7 3.8-6.4 4.6-14.1 2.2-21l-0.3-0.1z" fill="#cdcdcd" p-id="11681"></path></svg>                    </i>
-                        <span class="visible-xs-inline">
-              闲言碎语              </span>
-                        <span class="badge badge-sm up bg-danger pull-right-xs"></span>
 
-                    </a>
-
-                </li>
-                <!--/闲言碎语-->
                 <!--登录管理-->
                 <li class="dropdown" id="easyLogin">
                     <a v-if="!this.$store.state.adminLoginType"  data-toggle="dropdown" @click="$store.state.isShowLogRegDialog = true" class="dropdown-toggle clear">

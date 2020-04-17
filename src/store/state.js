@@ -6,6 +6,7 @@ export default  {
     isMobile:false,//判断是否移动端
     loginType:false,//普通用户登录状态
     isShowUserSecret:false,//是否显示普通用户密码修改
+    isShowAdminSecret:false,//是否显示普通用户密码修改
     /**
      * 普通用户信息
      */
@@ -38,5 +39,11 @@ export default  {
         realName:"",
         phone:"",
         status:""
-    }
+    },
+
+    /**
+     * 热门标签信息
+     */
+    hotTags:[],
+    hotTagChoice:{}
 }

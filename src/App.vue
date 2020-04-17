@@ -18,7 +18,17 @@
         methods: {
         },
         mounted() {
-
+            function f() {
+                let arr = []
+                while(arr.length < 4){
+                    let i = Math.ceil( Math.random() * 20)
+                    if(!arr.includes(i)){
+                        arr.push(i)
+                    }
+                }
+                console.log(arr)
+            }
+            // f()
         }
     }
 
@@ -45,12 +55,12 @@ TabBar样式重写
         color: #606266;
     }
 
+
     @import "~vue-layer/lib/vue-layer.css";
     @import "~at-ui-style";
     /*@import "~semantic-ui/dist/semantic.min.css";*/
     /*@import "~assets/libs/font-awesome-4.7.0 2/css/font-awesome.min.css";*/
     @import "~assets/css/base.css";
-
 
 </style>
 

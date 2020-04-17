@@ -19,7 +19,7 @@
                     <!--                                            :src="petInfo.petImageUrl"-->
                     <!--                                            :preview-src-list="picList">-->
                     <!--                                    </el-image>-->
-                    <img :src="petInfo.petCards.cardImageUrl" style="height:400px;">
+                    <img :src="petInfo.petCard.cardImageUrl" style="height:400px;">
                 </div>
                 <div class="extra content">
                     <!--                    <at-tag v-if="petInfo.petStatus == 0" class="right" color="warning">审核中</at-tag>-->
@@ -32,7 +32,7 @@
                     <div class="row_content">
                         <span class="labelVal">免疫证书编号：</span>
                         <div class="row_content_input">
-                            <at-input size="large" v-model="petInfo.petCards.cardNumber"
+                            <at-input size="large" v-model="petInfo.petCard.cardNumber"
                             >
 
                             </at-input>

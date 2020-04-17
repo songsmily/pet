@@ -1,17 +1,21 @@
 <template>
     <div  class="app app-aside-fixed container app-header-fixed ">
         <header-bar></header-bar>
-        <nav-bar></nav-bar>
-        <div id="content" class="app-content">
-            <a class="off-screen-toggle hide"></a>
-            <main class="app-content-body ">
-                <div class="hbox hbox-auto-xs hbox-auto-sm">
-                    <router-view></router-view>
-                    <!--首页右侧栏-->
-                    <right-aside-bar></right-aside-bar>
+                <nav-bar></nav-bar>
+            <div style="flex-grow: 4">
+                <div id="content" class="app-content">
+                    <a class="off-screen-toggle hide"></a>
+                    <main class="app-content-body ">
+                        <div class="hbox hbox-auto-xs hbox-auto-sm">
+                            <router-view></router-view>
+                            <!--首页右侧栏-->
+                            <right-aside-bar v-if="!this.$store.state.isMobile"></right-aside-bar>
+                        </div>
+                    </main>
                 </div>
-            </main>
-        </div>
+
+            </div>
+
 
         <el-dialog  v-if="!this.$store.state.isMobile" width="30%" title="账户密码修改" :visible.sync="$store.state.isShowUserSecret">
             <user-secret></user-secret>
@@ -60,6 +64,7 @@
             }
             if (this.$util.loginType(this)){
                 this.$util.setUserInfoAndLoginTypeToStore(this)
+                this.$util.getHotTags(this)
             }
             this.$util.isMobile(this)
             this.$util.returnMessage(this)
@@ -100,7 +105,6 @@ TabBar样式重写
     /*@import "~semantic-ui/dist/semantic.min.css";*/
     /*@import "~assets/libs/font-awesome-4.7.0 2/css/font-awesome.min.css";*/
     @import "~assets/css/base.css";
-
 
 </style>
 

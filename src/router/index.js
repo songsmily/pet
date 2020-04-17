@@ -18,8 +18,39 @@ import PetUploadCard from "../views/PC/Pet/PetUploadCard"
 import PetUploadImmunity from "../views/PC/Pet/PetUploadImmunity"
 import PetCardCheck from "../views/PC/Admin/PetAdmin/PetCardCheck"
 import PetReUploadCard from "../views/PC/Pet/PetReUploadCard"
+import PetDetailImmunity from "../views/PC/Pet/PetDetailImmunity"
+import PetUpdateImmunity from "../views/PC/Pet/PetUpdateImmunity"
+import PetImmunityCheck from "../views/PC/Admin/PetAdmin/PetImmunityCheck"
+import PetInfoList from "../views/PC/Admin/PetAdmin/PetInfoList"
+import PetCancel from "../views/PC/Pet/PetCancel"
+import adminService from "../network/adminAxios"
+import adminUtil from "../utils/adminUtil"
+import util from "../utils/util"
+import AddBlog from "../views/PC/Blog/AddBlog"
+import BlogDetail from "../views/PC/Blog/BlogDetail"
+import HotTagBlog from "../views/PC/Blog/HotTagBlog"
+import MyBlog from "../views/PC/Blog/MyBlog"
+import Question from "../views/PC/Blog/Question"
+import MyCollection from "../views/PC/Blog/MyCollection"
+import CommunityUser from "../views/PC/Admin/CommunityAdmin/CommunityUser"
+import CommunityHome from "../views/PC/Admin/CommunityAdmin/CommunityHome"
+import CheckBlog from "../views/PC/Admin/CommunityAdmin/CheckBlog"
+import CheckComment from "../views/PC/Admin/CommunityAdmin/CheckComment"
+import AddNews from "../views/PC/Admin/CommunityAdmin/AddNews"
+import Information from "../views/PC/Blog/Information"
+import InformationDetail from "../views/PC/Blog/InformationDetail"
+import CommunityInformation from "../views/PC/Admin/CommunityAdmin/CommunityInformation"
+import CommunityInformationDetail from "../views/PC/Admin/CommunityAdmin/CommunityInformationDetail"
+import AdminManage from "../views/PC/Admin/AdminManage"
+import Error from "../views/PC/Error"
+import Error404 from "../views/PC/Error404"
+import SystemUser from "../views/PC/Admin/SystemAdmin/SystemUser"
+import SystemHome from "../views/PC/Admin/SystemAdmin/SystemHome"
+import UserList from "../views/PC/Admin/SystemAdmin/UserList"
+import CommunityAdminList from "../views/PC/Admin/SystemAdmin/CommunityAdminList"
+import PetAdminList from "../views/PC/Admin/SystemAdmin/PetAdminList"
+import LogList from "../views/PC/Admin/SystemAdmin/LogList"
 const Home = ()=> import("views/PC/Home")
-const Share = ()=> import("views/PC/Share")
 const UserManage = ()=> import("views/PC/User/UserManage")
 const PetInfo = ()=> import("views/PC/Pet/PetInfo")
 
@@ -28,7 +59,7 @@ const PetDetail = ()=> import("views/PC/Pet/PetDetail")
 Vue.use(VueRouter)
 
 const routes = [
-  {
+    {
         path:"/",
         redirect:"/login"
     },
@@ -47,6 +78,155 @@ const routes = [
             tittle:"注册"
         }
     },
+    {
+        path:"/error",
+        component:Error,
+        meta:{
+            tittle:"出错啦"
+        }
+    },
+    {
+        path:"/404",
+        component:Error404,
+        meta:{
+            tittle:"出错啦"
+        }
+    },
+
+    /**
+     * 系统管理员路由
+     */
+    {
+        path:"/admin/system",
+        component:SystemUser,
+        meta:{
+            tittle:"系统管理员首页"
+        },
+        children:[
+            {
+                path:"home",
+                component:SystemHome,
+                meta:{
+                    tittle:"系统管理员首页",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"adminManage",
+                component:AdminManage,
+                meta:{
+                    tittle:"个人信息管理",
+                    navBarIndex:"3-2"
+                }
+            },
+            {
+                path:"user/user",
+                component:UserList,
+                meta:{
+                    tittle:"社区用户管理",
+                    navBarIndex:"1-1"
+                }
+            },
+            {
+                path:"user/communityAdmin",
+                component:CommunityAdminList,
+                meta:{
+                    tittle:"社区管理员用户",
+                    navBarIndex:"1-2"
+                }
+            },
+            {
+                path:"user/petAdmin",
+                component:PetAdminList,
+                meta:{
+                    tittle:"宠物管理员用户",
+                    navBarIndex:"1-3"
+                }
+            },
+            {
+                path:"log",
+                component:LogList,
+                meta:{
+                    tittle:"系统日志",
+                    navBarIndex:"2-1"
+                }
+            },
+
+
+        ]
+    },
+
+    /**
+     * 社区管理员路由
+     */
+    {
+        path:"/admin/community",
+        component:CommunityUser,
+        meta:{
+            tittle:"社区管理员首页"
+        },
+        children:[
+            {
+                path:"home",
+                component:CommunityHome,
+                meta:{
+                    tittle:"社区管理员首页",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"adminManage",
+                component:AdminManage,
+                meta:{
+                    tittle:"个人信息管理",
+                    navBarIndex:"3-2"
+                }
+            },
+            {
+                path:"checkBlog",
+                component:CheckBlog,
+                meta:{
+                    tittle:"帖子内容审核",
+                    navBarIndex:"1-1"
+                }
+            },
+            {
+                path:"checkComment",
+                component:CheckComment,
+                meta:{
+                    tittle:"评论内容审核",
+                    navBarIndex:"1-2"
+                }
+            },
+            {
+                path:"addNews",
+                component:AddNews,
+                meta:{
+                    tittle:"新增宠物资讯",
+                    navBarIndex:"2-1"
+                }
+            },
+            {
+                path:"listInfo",
+                component:CommunityInformation,
+                meta:{
+                    tittle:"宠物资讯管理",
+                    navBarIndex:"2-2"
+                }
+            },
+            {
+                path:"detailInfo/:id",
+                component:CommunityInformationDetail,
+                meta:{
+                    tittle:"宠物资讯管理",
+                    navBarIndex:"2-2"
+                }
+            }
+        ]
+    },
+    /**
+     * 宠物管理员路由
+     */
     {
         path:"/admin",
         component:AdminUser,
@@ -67,6 +247,14 @@ const routes = [
                 }
             },
             {
+                path:"adminManage",
+                component:AdminManage,
+                meta:{
+                    tittle:"个人信息管理",
+                    navBarIndex:"3-2"
+                }
+            },
+            {
                 path:"petCheck",
                 component:PetCheck,
                 meta:{
@@ -83,14 +271,24 @@ const routes = [
                     navBarIndex:"1-2"
 
                 }
-            }, {
-                path:"petCardCheck",
-                component:PetCardCheck,
+            },
+            {
+                path:"petImmunityCheck",
+                component:PetImmunityCheck,
                 meta:{
-                    tittle:"免疫证书审核",
+                    tittle:"免疫信息审核",
                     navBarIndex:"1-3"
 
                 }
+            },
+            {
+               path:"petInfoList",
+               component:PetInfoList,
+               meta:{
+                   tittle:"宠物信息",
+                   navBarIndex:"2-1"
+               }
+
             },
             {
                 path:"petReview",
@@ -102,6 +300,86 @@ const routes = [
 
         ]
     },
+    /**
+     * 用户社区路由
+     */
+    {
+        path:"/user/blog",
+        component:User,
+        meta:{
+            tittle:"用户主页"
+        },
+        children:[
+            {
+                path:"add",
+                component:AddBlog,
+                meta:{
+                    tittle:"发表新帖",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"detail/:id",
+                component:BlogDetail,
+                meta:{
+                    tittle:"帖子详情",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"hotTag/:hotTagId",
+                component:HotTagBlog,
+                meta:{
+                    tittle:"热门标签",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"myBlog",
+                component:MyBlog,
+                meta:{
+                    tittle:"我的帖子",
+                    navBarIndex:"1"
+                }
+            },
+
+            {
+                path:"question",
+                component:Question,
+                meta:{
+                    tittle:"提问",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"myCollection",
+                component:MyCollection,
+                meta:{
+                    tittle:"我的收藏",
+                    navBarIndex:"1"
+                }
+            },
+            {
+                path:"information",
+                component:Information,
+                meta:{
+                    tittle:"宠物资讯",
+                    navBarIndex:"2"
+                }
+            },
+            {
+                path:"detailInfo/:id",
+                component:InformationDetail,
+                meta:{
+                    tittle:"资讯详情",
+                    navBarIndex:"1"
+                }
+            },
+        ]
+    },
+    /**
+     * 用户路由
+     */
     {
         path:"/user",
         component:User,
@@ -110,20 +388,18 @@ const routes = [
         },
         children:[
             {
+                path:"errorPage",
+                component:Error,
+                meta:{
+                    tittle:"出错了！"
+                }
+            },
+            {
                 path:"home",
                 component:Home,
                 meta:{
                     tittle:"主页",
                     navBarIndex:"1"
-                }
-            },
-            {
-                path:"share",
-                component:Share,
-                meta: {
-                    tittle:"分享",
-                    navBarIndex:"2"
-
                 }
             },
             {
@@ -148,6 +424,15 @@ const routes = [
                 component:PetInfo,
                 meta: {
                     tittle:"宠物信息管理",
+                    navBarIndex:"2-2"
+
+                }
+            },
+            {
+                path:"pet/cancelPet",
+                component:PetCancel,
+                meta: {
+                    tittle:"宠物信息注销",
                     navBarIndex:"2-2"
 
                 }
@@ -205,6 +490,22 @@ const routes = [
                 }
             },
             {
+                path:"pet/detailImmunity",
+                component:PetDetailImmunity,
+                meta:{
+                    tittle:"免疫信息详情",
+                    navBarIndex:"2-3"
+                }
+            },
+            {
+                path:"pet/updateImmunity",
+                component:PetUpdateImmunity,
+                meta:{
+                    tittle:"免疫信息编辑",
+                    navBarIndex:"2-3"
+                }
+            },
+            {
                 path:"notice/system",
                 component:SystemNotice,
                 meta:{
@@ -225,23 +526,18 @@ const router = new VueRouter({
     mode: 'history'
 })
 router.beforeEach((to,from,next) => {
-    // var arr = [];
-    // while (arr.length < 5){
-    //     let num = Math.floor(Math.random() * 20 + 1)
-    //     if(!arr.includes(num)){
-    //         arr.push(num)
-    //     }
-    // }
-    // alert(arr.sort())
+    if (to.matched.length === 0) {    //如果未匹配到路由
+        from.name ? next({ name:from.name }) : next('/404');
+    }
     sessionStorage.setItem("navBarIndex",to.meta.navBarIndex)
     if (!unAuthRoute.includes(to.path)){
         if (to.path.indexOf("/admin") !== -1){
             if (!sessionStorage.getItem("adminUserInfo")){
-                router.replace("/login")
+                adminUtil.getUserInfo(this);
             }
         }else{
             if (!sessionStorage.getItem("userInfo")){
-                router.replace("/login")
+                util.getUserInfo(this)
             }
         }
 

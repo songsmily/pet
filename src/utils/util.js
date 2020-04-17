@@ -1,5 +1,6 @@
 import axios from "axios"
 import service from "../network/axios"
+
 export default {
     // initApp(that){
     //     this.isMobile(that)
@@ -47,18 +48,18 @@ export default {
     /**
      * 获取用户消息和系统通知
      */
-    returnMessage(that,status=false){
-        if (that.$store.state.sysPetMessage.limit === 0){
-            that.$store.state.sysPetMessage.limit +=  10
-        }else{
-            that.$store.state.sysPetMessage.limit +=  3
+    returnMessage(that, status = false) {
+        if (that.$store.state.sysPetMessage.limit === 0) {
+            that.$store.state.sysPetMessage.limit += 6
+        } else {
+            that.$store.state.sysPetMessage.limit += 3
         }
         let url = "/api/sysPetNotice/getMessage?topNumber=" + that.$store.state.sysPetMessage.limit
         service.post(url).then(function (res) {
             that.$store.state.sysPetMessage.data = res.data.data.list
             that.$store.state.sysPetMessage.unReadCount = res.data.data.unReadCount
         })
-        if (status){
+        if (status) {
             that.$Loading.finish()
         }
 
@@ -98,7 +99,109 @@ export default {
     returnUrl() {
         return window.location.protocol + "//" + window.location.host
     },
+    /**
+     * Parse the time to string
+     * @param {(Object|string|number)} time
+     * @param {string} cFormat
+     * @returns {string | null}
+     */
+    parseTime(time, cFormat) {
+        if (arguments.length === 0) {
+            return null
+        }
+        const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+        let date
+        if (typeof time === 'object') {
+            date = time
+        } else {
+            if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+                time = parseInt(time)
+            }
+            if ((typeof time === 'number') && (time.toString().length === 10)) {
+                time = time * 1000
+            }
+            date = new Date(time)
+        }
+        const formatObj = {
+            y: date.getFullYear(),
+            m: date.getMonth() + 1,
+            d: date.getDate(),
+            h: date.getHours(),
+            i: date.getMinutes(),
+            s: date.getSeconds(),
+            a: date.getDay()
+        }
+        const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+            const value = formatObj[key]
+            // Note: getDay() returns 0 on Sunday
+            if (key === 'a') {
+                return ['日', '一', '二', '三', '四', '五', '六'][value]
+            }
+            return value.toString().padStart(2, '0')
+        })
+        return time_str
+    },
+    /**
+     * 获取热门标签
+     */
+    getHotTags(that){
+        service({
+            method:"post",
+            url:"/api/blTag/getHotTags"
+        }).then(res => {
+            if (res.data.code === 100){
+                that.$store.commit("changeHotTags",res.data.data)
+            }
+        })
+    },
+    /**
+     * 查看热门标签
+     */
+    setHotTagChoice(that, hotTagChoice) {
+      that.$store.commit("changeHotTagChoice", hotTagChoice)
+    },
+    /**
+     * @param {number} time
+     * @param {string} option
+     * @returns {string}
+     */
+    formatTime(time, option) {
+        if (('' + time).length === 10) {
+            time = parseInt(time) * 1000
+        } else {
+            time = +time
+        }
+        const d = new Date(time)
+        const now = Date.now()
 
+        const diff = (now - d) / 1000
+
+        if (diff < 30) {
+            return '刚刚'
+        } else if (diff < 3600) {
+            // less 1 hour
+            return Math.ceil(diff / 60) + '分钟前'
+        } else if (diff < 3600 * 24) {
+            return Math.ceil(diff / 3600) + '小时前'
+        } else if (diff < 3600 * 24 * 2) {
+            return '1天前'
+        }
+        if (option) {
+            return parseTime(time, option)
+        } else {
+            return (
+                d.getMonth() +
+                1 +
+                '月' +
+                d.getDate() +
+                '日' +
+                d.getHours() +
+                '时' +
+                d.getMinutes() +
+                '分'
+            )
+        }
+    }
 
 
 }

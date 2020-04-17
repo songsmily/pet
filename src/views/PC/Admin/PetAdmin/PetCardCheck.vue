@@ -7,8 +7,8 @@
             </el-breadcrumb>
         </header>
         <!--内容页-->
-        <div class="wrapper-md" id="outer-box">
-            <div id="panel">
+        <div class="wrapper-md pet-manage-content">
+            <div>
                 <div id="intro">
                     <el-col id="filterArea">
                         <span>筛选：</span>
@@ -37,7 +37,7 @@
                                 width="180">
                         </el-table-column>
                         <el-table-column
-                                prop="petCards.cardNumber"
+                                prop="petCard.cardNumber"
                                 label="免疫证书编号">
                         </el-table-column>
                         <el-table-column label="操作">
@@ -148,7 +148,7 @@
                             that.total = res.data.data.total
                             that.pages = res.data.data.pages
                             // let arr =[]
-                            // for(let i = 0;i < res.data.data.records.petCards.length;i++){
+                            // for(let i = 0;i < res.data.data.records.petCard.length;i++){
                             //     res.data
                             // }
                             that.petCardList = res.data.data.records
@@ -229,7 +229,7 @@
                                 url:url,
                                 method: "post",
                                 data:{
-                                    'petCardId':this.petInfo.petCards.petCardId,
+                                    'petCardId':this.petInfo.petCard.petCardId,
                                     'petId':this.petInfo.petId,
                                     'falseRes':val.value
                                 }
@@ -271,7 +271,7 @@
                                 url:url,
                                 method: "post",
                                 data:{
-                                    'petCardId':this.petInfo.petCards.petCardId,
+                                    'petCardId':this.petInfo.petCard.petCardId,
                                     "petId":this.petInfo.petId,
                                     'falseRes':val.value
                                 }

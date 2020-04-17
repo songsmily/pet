@@ -29,6 +29,7 @@
                     </div>
                 </div>
                 <el-menu
+                        style="border: none;background-color: unset"
                         :unique-opened="true"
                         :default-active="reverseNavBarIndex"
                         class="el-menu-vertical-demo">
@@ -38,25 +39,17 @@
                     <router-link to="/user/home">
                         <el-menu-item index="1">
                             <i class="el-icon-menu"></i>
-                            <span slot="title">发现</span>
+                            <span slot="title">宠物生活</span>
                         </el-menu-item>
                     </router-link>
-                    <router-link to="/user/share">
+                    <router-link to="/user/blog/information">
 
                         <el-menu-item index="2">
                             <i class="el-icon-s-promotion"></i>
-                            <span slot="title">分享</span>
+                            <span slot="title">宠物资讯</span>
                         </el-menu-item>
                     </router-link>
 
-                    <el-menu-item index="3">
-                        <i class="el-icon-s-comment"></i>
-                        <span slot="title">答疑</span>
-                    </el-menu-item>
-                    <el-menu-item index="4">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">归类</span>
-                    </el-menu-item>
                     <template v-if="this.$store.state.loginType">
                         <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                             <span>管理</span>
@@ -268,9 +261,14 @@
             }
         },
         created() {
+            const data = {
+
+
+        }
         }
 
     }
+
 </script>
 
 <style scoped>

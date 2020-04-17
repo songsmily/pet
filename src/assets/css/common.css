@@ -752,7 +752,7 @@ body {
 }
 
 .app-header {
-    z-index: 1000;
+    z-index: 999;
     border-radius: 0
 }
 
@@ -774,7 +774,7 @@ body {
 .app-aside-footer {
     position: absolute;
     bottom: 0;
-    z-index: 1000;
+    z-index: 999;
     width: 100%;
     max-width: 200px
 }
@@ -1029,7 +1029,7 @@ body {
         top: 50px;
         bottom: 0;
         left: 0;
-        z-index: 1000;
+        z-index: 999;
         width: 200px;
         overflow: hidden
     }
@@ -1272,13 +1272,13 @@ html.bg {
     }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1500px) {
     .app.container {
-        width: 1300px
+        width: 1500px
     }
 
     .app.container .app-aside, .app.container .app-header {
-        max-width: 1300px
+        max-width: 1500px
     }
 
     .app.container .app-footer-fixed {
@@ -1296,11 +1296,11 @@ html.bg {
 
 @media (min-width: 1800px) {
     .app.container {
-        width: 1300px
+        width: 1600px
     }
 
     .app.container .app-aside, .app.container .app-header {
-        max-width: 1300px
+        max-width: 1600px
     }
 
     .item-thumb {
@@ -1615,7 +1615,7 @@ html.bg {
     .app-aside-dock.app-aside-fixed .app-aside {
         position: fixed;
         top: 50px;
-        z-index: 1000;
+        z-index: 999;
         width: 100%
     }
 
@@ -7570,7 +7570,7 @@ form.protected input[type=submit].submit:hover {
 }
 
 .index-post-title {
-    font-size: 22px
+    font-size: 18px
 }
 
 @media (max-width: 767px) {
@@ -8286,7 +8286,7 @@ button.active > span {
         top: 50px;
         bottom: 0;
         left: 0;
-        z-index: 1000;
+        z-index: 999;
         width: 200px;
         overflow: hidden
     }

@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div style="height: 100vh">
+
         <div>
-            <div class="sc-1duRon-2 pvvuG">
+            <div class="sc-1duRon-2 pvvuG" style="margin: 0">
                 <div  class="sm-btn-group sc-1duRon-5 dvRHZl sc-17dnj82-0 dfsiVH" style="z-index: 9999">
                     <span class="switch-tips">已有帐号？请</span>
                     <router-link to="/login" class="sm-button  sc-1n784rm-0 sfCUt" type="default"  >登录</router-link>
@@ -9,90 +10,84 @@
 
             </div>
         </div>
-    <div>
-        <div>
-            <div class="sc-1duRon-1 sbfRl">
-                <p class="sc-1I1iYs-3 kmwMDA" style='font-family: serif;font-size: 18px;color: #41464B;'>宠物之家</p>
-            </div>
-            <div class="sc-1duRon-3 cPHJDB">
-                <div class="sc-1duRon-4 doAKkT">
-                    <div class="sc-3JRwrF irtYus">
-                        <div class="main">
-                            <div class="title">
-<!--                                <img src="http://localhost/exam/resources/views/img/70.png" style="width: 40%">-->
+        <div class="sc-1duRon-1 sbfRl">
+            <p class="sc-1I1iYs-3 kmwMDA" style='font-family: serif;font-size: 18px;color: #41464B;'>宠物之家</p>
+
+        </div>
+        <div class="sc-1duRon-3 cPHJDB">
+            <div class="sc-1duRon-4 doAKkT">
+                <div class="sc-3JRwrF irtYus">
+                    <div class="main">
+                        <div class="title">
+                            <!--                                <img src="http://localhost/exam/resources/views/img/70.png" style="width: 40%">-->
                             <p>注册</p>
-                            </div>
-                            <div class="sc-3JRwrF-1 khjAih">
-                                <div class="form-wrapper">
-                                    <div class="sc-2oZUsG bHHvBK">
-                                        <form id="form">
-                                            <div>
-                                                <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">用户名</label>
-                                                    <at-input v-model="nickname"  :status="nicknameType" :icon="''"></at-input>
-                                                    <div :class="{'errorTips':nicknameType === 'error' , 'successTips':nicknameType === 'success'}" >{{nicknameTip}}</div>
-                                                </div>
-                                                <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">手机号</label>
-                                                    <at-input v-model="phone"  :status="phoneType" :icon="''"></at-input>
-                                                    <div :class="{'errorTips':phoneType === 'error' , 'successTips':phoneType === 'success'}" >{{phoneTip}}</div>
-                                                </div>
+                        </div>
+                        <div class="sc-3JRwrF-1 khjAih">
+                            <div class="form-wrapper">
+                                <div class="sc-2oZUsG bHHvBK">
+                                    <form id="form">
+                                        <div>
+                                            <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">用户名</label>
+                                                <at-input v-model="nickname"  :status="nicknameType" :icon="''"></at-input>
+                                                <div :class="{'errorTips':nicknameType === 'error' , 'successTips':nicknameType === 'success'}" >{{nicknameTip}}</div>
+                                            </div>
+                                            <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">手机号</label>
+                                                <at-input v-model="phone"  :status="phoneType" :icon="''"></at-input>
+                                                <div :class="{'errorTips':phoneType === 'error' , 'successTips':phoneType === 'success'}" >{{phoneTip}}</div>
+                                            </div>
 
-                                                <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">登录密码</label>
+                                            <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">登录密码</label>
 
-                                                    <at-input v-model="password" type="password"   :status="passwordType" :icon="''"></at-input>
-                                                    <div :class="{'errorTips':passwordType === 'error' , 'successTips':passwordType === 'success'}" id="phoneTip">{{passwordTip}}</div>
+                                                <at-input v-model="password" type="password"   :status="passwordType" :icon="''"></at-input>
+                                                <div :class="{'errorTips':passwordType === 'error' , 'successTips':passwordType === 'success'}" id="phoneTip">{{passwordTip}}</div>
 
 
-                                                </div>
-                                                <div  class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">确认密码</label>
-                                                    <at-input v-model="repassword"  type="password" :status="repasswordType" :icon="''"></at-input>
+                                            </div>
+                                            <div  class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">确认密码</label>
+                                                <at-input v-model="repassword"  type="password" :status="repasswordType" :icon="''"></at-input>
 
-                                                    <div :class="{'errorTips':repasswordType === 'error' , 'successTips':repasswordType === 'success'}" id="zhibuTip" class="tips">{{repasswordTip}}</div>
+                                                <div :class="{'errorTips':repasswordType === 'error' , 'successTips':repasswordType === 'success'}" id="zhibuTip" class="tips">{{repasswordTip}}</div>
 
-                                                </div>
-                                                <div class="sc-3ksGSP kPTEpp" type="password"><label class="label">图形验证码</label>
-                                                    <at-input v-model="imgYzm"   :status="imgYzmType" :icon="''">
-                                                        <template slot="append">
+                                            </div>
+                                            <div class="sc-3ksGSP kPTEpp" type="password"><label class="label">图形验证码</label>
+                                                <at-input v-model="imgYzm"   :status="imgYzmType" :icon="''">
+                                                    <template slot="append">
                                                             <span style="width: 80px;cursor: pointer;">
                                                                 <img :src="yzmSrc" @click="changeYzmSrc" style="width: 150px;height: 30px" alt="">
                                                             </span>
-                                                        </template>
-                                                    </at-input>
+                                                    </template>
+                                                </at-input>
 
-                                                    <div :class="{'errorTips':imgYzmType === 'error' , 'successTips':imgYzmType === 'success'}">{{imgYzmTip}}</div>
-                                                </div>
-                                                <div class="sc-3ksGSP kPTEpp" type="password"><label class="label">短信验证码</label>
-                                                    <at-input v-model="messageCode"  :status="messageCodeType" :icon="''">
-                                                        <template slot="append">
+                                                <div :class="{'errorTips':imgYzmType === 'error' , 'successTips':imgYzmType === 'success'}">{{imgYzmTip}}</div>
+                                            </div>
+                                            <div class="sc-3ksGSP kPTEpp" type="password"><label class="label">短信验证码</label>
+                                                <at-input v-model="messageCode"  :status="messageCodeType" :icon="''">
+                                                    <template slot="append">
                                                             <span v-if="!messageCodeIsSend" @click="sendMessageCode" style="width: 80px;cursor: pointer;text-align: center">
                                                                 获取短信验证码
                                                             </span>
-                                                            <span v-else style="width: 80px;cursor: pointer;text-align: center">
+                                                        <span v-else style="width: 80px;cursor: pointer;text-align: center">
                                                                 {{reSendMessageText}}
                                                             </span>
-                                                        </template>
-                                                    </at-input>
+                                                    </template>
+                                                </at-input>
 
-                                                    <div  :class="{'errorTips':messageCodeType === 'error' , 'successTips':messageCodeType === 'success'}" >{{messageCodeTip}}</div>
-                                                </div>
-
-                                                <button class="sm-button submit sc-1n784rm-0 bcuuIb" type="button" @click="doRegist">立即注册</button>
+                                                <div  :class="{'errorTips':messageCodeType === 'error' , 'successTips':messageCodeType === 'success'}" >{{messageCodeTip}}</div>
                                             </div>
-                                        </form>
-                                    </div>
+
+                                            <button class="sm-button submit sc-1n784rm-0 bcuuIb" type="button" @click="doRegist">立即注册</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="ToastsContainer_ShimoUI">
-                <div class="Toastify"></div>
-            </div>
         </div>
+
     </div>
-    <div id="feedback-root"></div>
-    <div id="blockbyte-bs-indicator" style="width: 8px; height: 27%; top: 0%;"></div>
-    </div>
+
 </template>
 
 <script>
@@ -270,7 +265,6 @@
                     let url = "/api/regist/sendCode?memPhone=" + this.phone
                     const that = this
                     axios.get(url).then(function (res) {
-                        console.log(res.data)
                         if (res.data.code === 100){
                             that.messageCodeIsSend = true
                             let time = 60
@@ -283,7 +277,7 @@
                                 }
                             },1000)
                         }else{
-
+                            that.$Message.error("验证码发送失败，请重新点击发送！")
                         }
                     })
 
@@ -297,14 +291,15 @@
                 if (that.messageCode.length >= 6) {
                     return axios.get(url).then(function (res) {
                         if (res.data.code === 100) {
-
                             that.messageCodeType = "success"
                             that.messageCodeTip = "短信验证码匹配成功！"
                             return true
-                        } else {
+                        } else if (res.data.code === 60000){
+                            that.messageCodeType = "error"
+                            that.messageCodeTip = "短信验证码已过期，请重新发送！"
+                        }else {
                             that.messageCodeType = "error"
                             that.messageCodeTip = "短信验证码匹配失败！"
-
                         }
                     })
                 }else{

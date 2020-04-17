@@ -7,8 +7,8 @@
             </el-breadcrumb>
         </header>
         <!--内容页-->
-        <div class="wrapper-md" id="outer-box">
-            <div id="panel">
+        <div class="wrapper-md pet-manage-content" >
+            <div>
                 <div id="intro">
                     <el-col id="filterArea">
                         <span>筛选：</span>

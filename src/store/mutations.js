@@ -31,6 +31,12 @@ export default {
     changeAdminLoginType(state,type){
 
         state.adminLoginType = type
+    },
+    changeHotTags(state, hotTags)  {
+        state.hotTags = hotTags
+    },
+    changeHotTagChoice(state, hotTagChoice) {
+        state.hotTagChoice = hotTagChoice
     }
 
 }

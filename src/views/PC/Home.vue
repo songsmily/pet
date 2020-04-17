@@ -1,17 +1,100 @@
 <template>
-    <div class="col center-part">
-        <header class="bg-light lter wrapper-md">
-            <h1 class="m-n font-thin text-black l-h">宠物之家</h1>
-            <small class="text-muted letterspacing indexWords"></small>
+
+    <div class="col center-part wrap_content_user">
+        <header class="bg-light   wrapper-md blog_choice">
+            <el-row>
+                <el-col :span="24" :xs="24">
+                    <el-tabs v-model="activeType" @tab-click="handleChangeType">
+                        <el-tab-pane name="1">
+                            <span slot="label" style="font-size: 14px"><i class="el-icon-share"></i> 分享</span>
+                        </el-tab-pane>
+                        <el-tab-pane name="2">
+                            <span slot="label" style="font-size: 14px"><i class="el-icon-question"></i> 提问</span>
+                        </el-tab-pane>
+
+                        <el-tab-pane name="-1">
+                            <span slot="label" style="font-size: 14px"><i class="el-icon-discover"></i> 我的分享</span>
+                        </el-tab-pane>
+                        <el-tab-pane name="-2">
+                            <span slot="label" style="font-size: 14px"><i class="el-icon-discover"></i> 我的收藏</span>
+                        </el-tab-pane>
+                    </el-tabs>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col style="text-align: right">
+                    <el-button size="medium" round icon="el-icon-edit" @click="$router.push('/user/blog/add')"> 发表新帖
+                    </el-button>
+
+                </el-col>
+            </el-row>
+
         </header>
         <!--内容页-->
-        <div class="wrapper-md" id="outer-box">
-            <div id="panel">
-                <div id="intro">
-                    <h3>render(data)</h3>
-                </div>
-                <ul id="my-list"></ul>
+        <div class="wrap_content_user" id="post-panel">
+
+
+            <div class="blog-post" id="blog-all-content">
+                <template v-if="blogInfos.length < 1">
+                    <a-empty description="暂无数据"
+                            image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                            :imageStyle="{height: '150px'}"
+                    ></a-empty>
+                </template>
+                <template v-else>
+                    <div class="post-meta wrapper-lg" v-for="(item , i ) in blogInfos ">
+                        <div class="item-meta-ico bg-ico-code">
+                            <img :src="item.avatarUrl" alt="">
+                        </div>
+                        <!--标题-->
+
+                        <h3 class="m-t-none text-ellipsis index-post-title" @click="detailBlog(item.blogId)">
+                            <a-tag v-if="item.blogType === 1" color="green">分享</a-tag>
+                            <a-tag v-if="item.blogType === 2" color="orange">提问</a-tag>
+                            <a>{{item.blogTitle}}</a>
+                        </h3>
+                        <p class="summary l-h-2x text-muted blog_info">
+                            <!-- 标签 -->
+                            <a-tag color="blue" v-for="(tagItem , i ) in item.blogTag ">{{tagItem.tagName}}</a-tag>
+
+                            <!--用户名-->
+                            <i class="fontello fontello-user text-muted"></i>
+                            <span class="m-r-sm">&nbsp;<a>{{item.name}}&nbsp;</a></span>
+                            <!--创建时间-->
+                            <i class="fontello fontello-clock-o text-muted"></i>
+                            <span class="m-r-sm">&nbsp;{{$util.formatTime(item.createdTime, null)}}</span>
+                            <a-divider type="vertical" />
+                            <!--评论数-->
+                            <a class="m-l-sm post-item-comment">
+                                <i class="iconfont icon-comments-o text-muted"></i>&nbsp;{{item.blogComment}}
+                            </a>
+                            <a-divider type="vertical" />
+                            <!--点赞数-->
+                            <a class="m-l-sm post-item-comment">
+                                <a-icon type="like"></a-icon>&nbsp;{{item.blogGoods}}
+                            </a>
+                            <a-divider type="vertical" />
+                            <!--收藏数-->
+                            <a class="m-l-sm post-item-comment">
+                                <i class="el-icon-star-off"></i>&nbsp;{{item.blogCollect}}
+                            </a>
+                        </p>
+                        <div class="line line-lg b-b b-light"></div>
+                    </div>
+                    <div style="text-align: center;margin-top: 10px;margin-bottom: 10px;">
+                        <el-pagination
+                                background
+                                layout="total,prev, pager, next"
+                                :total="pageInfo.total"
+                                :page-size="pageInfo.pageSize"
+                                @current-change="changePage">
+                        </el-pagination>
+                    </div>
+                </template>
+
             </div>
+
+
         </div>
 
     </div>
@@ -20,19 +103,98 @@
 
 <script>
     import {TMap} from '@/api/parking'
-    import AMap from 'AMap' // 引入高德地图
+    // import AMap from 'AMap' // 引入高德地图
+    import {Divider, Breadcrumb, BreadcrumbItem, TabPane, Tabs, Col, Row, Button,Pagination} from "element-ui"
+    import {Icon as AIcon,Divider as ADivider,Tag as ATag, Empty as AEmpty} from "ant-design-vue"
+    import service from "network/axios"
+
+
     export default {
         name: "Home",
-        components: {},
+        components: {
+            ElDivider: Divider,
+            ElBreadcrumb: Breadcrumb,
+            ElBreadcrumbItem: BreadcrumbItem,
+            ElTabs: Tabs,
+            ElTabPane: TabPane,
+            ElCol: Col,
+            ElRow: Row,
+            ElButton: Button,
+            ElPagination:Pagination,
+            AIcon,
+            ADivider,
+            ATag,
+            AEmpty
+
+
+        },
+        data() {
+            return {
+                activeType: "1",
+                pageInfo: {
+                    pageSize: 5,
+                    currentPage: 1,
+                    total: 0
+                },
+                blogInfos:[]
+            }
+        },
         mounted() {
-            // this.$store.dispatch("test");
-            // this.test()
+            this.$Loading.start()
+            this.getBlogInfoPage()
         },
         methods: {
+            getBlogInfoPage: function () {
+                const that = this
+                let data = {
+                    "activeType": parseInt(that.activeType),
+                    "pageSize": that.pageInfo.pageSize,
+                    "currentPage": that.pageInfo.currentPage
+                }
+                const url = "/api/blBlog/getBlogInType?activeType=" + that.activeType + "&pageSize=" + that.pageInfo.pageSize + "currentPage=" + that.pageInfo.currentPage
+                console.log(data)
+                service({
+                    method: "get",
+                    params: data,
+                    url: "/api/blBlog/getBlogInType"
+                }).then(res => {
+                    if(res.data.code === 100){
+                        that.blogInfos = res.data.data.records
+                        that.$Loading.finish()
+                        that.pageInfo.total = res.data.data.total
+                    }
+                })
+            },
+            changePage:function(currentPage){
+                this.pageInfo.currentPage =  currentPage
+                this.$Loading.start()
+                this.getBlogInfoPage()
+            },
+            handleChangeType: function (tab, event) {
+                if(tab.name === "-1"){
+                    this.$router.push("/user/blog/myBlog")
+                } else if (tab.name === "-2") {
+                    this.$router.push("/user/blog/myCollection")
+                }
+                this.activeType = tab.name;
+                if (tab.name > 0){
+                    this.pageInfo.currentPage = 1;
+                }
+                this.$Loading.start()
+                this.getBlogInfoPage()
+            },
+            detailBlog:function(blogId){
+                this.$router.push({
+                    path: "/user/blog/detail/" + blogId
+                })
+            },
             test: function () {
+                // <div id="mapContainer"></div>
+                //
+                //         <ul id="my-list"></ul>
                 //创建地图
-                var map = new AMap.Map('container', {
-                    zoom: 9
+                var map = new AMap.Map('mapContainer', {
+                    zoom: 1
                 })
 
                 AMapUI.loadUI(['misc/MarkerList'], function (MarkerList) {
@@ -160,7 +322,7 @@
                 })
                 // TMap().then(qq => {
                 //     var center = new qq.maps.LatLng(39.916527,116.397128);
-                //     var map = new qq.maps.Map(document.getElementById('container'),{
+                //     var map = new qq.maps.Map(document.getElementById('mapContainer'),{
                 //         center: center,
                 //         zoom: 13
                 //     });
@@ -192,9 +354,14 @@
         margin: 0px;
     }
 
+    #mapContainer {
+        width: 800px;
+        height: 800px;
+    }
+
     #outer-box {
+        margin-top: 20px;
         height: 100%;
-        padding-right: 280px;
     }
 
     #container {
@@ -251,5 +418,27 @@
     #panel dl {
         margin: 7px 0;
     }
+
+    .wrapper-lg {
+        padding: 15px 20px 15px 20px;
+    }
+
+    .line {
+        margin: 14px 0;
+    }
+
+    .blog_info {
+        font-size: 12px;
+    }
+
+    .blog_choice {
+        padding: 10px 20px 10px 20px;
+        background-color: #f9f9f9;
+    }
+    #blog-all-content{
+        background-color: white;
+        height: 100vh;
+    }
+
 
 </style>

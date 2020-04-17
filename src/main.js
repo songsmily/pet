@@ -6,13 +6,14 @@ import store from "./store"
 import layer from 'vue-layer'
 import util from "./utils/util"
 import adminUtil from "./utils/adminUtil"
-import { Button, Select ,Dialog,Message,MessageBox} from 'element-ui';
+import { Button, Select ,Dialog,Message,MessageBox,Alert} from 'element-ui';
 import { Modal,Tabs,LoadingBar,Notification} from "at-ui";
 Vue.use(Dialog,Tabs,Modal)
 Vue.prototype.$layer = layer(Vue);
 Vue.prototype.$Loading = LoadingBar
 Vue.prototype.$Message = Message
 Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$Alert = MessageBox;
 Vue.prototype.$Notify= Notification
 Vue.prototype.$axios = axios
 Vue.prototype.$util =  util

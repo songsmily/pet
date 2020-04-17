@@ -27,5 +27,16 @@ module.exports = {
             'AMap': 'AMap' // 高德地图配置
         }
     },
+    css: {
+        loaderOptions: {
+            less: {
+                modifyVars: {
+                    'link-color': 'rgba(0,0,0,0.65)',
+                    'border-radius-base': '2px',
+                },
+                javascriptEnabled: true,
+            },
+        },
+    },
 
 }

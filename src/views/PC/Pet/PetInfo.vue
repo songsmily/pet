@@ -25,7 +25,8 @@
                                 </div>
                             </div>
                             <div class="extra content">
-                                <at-tag  v-if="item.petStatus == 0" class="right"   color="primary">审核中</at-tag>
+                                <at-tag v-if="item.isCancel== 1" class="right" color="error" >已注销</at-tag>
+                                <at-tag  v-else-if="item.petStatus == 0" class="right"   color="primary">审核中</at-tag>
                                 <at-tag  v-else-if="item.petStatus == 1" class="right"   color="success">审核通过</at-tag>
                                 <at-tag  v-else-if="item.petStatus == -1" class="right"   color="warning">审核失败</at-tag>
                                 <span>
@@ -47,6 +48,7 @@
     import moment from 'moment'
     import {Tag} from "at-ui"
     import service from "network/axios"
+
     export default {
         name: "PetInfo",
         components:{

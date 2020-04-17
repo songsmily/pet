@@ -73,7 +73,6 @@
 <!--<==        Row: 59, 啮齿类, 兔类, 荷兰兔-->
 
 <script>
-    import { Input as AtInput } from 'at-ui'
     import {Breadcrumb, BreadcrumbItem, Form, FormItem,Input,Button} from "element-ui"
     import axios from "axios"
     export default {

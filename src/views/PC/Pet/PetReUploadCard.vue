@@ -14,7 +14,7 @@
                           title="审核未通过"
                           type="error"
                           :closable="false"
-                          :description="petInfo.petCards.falseRes"
+                          :description="petInfo.petCard.falseRes"
                           show-icon>
                 </el-alert>
             </div>
@@ -30,7 +30,7 @@
 
                 <el-input :class="{'errorType':cardNumberType}" size="large" class="timePick " @change="checkCardNumber"
                           @blur="checkCardNumber"
-                          v-model="petInfo.petCards.cardNumber"
+                          v-model="petInfo.petCard.cardNumber"
                           placeholder="请输入免疫证书编号"
                 >
                 </el-input>
@@ -41,7 +41,7 @@
                 <span class="labelVal">疫苗标签：<i>请将免疫证书内页中该支疫苗的标签信息完整拍摄并上传，仅支持JPG、PNG、GIF格式，文件小于2M</i></span>
                 <div class="img_container">
                     <div>
-                        <img :src="petInfo.petCards.cardImageUrl" alt="">
+                        <img :src="petInfo.petCard.cardImageUrl" alt="">
                     </div>
                     <span class="img_cover" @click="choiceImg">
                         <span class="upload_icon">
@@ -125,7 +125,7 @@
                     petImageUrl: "",
                     petDesc: "",
                     petStatus: "",
-                    petCards:{
+                    petCard:{
                         petCardId: "",
                         petId: "",
                         cardNumber: "",
@@ -183,7 +183,7 @@
                     service({
                         "method": "post",
                         "url": url,
-                        "data": that.petInfo.petCards
+                        "data": that.petInfo.petCard
                     }).then(res => {
                         resolve(res.data.code === 100)
                     })
@@ -199,7 +199,7 @@
 
             },
             checkCardNumber: function () {
-                if (this.petInfo.petCards.cardNumber === undefined || this.petInfo.petCards.cardNumber.length === 0) {
+                if (this.petInfo.petCard.cardNumber === undefined || this.petInfo.petCard.cardNumber.length === 0) {
                     this.cardNumberType = true
                     this.cardNumberNotice = "请输入免疫证书编号！"
                     return false
@@ -210,7 +210,7 @@
                 }
             },
             cardImageUrl: function () {
-                if (this.petInfo.petCards.cardImageUrl === undefined || this.petInfo.petCards.cardImageUrl.length === 0) {
+                if (this.petInfo.petCard.cardImageUrl === undefined || this.petInfo.petCard.cardImageUrl.length === 0) {
                     this.cardImageUrlType = true
                     this.cardImageUrlNotice = "请上传疫苗标签图片！"
                     return false
@@ -264,7 +264,7 @@
                 let fileReader = new FileReader()
                 fileReader.readAsDataURL(inputFile)
                 fileReader.onload = function () {
-                    that.petInfo.petCards.cardImageUrl = this.result
+                    that.petInfo.petCard.cardImageUrl = this.result
                 }
 
             },

@@ -22,23 +22,23 @@
 
                     <el-row style="margin-top: 10px">
                         免疫证书编号：
-                        <router-link :to="{path:'/user/pet/uploadCard',query:{petId:item.petId}}"  v-if="item.petCards == null"><el-button size="mini" type="warning">上传免疫证书</el-button></router-link>
-                        <el-tag :underline="false" size="mini" type="success" v-else-if="item.petCards.cardStatus === 1"> {{item.petCards.cardNumber}}</el-tag>
-                        <el-tag :underline="false" size="mini" type="success" v-else-if="item.petCards.cardStatus === 0"> 已上传，等待管理员审核</el-tag>
-<!--                        <router-link :to="{path:'/user/pet/reUploadCard',query:{petId:item.petId,petCardId:item.petCards.petCardId}}"  v-else-if="item.petCards.cardStatus === 2"><el-tag size="mini" type="danger">审核失败，点击查看详情</el-tag></router-link>-->
-                        <el-button  @click="toReuploadCard(item)"  v-else-if="item.petCards.cardStatus === 2" size="mini" type="danger">审核失败，点击查看详情</el-button>
+                        <router-link :to="{path:'/user/pet/uploadCard',query:{petId:item.petId}}"  v-if="item.petCard == null"><el-button size="mini" type="warning">上传免疫证书</el-button></router-link>
+                        <el-tag :underline="false" size="mini" type="success" v-else-if="item.petCard.cardStatus === 1"> {{item.petCard.cardNumber}}</el-tag>
+                        <el-tag :underline="false" size="mini" type="success" v-else-if="item.petCard.cardStatus === 0"> 已上传，等待管理员审核</el-tag>
+<!--                        <router-link :to="{path:'/user/pet/reUploadCard',query:{petId:item.petId,petCardId:item.petCard.petCardId}}"  v-else-if="item.petCard.cardStatus === 2"><el-tag size="mini" type="danger">审核失败，点击查看详情</el-tag></router-link>-->
+                        <el-button  @click="toReuploadCard(item)"  v-else-if="item.petCard.cardStatus === 2" size="mini" type="danger">审核失败，点击查看详情</el-button>
 
                     </el-row>
                     <el-divider>
-                        <span style="font-size: 4px;color: #909399;">宠物免疫信息</span>
+                        <span style="color: #909399;">宠物免疫信息</span>
                     </el-divider>
                     <el-row>
                         <div style="font-size: 15px;text-align: center">
-                            <el-tag v-if="item.petCards == null || item.petCards.cardStatus === 0 || item.petCards.cardStatus === 2"  type="warning" size="mini">未上传免疫证书或审核未通过，暂无宠物免疫信息！</el-tag>
-                            <template v-if="item.petCards!= null && item.petCards.cardStatus === 1">
+                            <el-tag v-if="item.petCard == null || item.petCard.cardStatus === 0 || item.petCard.cardStatus === 2"  type="warning" size="mini">未上传免疫证书或审核未通过，暂无宠物免疫信息！</el-tag>
+                            <template v-if="item.petCard!= null && item.petCard.cardStatus === 1">
 
                                 <el-table
-                                        :data="item.petCards.petImmunities"
+                                        :data="item.petCard.petImmunities"
                                         border
                                         stripe>
                                     <el-table-column
@@ -75,13 +75,13 @@
                                     <el-table-column
                                             label="操作">
                                         <template slot-scope="scope">
-                                            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                                            <el-button type="text" size="small">编辑</el-button>
+                                            <el-button  @click="handleDetailImmunity(scope.row)" type="text" >查看</el-button>
+                                            <el-button  v-if="scope.row.immunityStatus  !== 1" @click="handleUpdateImmunity(scope.row)" type="text" >编辑</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
                                 <el-col  class="addImmunityButton" >
-                                      <router-link  :to="{path:'/user/pet/uploadImmunity',query: {'petCardId':item.petCards.petCardId,'petId':item.petId}}"><el-button size="mini" icon="el-icon-plus" type="info">新增免疫信息</el-button></router-link>
+                                      <router-link  :to="{path:'/user/pet/uploadImmunity',query: {'petCardId':item.petCard.petCardId,'petId':item.petId}}"><el-button size="mini" icon="el-icon-plus" type="info">新增免疫信息</el-button></router-link>
                                 </el-col>
                             </template>
                         </div>
@@ -139,7 +139,7 @@
                     petImageUrl: "",
                     petDesc: "",
                     petStatus: "",
-                    petCards:{
+                    petCard:{
                         petCardId: "",
                         petId: "",
                         cardNumber: "",
@@ -162,6 +162,7 @@
         },
         created() {
             sessionStorage.removeItem("reUploadCardInfo")
+            sessionStorage.removeItem("petDetailImmunity")
             this.$Loading.start()
         },
         mounted() {
@@ -193,7 +194,6 @@
                 service.get(url).then(function (res) {
                     that.petInfo = Array.from(res.data.data)
                     that.$Loading.finish()
-
                 })
             },
             toReuploadCard:function (item) {
@@ -207,8 +207,13 @@
                 return this.reverseTime(row.gmtCreate)
 
             },
-            handleClick(row) {
-                console.log(row);
+            handleDetailImmunity(row) {
+                sessionStorage.setItem("petDetailImmunity",JSON.stringify(row))
+                this.$router.push("/user/pet/detailImmunity")
+            },
+            handleUpdateImmunity(row) {
+                sessionStorage.setItem("petDetailImmunity",JSON.stringify(row))
+                this.$router.push("/user/pet/updateImmunity")
             }
 
 

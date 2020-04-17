@@ -31,8 +31,12 @@
                             </span>
                             </div>
                             <div class="message_bottom">
-                            <span class="message_content">
+                            <span v-if="item.type!==12" class="message_content">
+
                                 {{reverseContent(item.type)}}
+                            </span>
+                            <span v-else class="message_content">
+                                {{item.noticeDesc}}
                             </span>
                             </div>
                             <div class="message_do">
@@ -178,6 +182,14 @@
                             return "宠物免疫证书信息已审核通过！"
                         case 4:
                             return "宠物免疫证书信息审核失败！"
+                        case 5:
+                            return "宠物免疫信息审核通过！"
+                        case 6:
+                            return "宠物免疫信息审核失败！"
+                        case 11:
+                            return "请及时上传免疫证书！"
+                        case 12:
+                            return "请及时上传疫苗信息！"
                     }
                 }
             },
@@ -196,7 +208,13 @@
                         case 3:
                             return "您提交的宠物免疫证书信息已审核通过！"
                         case 4:
-                            return "您提交的宠物免疫证书审核通过，请前往【宠物管理 -> 宠物防疫管理】查看详细信息！"
+                            return "您提交的宠物免疫证书未审核通过，请前往【宠物管理 -> 宠物防疫管理】查看详细信息！"
+                        case 5:
+                            return "您提交的宠物免疫信息已审核通过！"
+                        case 6:
+                            return "您提交的宠物免疫信息未审核通过，请前往【宠物管理 -> 宠物防疫管理】查看详细信息！"
+                        case 11:
+                            return "您饲养的宠物还未上传免疫证书，请及时前往【宠物管理 -> 宠物防疫管理】提交信息！"
                     }
                 }
             }

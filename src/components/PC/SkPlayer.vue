@@ -10,10 +10,10 @@
                 <div @click="prevMusic" class="lastMusic  music-off "><i class="fontello fontello-angle-double-left"></i>
                 </div>
                 <div v-if="!playFlag" class="runMusic music-off skPlayer-play-btn" @click="runMusic(false)">
-                    <i class="fontello fontello-play-circle-o runMusicIcon"></i>
+                    <i class="fontello el-icon-video-play runMusicIcon"></i>
                 </div>
                 <div v-else class="runMusic music-off skPlayer-play-btn skPlayer-pause " @click="runMusic(false)">
-                    <i class="fontello fontello-pause-circle-o runMusicIcon"></i>
+                    <i class="fontello el-icon-video-pause runMusicIcon"></i>
                 </div>
                 <div @click="nextMusic" class="nextMusic  music-off "><i class="fontello fontello-angle-double-right"></i>
                 </div>

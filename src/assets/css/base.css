@@ -1,3 +1,4 @@
+
 /*@import "~assets/semantic-ui/semantic.css";*/
 @import "~assets/css/normalize.css";
 @import "~assets/libs/bootstrap/css/bootstrap.min.css";
@@ -9,10 +10,17 @@ header{
     margin-top: 10px;
 }
 #post-panel {
-    height: 900px;
+    height: 90vh;
     overflow: scroll;
     margin-top: 10px;
     z-index: -9999;
+}
+.pet-manage-content{
+    height: 90vh;
+    overflow: scroll;
+    margin-top: 10px;
+    z-index: -9999;
+    background: #f1f3f4;
 }
 .wrap_content{
     height: 1000px;
@@ -51,7 +59,6 @@ header{
     transform: translateY(-3px)
 }
 .grid-content > .content{
-    border-top: 1px solid rgba(34,36,38,.1);
     background: 0 0;
     margin: 0;
     padding: 1em 1em;
@@ -74,4 +81,9 @@ header{
     font-size: 1.28571429em;
     margin-top: -.21425em;
     line-height: 1.28571429em;
+}
+a{
+    color:rgba(0, 0, 0, 0.65);
+}
+.wrap_content_user{
 }

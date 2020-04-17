@@ -4,20 +4,20 @@
         <nav-bar></nav-bar>
         <div id="content" class="app-content">
             <a class="off-screen-toggle hide"></a>
-            <main class="app-content-body ">
+            <main class="app-content-body " style="height: 100vh">
                 <div class="hbox hbox-auto-xs hbox-auto-sm">
                     <router-view></router-view>
                     <!--首页右侧栏-->
-                    <right-aside-bar></right-aside-bar>
+<!--                    <right-aside-bar></right-aside-bar>-->
                 </div>
             </main>
         </div>
 
-        <el-dialog  v-if="!this.$store.state.isMobile" width="30%" title="账户密码修改" :visible.sync="$store.state.isShowUserSecret">
-            <user-secret></user-secret>
+        <el-dialog  v-if="!this.$store.state.isMobile" width="30%" title="账户密码修改" :visible.sync="$store.state.isShowAdminSecret">
+            <admin-secret></admin-secret>
         </el-dialog>
-        <el-dialog v-else  width="100%" title="账户密码设置" :visible.sync="$store.state.isShowUserSecret">
-            <user-secret></user-secret>
+        <el-dialog v-else  width="100%" title="账户密码设置" :visible.sync="$store.state.isShowAdminSecret">
+            <admin-secret></admin-secret>
         </el-dialog>
 
 
@@ -35,6 +35,7 @@
     import RightAsideBar from "components/PC/Admin/AdminRightAsideBar"
     import HeaderBar from "components/PC/Admin/AdminHeader"
     import NavBar from "components/PC/Admin/AdminNavBar"
+    import AdminSecret from "./AdminSecret"
 
     export default {
         name: 'AdminUser',
@@ -42,7 +43,8 @@
             HeaderBar,
             NavBar,
             UserSecret,
-            RightAsideBar
+            RightAsideBar,
+            AdminSecret,
         },
         data() {
             return {

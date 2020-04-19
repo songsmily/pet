@@ -1271,7 +1271,48 @@ html.bg {
         max-width: 970px
     }
 }
+@media (min-width: 1000px) {
+    .app.container {
+        width: 1000px
+    }
 
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 1000px
+    }
+
+    .app.container .app-footer-fixed {
+        max-width: 970px
+    }
+
+    .app.container.app-aside-folded .app-footer-fixed {
+        max-width: 1110px
+    }
+
+    .app.container.app-aside-dock .app-footer-fixed {
+        max-width: 1300px
+    }
+}
+@media (min-width: 1300px) {
+    .app.container {
+        width: 1300px
+    }
+
+    .app.container .app-aside, .app.container .app-header {
+        max-width: 1300px
+    }
+
+    .app.container .app-footer-fixed {
+        max-width: 970px
+    }
+
+    .app.container.app-aside-folded .app-footer-fixed {
+        max-width: 1110px
+    }
+
+    .app.container.app-aside-dock .app-footer-fixed {
+        max-width: 1300px
+    }
+}
 @media (min-width: 1500px) {
     .app.container {
         width: 1500px

@@ -171,7 +171,6 @@
                         this.doUpload()
                     })
                 }
-
             },
             doUpload: function () {
                 this.$Message.warning("信息上传中！")

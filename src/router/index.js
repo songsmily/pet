@@ -50,12 +50,27 @@ import UserList from "../views/PC/Admin/SystemAdmin/UserList"
 import CommunityAdminList from "../views/PC/Admin/SystemAdmin/CommunityAdminList"
 import PetAdminList from "../views/PC/Admin/SystemAdmin/PetAdminList"
 import LogList from "../views/PC/Admin/SystemAdmin/LogList"
+import CompleteInfo from "../views/PC/User/CompleteInfo"
+import axios from "axios"
 const Home = ()=> import("views/PC/Home")
 const UserManage = ()=> import("views/PC/User/UserManage")
 const PetInfo = ()=> import("views/PC/Pet/PetInfo")
 
 const UploadInfo = ()=> import("views/PC/Pet/UploadInfo")
 const PetDetail = ()=> import("views/PC/Pet/PetDetail")
+import store from "../store"
+import CompleteInfoAuth from "../views/PC/User/CompleteInfoAuth"
+import PetHome from "../views/PC/Admin/PetAdmin/PetHome"
+import MobileUser from "../views/Mobile/MobileUser"
+import MobileHome from "../views/Mobile/MobileHome"
+import MobilePetUploadInfo from "../views/Mobile/Pet/MobilePetUploadInfo"
+import MobilePetInfo from "../views/Mobile/Pet/MobilePetInfo"
+import MobilePetInfoDetail from "../views/Mobile/Pet/MobilePetInfoDetail"
+import MobilePetReUploadInfo from "../views/Mobile/Pet/MobilePetReUploadInfo"
+import MobilePetPrevention from "../views/Mobile/Pet/MobilePetPrevention"
+import MobilePetImmunityInfo from "../views/Mobile/Pet/MobilePetImmunityInfo"
+import MobilePetCardUpload from "../views/Mobile/Pet/MobilePetCardUpload"
+import MobilePetCardReUpload from "../views/Mobile/Pet/MobilePetCardReUpload"
 Vue.use(VueRouter)
 
 const routes = [
@@ -92,7 +107,105 @@ const routes = [
             tittle:"出错啦"
         }
     },
-
+    {
+        path:"/completeInfo",
+        component:CompleteInfo,
+        meta:{
+            tittle:"完善用户信息"
+        }
+    },
+    {
+        path:"/completeInfoAuth",
+        component:CompleteInfoAuth,
+        meta:{
+            tittle:"完善用户信息"
+        }
+    },
+    /**
+     * 用户移动端路由
+     */
+    {
+        path:"/mobile/user",
+        component:MobileUser,
+        meta:{
+            tittle:"主页"
+        },
+        children:[
+            {
+                path:"home",
+                component:MobileHome,
+                meta:{
+                    tittle: "社区",
+                    navBarIndex:0
+                },
+            },
+            {
+                path: "pet/upload",
+                component:MobilePetUploadInfo,
+                meta:{
+                    tittle: "新增宠物",
+                    navBarIndex:2
+                },
+            },
+            {
+                path: "pet/petInfo",
+                component:MobilePetInfo,
+                meta:{
+                    tittle: "宠物信息管理",
+                    navBarIndex:2
+                },
+            },
+            {
+                path: "pet/detail",
+                component:MobilePetInfoDetail,
+                meta:{
+                    tittle: "宠物详细信息",
+                    navBarIndex:2
+                },
+            },
+            {
+                path: "pet/reUpload",
+                component:MobilePetReUploadInfo,
+                meta:{
+                    tittle: "修改宠物信息",
+                    navBarIndex:2
+                },
+            },
+            {
+                path: "pet/petPrevention",
+                component:MobilePetPrevention,
+                meta:{
+                    tittle: "宠物防疫管理",
+                    navBarIndex:2
+                },
+            }
+        ]
+    },
+    {
+        path: "/mobile/user/pet/petImmunity",
+        component:MobilePetImmunityInfo,
+        meta:{
+            tittle: "宠物免疫信息",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/pet/uploadCard",
+        component:MobilePetCardUpload,
+        meta:{
+            tittle: "上传免疫证书",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/pet/reUploadCard",
+        component:MobilePetCardReUpload,
+        meta:{
+            tittle: "修改免疫证书",
+            navBarIndex: -1
+        },
+    }
+    ,
     /**
      * 系统管理员路由
      */
@@ -240,7 +353,7 @@ const routes = [
             },
             {
                 path:"home",
-                component:AdminHome,
+                component:PetHome,
                 meta:{
                     tittle:"管理员首页",
                     navBarIndex:"1"
@@ -520,30 +633,103 @@ const routes = [
 
 ]
 // const unAuthRoute = ["/user/manage","/pet/upload","/pet/petinfo/detail","/pet/petinfo","/admin/home"]
-const unAuthRoute = ["/login"]
+const unAuthRoute = ["/login","/regist","/error","/404"]
 const router = new VueRouter({
     routes,
     mode: 'history'
 })
 router.beforeEach((to,from,next) => {
+
+
     if (to.matched.length === 0) {    //如果未匹配到路由
-        from.name ? next({ name:from.name }) : next('/404');
+        // from.name ? next({ name:from.name }) : next('/404');
     }
+
+
+
+
     sessionStorage.setItem("navBarIndex",to.meta.navBarIndex)
     if (!unAuthRoute.includes(to.path)){
         if (to.path.indexOf("/admin") !== -1){
             if (!sessionStorage.getItem("adminUserInfo")){
                 adminUtil.getUserInfo(this);
             }
+            document.title = to.meta.tittle
+            next()
         }else{
-            if (!sessionStorage.getItem("userInfo")){
-                util.getUserInfo(this)
+
+            //判断是否是移动端访问
+            let isMobile = sessionStorage.getItem('isMobile');
+
+            if(isMobile == null){
+                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+
+                isMobile = flag ? 1 : 0
+                sessionStorage.setItem("isMobile", isMobile)
             }
+
+            if (parseInt(isMobile) === 1) {
+                if (to.path.indexOf("mobile") === -1) {
+                    next('/mobile/user/home');
+                }
+            }
+
+            //普通用户判断
+            if (!sessionStorage.getItem("userInfo")){
+                const that = this
+                axios.get("/api/user/returnUserInfo").then(function (res) {
+                    if (res.data.data) {
+                        sessionStorage.setItem('userInfo', JSON.stringify(res.data.data))
+                        store.commit("changeUserInfo", util.returnUserInfo())
+                        store.commit("changeLoginType", true)
+                        let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+                        if(to.path.indexOf("/completeInfo") === -1) {
+                            if (userInfo.accountType === 0){
+                                if (userInfo.realName == null || userInfo.address === null || userInfo.phone == null || userInfo.location == null || userInfo.email == null) {
+                                    router.replace("/completeInfo")
+                                }
+                            } else {
+                                if( userInfo.phone == null || userInfo.realName == null || userInfo.username == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
+                                    router.replace("/completeInfoAuth")
+                                }
+                            }
+
+                        }
+                        document.title = to.meta.tittle
+                        next()
+
+                    } else  {
+
+                        router.replace("/login")
+
+                    }
+                })
+            } else  {
+
+                let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+                if(to.path.indexOf("/completeInfo") === -1) {
+                    if (userInfo.accountType === 0){
+                        if( userInfo.phone == null || userInfo.realName == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
+                            router.replace("/completeInfo")
+                        }
+                    } else {
+                        if( userInfo.phone == null || userInfo.realName == null || userInfo.name == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
+                            router.replace("/completeInfoAuth")
+                        }
+
+                    }
+
+                }
+                document.title = to.meta.tittle
+                next()
+            }
+
         }
 
+    } else {
+        document.title = to.meta.tittle
+        next()
     }
 
-    document.title = to.meta.tittle
-    next()
 })
 export default router

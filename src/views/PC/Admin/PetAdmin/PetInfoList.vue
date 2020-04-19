@@ -210,7 +210,7 @@
             PetAllInfoDetail,
             ElSelect: Select,
             ElOption: Option,
-            ElLink:Link
+            ElLink:Link,
         },
         data() {
             return {

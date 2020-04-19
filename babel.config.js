@@ -8,21 +8,33 @@ module.exports = {
             {
                 "libraryName": "element-ui",
                 "styleLibraryName": "theme-chalk"
-            },"element-ui"
+            }, "element-ui"
         ],
-
         [
             "import",
-          {
-            "libraryName": "at",
-            "libraryDirectory": "src/components"
-           },
+            {
+                "libraryName": "at",
+                "libraryDirectory": "src/components"
+            },
             "at-ui"
         ],
-      ['import', {
-        libraryName: 'ant-design-vue',
-        libraryDirectory: 'es',
-        style: true
-      }, 'ant-design-vue']
+        [
+            'import',
+            {
+                libraryName: 'ant-design-vue',
+                libraryDirectory: 'es',
+                style: true
+            },
+            'ant-design-vue'
+        ],
+        [
+            'import',
+            {
+                libraryName: 'vant',
+                libraryDirectory: 'es',
+                style: true
+            },
+            'vant'
+        ]
     ],
 }

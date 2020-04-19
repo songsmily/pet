@@ -205,7 +205,30 @@
                 })
             },
             deleteBlog:function (blogId) {
-                console.log(blogId)
+                const that = this
+                this.$msgbox.confirm('确认删除该帖子吗？！', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'success',
+                }).then(res => {
+                    service({
+                        method:"get",
+                        url:"/api/blBlog/deleteBlog?blogId=" + blogId,
+                    }).then(res => {
+                        if (res.data.code === 100) {
+                            that.$Message.success("删除成功！");
+                            if (that.blogInfos.length < 2) {
+                                that.pageInfo.currentPage = 1
+                            }
+                            that.$Loading.start()
+                            that.getBlogInfoPage()
+                        } else {
+                            that.$Message.success("删除失败！");
+                        }
+                    })
+                }).catch(res => {
+
+                })
             }
 
         }

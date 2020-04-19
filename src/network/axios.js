@@ -9,7 +9,7 @@ let that = this
 
 service.interceptors.response.use(
     response => {
-
+        
         var code = response.data.code;
         if (code === 50000) {
             sessionStorage.removeItem("adminUserInfo")

@@ -74,8 +74,8 @@
         mounted() {
             const _this = this;
             window.onresize = function(){ // 定义窗口大小变更通知事件
-                console.log("窗口大小变了")
-                _this.$util.isMobile(_this);
+                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+                sessionStorage.setItem('isMobile', flag ? 1 : 0)
             };
         }
     }

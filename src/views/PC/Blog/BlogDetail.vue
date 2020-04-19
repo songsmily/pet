@@ -68,8 +68,8 @@
             </template>
             <template v-else>
 
-                <div class="breadcrumb bg-white b-a" itemscope="" style="margin-top: 10px">
-                    <el-breadcrumb separator-class="el-icon-arrow-right">
+                <div class="breadcrumb bg-white b-a" itemscope="" style="margin-top: 10px;margin-bottom: 20px;padding: 0 10px;height: 40px;">
+                    <el-breadcrumb separator-class="el-icon-arrow-right" style="line-height: 40px">
                         <el-breadcrumb-item :to="'/user/home'">宠物生活</el-breadcrumb-item>
                         <el-breadcrumb-item>正文</el-breadcrumb-item>
                     </el-breadcrumb>

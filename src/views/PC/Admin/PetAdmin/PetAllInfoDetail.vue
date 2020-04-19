@@ -195,13 +195,36 @@
                                 <!--                                </el-col>-->
                             </template>
                         </div>
+                        <template v-if="petInfo.petInfo.petCard==null">
+                            <el-button  type="warning" size="mini"
+                                       @click="sendCardNotice">通过系统提示属主上传宠物免疫证书
+                            </el-button>
+                            <el-button  type="primary" size="mini"
+                                       @click="sendCardMessage">发送短信通知属主上传宠物免疫证书
+                            </el-button>
+                        </template>
 
-                        <el-button v-if="petInfo.petInfo.petCard==null" type="warning" size="mini"
-                                   @click="sendCardNotice">提示属主上传宠物免疫证书
-                        </el-button>
-                        <el-button v-if="petInfo.petInfo.petCard!=null && petInfo.petImmunityCount ===0" type="warning"
-                                   size="mini" @click="sendImmunityNotice">提示属主上传免疫信息
-                        </el-button>
+
+                        <template v-if="petInfo.petInfo.petCard!=null && petInfo.petImmunityCount ===0">
+                            <el-button  type="warning"
+                                        size="mini" @click="sendImmunityNotice">通过系统提示属主上传免疫信息
+                            </el-button>
+                            <el-button  type="primary"
+                                        size="mini" @click="sendImmunityMessage">发送短信通知属主上传免疫信息
+                            </el-button>
+                        </template >
+                        <el-dialog  append-to-body title="短信通知用户" top="1vh" width="40%" height="50%" :visible.sync="isShowImmunityMessage">
+                            <!--            <pet-review v-if="isShowDesc" :pet-id="petId"></pet-review>-->
+                            <send-immunity-message :pet-info="petInfo" ></send-immunity-message>
+                            <!--            <span slot="footer" class="dialog-footer">-->
+
+                            <!--                 <el-button slot="reference" type="danger" @click="checkFalse">审核失败</el-button>-->
+
+                            <!--                <el-button type="success" @click="checkPass">通过审核</el-button>-->
+                            <!--                <el-button type="primary" @click="isShowDesc=false">返回</el-button>-->
+                            <!--            </span>-->
+                        </el-dialog>
+
                     </template>
 
                 </div>
@@ -231,12 +254,14 @@
     Radio,
     Collapse,
     CollapseItem,
-    Alert
+    Alert,
+    Dialog
 } from "element-ui"
 
 import service from "network/axios"
 import moment from "moment"
 import adminService from "../../../../network/adminAxios"
+import SendImmunityMessage from "./SendImmunityMessage"
 
 export default {
     name: "PetAllInfoDetail",
@@ -257,11 +282,14 @@ export default {
         ElRadio: Radio,
         ElCollapse: Collapse,
         ElCollapseItem: CollapseItem,
-        ElAlert: Alert
+        ElAlert: Alert,
+        ElDialog:Dialog,
+        SendImmunityMessage
     },
     data() {
         return {
-            openCollapse: "点击展开宠物详细信息"
+            openCollapse: "点击展开宠物详细信息",
+            isShowImmunityMessage:false
         }
     },
     props: {
@@ -311,6 +339,35 @@ export default {
                 this.openCollapse = "点击展开宠物详细信息"
 
             }
+        },
+        //发送提醒用户上传免疫信息的通知
+        sendImmunityMessage:function(){
+            this.$parent.isshowDesc = false
+            this.isShowImmunityMessage = true
+        },
+        sendCardMessage:function(){
+            this.$Message({
+                message: '发送中....',
+                duration: 0
+            })
+            let data = {
+                phone: this.petInfo.userInfo.phone,
+                petName: this.petInfo.petInfo.petName
+            }
+            const that = this
+            service({
+                method: "post",
+                url: "/api/admin/petManage/sendCardMessage",
+                data: data
+            }).then(res => {
+                that.$Message.closeAll()
+                if (res.data.code === 100) {
+                    that.$Message.success("信息发送成功")
+                } else {
+                    that.$Message.error("信息发送失败，请重试")
+                }
+
+            })
         },
         sendCardNotice: function () {
             this.$Message.warning("执行操作中......")

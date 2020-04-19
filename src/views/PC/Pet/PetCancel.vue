@@ -231,7 +231,7 @@
                 this.cancelData.petNo = this.petInfo.petNo
 
                 this.$Message({
-                    message: '正在上传中......',
+                    message: '正在保存中......',
                     type:"success",
                     iconClass:"el-icon-loading"
                 });

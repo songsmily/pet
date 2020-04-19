@@ -2,7 +2,7 @@
 
 
 <div class="404" style="text-align: center;height: 100vh;color: white;background-color: black" >
-    <h1 style="padding-top: 20%;color: white;font-weight: 800;font-size: 80px">404</h1>
+    <h1 style="padding-top: 20%;color: white;font-weight: 800;font-size: 80px;margin: 0">404</h1>
     <h2 style="color: white;">您访问的页面不存在！</h2>
     <div>
         <a-button ghost style="margin: 10px" @click="returnIndex">返回首页</a-button>

@@ -5,17 +5,17 @@
             <img class="skPlayer-cover" :class="{'skPlayer-pause':playFlag}" :src="currentMusic.picUrl" alt="">
         </div>
         <div class="skPlayer-control">
-            <p class="skPlayer-name">{{currentMusic.name}}</p>
+            <p class="skPlayer-name" style="color: gainsboro">{{currentMusic.name}}</p>
             <div class="playController">
                 <div @click="prevMusic" class="lastMusic  music-off "><i class="fontello fontello-angle-double-left"></i>
                 </div>
                 <div v-if="!playFlag" class="runMusic music-off skPlayer-play-btn" @click="runMusic(false)">
-                    <i class="fontello el-icon-video-play runMusicIcon"></i>
+                    <i style="color: gainsboro"  class="fontello el-icon-video-play runMusicIcon"></i>
                 </div>
                 <div v-else class="runMusic music-off skPlayer-play-btn skPlayer-pause " @click="runMusic(false)">
-                    <i class="fontello el-icon-video-pause runMusicIcon"></i>
+                    <i style="color: gainsboro"  class="fontello el-icon-video-pause runMusicIcon"></i>
                 </div>
-                <div @click="nextMusic" class="nextMusic  music-off "><i class="fontello fontello-angle-double-right"></i>
+                <div @click="nextMusic" class="nextMusic  music-off "><i style="color: gainsboro" class="fontello fontello-angle-double-right"></i>
                 </div>
             </div>
             <p class="skPlayer-author">群星</p>

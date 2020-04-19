@@ -44,7 +44,7 @@
                                 v-model="petInfo.petBirthday"
                                 type="date"
                                 placeholder="请选择出生日期"
-                                value-format="timestamp">
+                value-format="timestamp">
                 </el-date-picker>
                 <span class="errorNotice">{{petBirthdayNotice}}</span>
 
@@ -428,6 +428,8 @@
                 })
             },
             doUpload:function(){
+                console.log(this.petInfo)
+                return false
                 this.$Message({
                     message: '正在上传中......',
                     type:"success",

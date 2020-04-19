@@ -15,20 +15,18 @@
                 centerDialogVisible: false,
             }
         },
+        created(){
+            this._isMobile()
+        },
         methods: {
+            _isMobile(){
+                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+                sessionStorage.setItem('isMobile', flag ? 1 : 0)
+                return flag;
+            },
         },
         mounted() {
-            function f() {
-                let arr = []
-                while(arr.length < 4){
-                    let i = Math.ceil( Math.random() * 20)
-                    if(!arr.includes(i)){
-                        arr.push(i)
-                    }
-                }
-                console.log(arr)
-            }
-            // f()
+
         }
     }
 

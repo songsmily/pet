@@ -60,7 +60,12 @@
         methods: {
             returnIndex:function () {
                 if (sessionStorage.getItem("userInfo")){
-                    this.$router.push("/user/home")
+                    if (parseInt(sessionStorage.getItem("isMobile")) === 1) {
+                        this.$router.push("/mobile/user/home")
+                    } else {
+                        this.$router.push("/user/home")
+
+                    }
                 } else if(sessionStorage.getItem("adminUserInfo")){
 
                     let adminUserInfo =  JSON.parse(sessionStorage.getItem("adminUserInfo"))

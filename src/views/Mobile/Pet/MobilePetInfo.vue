@@ -1,10 +1,8 @@
 <template>
     <div style="padding-bottom: 50px">
         <van-sticky>
-            <van-nav-bar title="宠物信息管理" left-text="返回" @click-left="returnBack" left-arrow>
-                <template #right>
-                    <van-icon name="search" size="18"/>
-                </template>
+            <van-nav-bar title="宠物信息管理"  >
+
             </van-nav-bar>
         </van-sticky>
         <div style="">

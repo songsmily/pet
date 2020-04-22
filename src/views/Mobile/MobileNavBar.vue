@@ -1,14 +1,16 @@
 <template>
-    <van-tabbar v-model="navBarIndex">
-        <van-tabbar-item icon="home-o">社区</van-tabbar-item>
-        <van-tabbar-item icon="smile-comment-o">资讯</van-tabbar-item>
-        <van-tabbar-item icon="setting-o" @click="petShow = true">宠物</van-tabbar-item>
-        <van-tabbar-item icon="user-o">我的</van-tabbar-item>
+    <van-tabbar v-model="$store.state.navBarIndex">
+        <van-tabbar-item icon="home-o"  @click="$router.push('/mobile/user/home')">社区</van-tabbar-item>
+        <van-tabbar-item icon="smile-comment-o"  @click="$router.push('/mobile/user/information')">资讯</van-tabbar-item>
+        <van-tabbar-item icon="setting-o" @click="petShow = true" >宠物</van-tabbar-item>
+        <van-tabbar-item icon="user-o" @click="$router.push('/mobile/user/index')">我的</van-tabbar-item>
+
         <van-action-sheet
                 v-model="petShow"
                 :actions="petActions"
                 cancel-text="取消"
                 @select="onSelect"
+                @close="onCancel"
         />
     </van-tabbar>
 
@@ -43,6 +45,9 @@
             onSelect:function (item) {
                 this.petShow = false;
                 this.$router.push(item.path)
+            },
+            onCancel:function () {
+                this.navBarIndex = parseInt(sessionStorage.getItem('navBarIndex'))
             }
         }
     }

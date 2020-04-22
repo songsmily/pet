@@ -1,7 +1,7 @@
 <template>
     <div style="padding-bottom: 50px">
         <van-sticky>
-            <van-nav-bar title="宠物防疫管理" left-text="返回" @click-left="returnBack" left-arrow>
+            <van-nav-bar title="宠物防疫管理"  >
 
             </van-nav-bar>
         </van-sticky>
@@ -25,15 +25,15 @@
                             </div>
                             <div  v-if="item.petCard.cardStatus === 0 ">
                                 免疫证书编号：
-                                <van-tag mark :underline="false"  type="success" >等待管理员审核</van-tag>
+                                <van-tag mark :underline="false"  type="warning" >等待管理员审核</van-tag>
                             </div>
                         </div>
                     </div>
                     <el-row>
                             <template v-if="item.petCard!= null && item.petCard.cardStatus === 1">
                                 <van-cell-group >
-                                    <van-cell title="新增免疫信息" icon="add-o" is-link value="新增" :border="true" />
-                                    <van-cell title="查看免疫信息" icon="eye-o" is-link value="查看" @click="showImmunityInfo(item)"  :border="true" />
+                                    <van-cell title="新增免疫信息" icon="add-o" is-link value="新增" @click="$router.push('/mobile/user/pet/uploadImmunity?petCardId=' + item.petCard.petCardId + '&petId=' + item.petId)" :border="true" />
+                                    <van-cell title="查看免疫信息" v-if="item.petCard.petImmunities.length > 0" icon="eye-o" is-link value="查看" @click="showImmunityInfo(item)"  :border="true" />
                                 </van-cell-group>
                             </template>
                             <template v-else-if="item.petCard != null && item.petCard.cardStatus === 2">

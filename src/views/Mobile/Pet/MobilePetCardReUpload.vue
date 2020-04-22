@@ -66,8 +66,7 @@
                     cardImageUrl: ""
                 },
                 fileList: [{
-                    content: "",
-                    file: File,
+                    url: "",
                     status: ""
                 }],
                 petName: this.$route.query.petName
@@ -88,7 +87,7 @@
                 }).then(res => {
                     if (res.data.code  === 100) {
                         that.petInfo = res.data.data
-                        that.fileList[0].content = that.petInfo.petCard.cardImageUrl
+                        that.fileList[0].url = that.petInfo.petCard.cardImageUrl
 
                     } else {
                         that.$VanNotify("信息获取失败！请刷新页面重试！")

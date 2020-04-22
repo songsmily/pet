@@ -24,6 +24,9 @@
                 show: false,
             };
         },
+        created(){
+            this.$util.returnMessage(this)
+        },
         methods: {
             formatDate(date) {
                 return `${date.getMonth() + 1}/${date.getDate()}`;

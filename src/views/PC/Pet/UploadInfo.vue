@@ -428,24 +428,11 @@
                 })
             },
             doUpload:function(){
-                console.log(this.petInfo)
-                return false
                 this.$Message({
                     message: '正在上传中......',
                     type:"success",
                     iconClass:"el-icon-loading"
                 });
-                let  check1 = this.checkPetHairColor()
-                let  check2 = this.checkPetAddr()
-                let  check3 = this.checkName()
-                let  check4 = this.checkImage()
-                let  check5 = this.checkDesc()
-                let  check6 = this.checkHeight()
-                let  check7 = this.checkPetBirthday()
-                let  check8 = this.checkPetType()
-                let  check9 = this.checkSex()
-                let  check10 = this.checkWeight()
-                if (check1 && check2 && check3 && check4 && check5 && check6 && check7 && check8 && check9 && check10){
                     const that = this
                     let url = "/api/petinfo/doUpload"
                     service({
@@ -471,15 +458,6 @@
                             })
                         }
                     })
-                }else{
-                    this.$Message.closeAll()
-                    this.$Notify({
-                        title: '信息填写错误',
-                        message: '请更正后保存！',
-                        type: "error",
-                        duration:2000
-                    })
-                }
 
             },
             reloadForm:function(){
@@ -496,13 +474,34 @@
                 this.selectedOptions = []
             },
             openSureMessage:function(){
-                this.$msgbox.confirm('确定保存修改吗, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.doUpload()
-                })
+                let  check1 = this.checkPetHairColor()
+                let  check2 = this.checkPetAddr()
+                let  check3 = this.checkName()
+                let  check4 = this.checkImage()
+                let  check5 = this.checkDesc()
+                let  check6 = this.checkHeight()
+                let  check7 = this.checkPetBirthday()
+                let  check8 = this.checkPetType()
+                let  check9 = this.checkSex()
+                let  check10 = this.checkWeight()
+                if (check1 && check2 && check3 && check4 && check5 && check6 && check7 && check8 && check9 && check10){
+                    this.$msgbox.confirm('确定保存修改吗, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.doUpload()
+                    })
+                } else {
+                    this.$Message.closeAll()
+                    this.$Notify({
+                        title: '信息填写错误',
+                        message: '请更正后保存！',
+                        type: "error",
+                        duration:2000
+                    })
+                }
+
             },
             handleAreaChange:function(val){
                 this.petInfo.petType = this.$refs['location'].getCheckedNodes()[0].pathLabels[2]

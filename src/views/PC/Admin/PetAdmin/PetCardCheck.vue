@@ -235,12 +235,13 @@
                                 }
                             }).then(function (res) {
                                 if (res.data.code === 100) {
+                                    that.loadPetCardList(1, that.pageSize,that.areaFilter)
+
+                                    that.isShowDesc = false
                                     that.$Message({
                                         type: 'success',
                                         message: '操作成功!'
                                     })
-                                    that.isShowDesc = false
-                                    that.loadPetCardList(1, that.pageSize,that.areaFilter)
                                 } else {
                                     that.$Message({
                                         type: 'error',
@@ -283,6 +284,7 @@
                                     })
                                     that.isShowDesc = false
                                     that.loadPetCardList(1, that.pageSize,that.areaFilter)
+
                                 } else {
                                     that.$Message({
                                         type: 'error',

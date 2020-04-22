@@ -28,7 +28,7 @@
 
                                 <van-button size="small" icon="eye-o"   @click="showImmunityDetail(item)">查看详情</van-button>
 
-                                <van-button size="small" icon="edit" type="warning" v-if="item.immunityStatus === 2" style="margin-left: 10px">修改信息</van-button>
+                                <van-button size="small" icon="edit" type="warning" v-if="item.immunityStatus === 2" @click="$router.push('/mobile/user/pet/reUploadImmunity?petCardId=' + item.petCardId + '&petId=' + item.petId+ '&immunityId=' + item.petImmunityId + '&petName=' + petInfo.petName) " style="margin-left: 10px">修改信息</van-button>
                             </div>
 
                         </template>

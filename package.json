@@ -36,6 +36,7 @@
     "vue-puzzle-verification": "^1.0.2",
     "vue-router": "^3.1.3",
     "vue-stomp": "0.0.5",
+    "vue-touch": "^2.0.0-beta.4",
     "vuex": "^3.1.2"
   },
   "devDependencies": {

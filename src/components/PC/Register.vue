@@ -394,7 +394,7 @@
             },
             //判断用户名
             checkNickname:function () {
-                if (this.nickname.length >= 1 && this.nickname.length <= 20) {
+                if (this.nickname.length >= 1 && this.nickname.length <= 12) {
                     const that = this
                     let url = "/api/regist/checkNickname?nickname=" + this.nickname
                     axios.get(url).then(function (res) {
@@ -408,7 +408,7 @@
                     })
                 }else{
                     this.nicknameType = 'error'
-                    this.nicknameTip = "用户名长度1-20个字符！"
+                    this.nicknameTip = "用户名长度5-12个字符！"
                     return false
                 }
 

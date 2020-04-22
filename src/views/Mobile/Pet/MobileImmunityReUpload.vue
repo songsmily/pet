@@ -1,12 +1,12 @@
 <template>
     <div style="padding-bottom: 50px;">
         <van-sticky>
-            <van-nav-bar title="新增免疫信息" left-text="返回" @click-left="returnBack" left-arrow>
+            <van-nav-bar title="修改免疫信息" left-text="返回" @click-left="returnBack" left-arrow>
             </van-nav-bar>
         </van-sticky>
         <div style="margin-top: 10px">
             <van-form  @failed="onFailed" :colon="true" :validate-first="false" @submit="doUpload">
-                <van-field v-model="petInfo.petName" label="宠物昵称" disabled="">
+                <van-field v-model="petName" label="宠物昵称" disabled="">
 
                 </van-field>
 
@@ -31,7 +31,7 @@
                         <van-uploader v-model="fileList" multiple :before-read="checkImageFileType"  :max-count="1"/>
                     </template>
                 </van-field>
-                <i style="font-size: 1em">注意：请将免疫证书内页中该支疫苗的标签信息完整拍摄并上传</i>
+                <i style="font-size: 3px">注意：请将免疫证书内页中该支疫苗的标签信息完整拍摄并上传</i>
 
 
                 <div style="margin: 16px;">
@@ -51,13 +51,9 @@
     import service from "../../../network/axios"
     import moment from "moment"
     export default {
-        name: "MobileImmunityUpload",
+        name: "MobileImmunityReUpload",
         data() {
             return {
-
-                value1: '',
-                value2: '',
-                value3: '',
                 pattern: /\d{6}/,
                 isShowImmunityType:false,
                 isShowDatePicker:false,
@@ -76,16 +72,48 @@
                     immunityTime: "",
                     immunityImageUrl:""
                 },
-                fileList: [],
+                immunityId: this.$route.query.immunityId,
+                fileList: [{
+                    url: "",
+                    status: ""
+                }],
+                petName: this.$route.query.petName
             }
         },
         mounted() {
-            this.getPetInfos(this.petImmunity.petId)
-
-            // this.getOptions()
+            // this.getPetInfos(this.petImmunity.petId)
+            this.getImmunityInfo()
+            this.getOptions()
         },
         methods: {
-
+            getImmunityInfo(){
+                let url = "/api/petImmunity/getImmunityByImmunityId?immunityId=" + this.immunityId
+                const that = this
+                service({
+                    method: "post",
+                    url: url
+                }).then(res => {
+                    if (res.data.code === 100) {
+                        res.data.data.immunityTime = moment(res.data.data.immunityTime).format("YYYY-MM-DD")
+                        that.petImmunity  = res.data.data
+                        that.fileList[0].url = that.petImmunity.immunityImageUrl
+                    }
+                })
+            },
+            getOptions: function(){
+                let url = "/api/petVac/returnPetVac?petId=" + this.petImmunity.petId;
+                const that = this
+                service.get(url).then(function (res) {
+                    that.petVacs = Array.from( res.data.data)
+                    for (let i = 0;i < that.petVacs.length;i++){
+                        that.options.push( {
+                            'text':that.petVacs[i].vacName + "——" + that.petVacs[i].vacDesc + "",
+                            'value':that.petVacs[i].vacName,
+                            'position':i
+                        })
+                    }
+                })
+            },
             getPetInfos:function (id) {
                 const that = this
                 Promise.all([
@@ -136,9 +164,11 @@
                     petCardId:this.petImmunity.petCardId,
                     immunityType: this.petImmunity.immunityType,
                     immunityTime: new Date(date).getTime(),
-                    immunityImageUrl: this.petImmunity.immunityImageUrl
+                    immunityImageUrl: this.petImmunity.immunityImageUrl,
+                    petImmunityId: this.petImmunity.petImmunityId,
+                    gmtCreate: this.petImmunity.gmtCreate,
                 }
-                const url = "/api/petImmunity/insertImmunity"
+                const url = "/api/petImmunity/updateImmunity"
                 const that = this
 
                 new Promise((resolve, reject) => {

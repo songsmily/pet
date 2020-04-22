@@ -27,7 +27,7 @@
                 </div>
                 <el-menu
                         style="border: none;background-color: unset"
-                        :default-active="reverseNavBarIndex"
+                        :default-active="$store.state.navBarIndex"
                         class="el-menu-vertical-demo">
 
                     <template  v-if="this.$store.state.adminUserInfo.accountType === 1">

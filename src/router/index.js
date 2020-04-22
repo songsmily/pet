@@ -71,6 +71,18 @@ import MobilePetPrevention from "../views/Mobile/Pet/MobilePetPrevention"
 import MobilePetImmunityInfo from "../views/Mobile/Pet/MobilePetImmunityInfo"
 import MobilePetCardUpload from "../views/Mobile/Pet/MobilePetCardUpload"
 import MobilePetCardReUpload from "../views/Mobile/Pet/MobilePetCardReUpload"
+import MobileImmunityUpload from "../views/Mobile/Pet/MobileImmunityUpload"
+import MobileImmunityReUpload from "../views/Mobile/Pet/MobileImmunityReUpload"
+import MobileUserIndex from "../views/Mobile/User/MobileUserIndex"
+import MobileUserManage from "../views/Mobile/User/MobileUserManage"
+import MobileSysNotice from "../views/Mobile/User/MobileSysNotice"
+import MobileBlogDetail from "../views/Mobile/Blog/MobileBlogDetail"
+import MobileMyBlog from "../views/Mobile/Blog/MobileMyBlog"
+import MobileMyCollection from "../views/Mobile/Blog/MobileMyCollection"
+import MobileCompleteInfo from "../views/Mobile/User/MobileCompleteInfo"
+import MobileCompleteInfoAuth from "../views/Mobile/User/MobileCompleteInfoAuth"
+import MobileInformation from "../views/Mobile/Information/MobileInformation"
+import MobileInfoDetail from "../views/Mobile/Information/MobileInfoDetail"
 Vue.use(VueRouter)
 
 const routes = [
@@ -155,22 +167,7 @@ const routes = [
                     navBarIndex:2
                 },
             },
-            {
-                path: "pet/detail",
-                component:MobilePetInfoDetail,
-                meta:{
-                    tittle: "宠物详细信息",
-                    navBarIndex:2
-                },
-            },
-            {
-                path: "pet/reUpload",
-                component:MobilePetReUploadInfo,
-                meta:{
-                    tittle: "修改宠物信息",
-                    navBarIndex:2
-                },
-            },
+
             {
                 path: "pet/petPrevention",
                 component:MobilePetPrevention,
@@ -178,8 +175,41 @@ const routes = [
                     tittle: "宠物防疫管理",
                     navBarIndex:2
                 },
+            },
+            {
+                path: "index",
+                component:MobileUserIndex,
+                meta:{
+                    tittle: "个人中心",
+                    navBarIndex:3
+                },
+            },
+            {
+                path: "information",
+                component:MobileInformation,
+                meta:{
+                    tittle: "资讯",
+                    navBarIndex:1
+                },
             }
         ]
+    },
+    {
+        path: "/mobile/user/pet/detail",
+        component:MobilePetInfoDetail,
+        meta:{
+            tittle: "宠物详细信息",
+            navBarIndex:-1
+        },
+    },
+
+    {
+        path: "/mobile/user/pet/reUpload",
+        component:MobilePetReUploadInfo,
+        meta:{
+            tittle: "修改宠物信息",
+            navBarIndex:-1
+        },
     },
     {
         path: "/mobile/user/pet/petImmunity",
@@ -193,7 +223,7 @@ const routes = [
         path: "/mobile/user/pet/uploadCard",
         component:MobilePetCardUpload,
         meta:{
-            tittle: "上传免疫证书",
+            tittle: "新增免疫证书",
             navBarIndex: -1
         },
     },
@@ -204,8 +234,87 @@ const routes = [
             tittle: "修改免疫证书",
             navBarIndex: -1
         },
-    }
-    ,
+    },
+    {
+        path: "/mobile/user/pet/uploadImmunity",
+        component:MobileImmunityUpload,
+        meta:{
+            tittle: "新增免疫信息",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/pet/reUploadImmunity",
+        component:MobileImmunityReUpload,
+        meta:{
+            tittle: "修改免疫信息",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/manage",
+        component:MobileUserManage,
+        meta:{
+            tittle: "我的资料",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/systemNotice",
+        component:MobileSysNotice,
+        meta:{
+            tittle: "系统通知",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/blog/detail",
+        component:MobileBlogDetail,
+        meta:{
+            tittle: "帖子详情",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/blog/myBlog",
+        component:MobileMyBlog,
+        meta:{
+            tittle: "我的分享",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/blog/myCollection",
+        component:MobileMyCollection,
+        meta:{
+            tittle: "我的收藏",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/completeInfo",
+        component:MobileCompleteInfo,
+        meta:{
+            tittle: "完善个人信息",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/completeInfoAuth",
+        component:MobilePetInfoDetail,
+        meta:{
+            tittle: "宠物详情",
+            navBarIndex: -1
+        },
+    },
+    {
+        path: "/mobile/user/blog/detailInfo",
+        component:MobileInfoDetail,
+        meta:{
+            tittle: "资讯详情",
+            navBarIndex: -1
+        },
+    },
     /**
      * 系统管理员路由
      */
@@ -642,13 +751,14 @@ router.beforeEach((to,from,next) => {
 
 
     if (to.matched.length === 0) {    //如果未匹配到路由
-        // from.name ? next({ name:from.name }) : next('/404');
+        from.name ? next({ name:from.name }) : next('/404');
     }
 
 
 
 
     sessionStorage.setItem("navBarIndex",to.meta.navBarIndex)
+    store.commit("changeNavBarIndex",to.meta.navBarIndex)
     if (!unAuthRoute.includes(to.path)){
         if (to.path.indexOf("/admin") !== -1){
             if (!sessionStorage.getItem("adminUserInfo")){
@@ -686,11 +796,18 @@ router.beforeEach((to,from,next) => {
                         if(to.path.indexOf("/completeInfo") === -1) {
                             if (userInfo.accountType === 0){
                                 if (userInfo.realName == null || userInfo.address === null || userInfo.phone == null || userInfo.location == null || userInfo.email == null) {
-                                    router.replace("/completeInfo")
+                                    if (parseInt(isMobile) === 1)
+                                        router.replace("/mobile/completeInfo")
+                                    else
+                                        router.replace("/completeInfo")
+
                                 }
                             } else {
                                 if( userInfo.phone == null || userInfo.realName == null || userInfo.username == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
-                                    router.replace("/completeInfoAuth")
+                                    if (parseInt(isMobile) === 1)
+                                        router.replace("/mobile/completeInfoAuth")
+                                    else
+                                        router.replace("/completeInfoAuth")
                                 }
                             }
 
@@ -705,16 +822,25 @@ router.beforeEach((to,from,next) => {
                     }
                 })
             } else  {
-
+                if (!store.state.loginType) {
+                    store.commit("changeUserInfo", util.returnUserInfo())
+                    store.commit("changeLoginType", true)
+                }
                 let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
                 if(to.path.indexOf("/completeInfo") === -1) {
                     if (userInfo.accountType === 0){
                         if( userInfo.phone == null || userInfo.realName == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
-                            router.replace("/completeInfo")
+                            if (parseInt(isMobile) === 1)
+                                router.replace("/mobile/completeInfo")
+                            else
+                                router.replace("/completeInfo")
                         }
                     } else {
                         if( userInfo.phone == null || userInfo.realName == null || userInfo.name == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
-                            router.replace("/completeInfoAuth")
+                            if (parseInt(isMobile) === 1)
+                                router.replace("/mobile/completeInfoAuth")
+                            else
+                                router.replace("/completeInfoAuth")
                         }
 
                     }

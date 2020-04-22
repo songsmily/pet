@@ -35,6 +35,9 @@ export default {
     changeHotTags(state, hotTags)  {
         state.hotTags = hotTags
     },
+    changeNavBarIndex(state, index)  {
+        state.navBarIndex = index
+    },
     changeHotTagChoice(state, hotTagChoice) {
         state.hotTagChoice = hotTagChoice
     }

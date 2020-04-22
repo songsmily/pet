@@ -45,5 +45,6 @@ export default  {
      * 热门标签信息
      */
     hotTags:[],
-    hotTagChoice:{}
+    hotTagChoice:{},
+    navBarIndex: 0
 }

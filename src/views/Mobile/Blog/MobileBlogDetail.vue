@@ -1,214 +1,166 @@
 <template>
-    <div class="col center-part">
+    <div style="">
+        <van-sticky>
+            <van-nav-bar left-text="返回" title="帖子详情" @click-left="returnBack" left-arrow>
 
-        <header class="bg-light lter  wrapper-md" id="small_widgets">
-            <div v-if="JSON.stringify(blogInfo) !== '{}'">
-                <h1 class="">
-                    <a-tag v-if="blogInfo.blogType === 1" color="green">分享</a-tag>
-                    <a-tag v-if="blogInfo.blogType === 2" color="orange">提问</a-tag>
+            </van-nav-bar>
+        </van-sticky>
+        <div id="post-panel">
+            <div class="blog-header">
+                <div class="blog-title">
                     {{blogInfo.blogTitle}}
-                </h1>
-                <div  class="blog-baseInfo">
-
-
-                    <div class="blog-tag">
-                        <span class="blog-tag-title"><a-icon type="tags" theme="filled"></a-icon>：</span>
-                        <span style="margin-left: 5px;">
-
-                            <a-tag color="blue" v-for="(item , i ) in blogInfo.blogTag ">{{item.tagName}}</a-tag>
-                        </span>
+                </div>
+                <div class="blog-tags">
+                    <van-tag v-for="(tagItem , i ) in blogInfo.blogTag " plain mark type="success">{{tagItem.tagName}}
+                    </van-tag>
+                </div>
+                <!--                            底部内容-->
+                <div class="blog-item-bottom">
+                    <!--                                用户信息-->
+                    <div class="blog-user">
+                        <!--                                    用户头像-->
+                        <span class="blog-user-avatar">
+                                            <img :src="blogInfo.avatarUrl" alt="">
+                                    </span>
+                        <!--                                    用户名-->
+                        <span class="blog-user-name">
+                                        {{blogInfo.name}}
+                                    </span>
                     </div>
+                    <!--                                评论点赞信息-->
                     <div class="blog-desc">
-                        <!--                        &lt;!&ndash;用户名&ndash;&gt;-->
-                        <!--                        <i class="fontello fontello-user text-muted"></i>-->
-                        <!--                        <span class="m-r-sm">&nbsp;<a>{{blogInfo.name}}&nbsp;</a></span>-->
-                        <!--创建时间-->
-                        <a class="m-l-sm post-item-comment">
-                            <i class="fontello fontello-clock-o text-muted"></i>&nbsp;{{$util.formatTime(blogInfo.createdTime,
-                            null)}}
-                        </a>
-                        <a-divider type="vertical"></a-divider>
-                        <!--评论数-->
-                        <a class="m-l-sm post-item-comment">
-                            <a-icon type="message"/>&nbsp;{{blogInfo.blogComment}}
-                        </a>
-                        <a-divider type="vertical"/>
-                        <!--点赞数-->
-                        <a class="m-l-sm post-item-comment">
-                            <a-icon type="like"/>&nbsp;{{blogInfo.blogGoods}}
-                        </a>
-                        <a-divider type="vertical"/>
-                        <!--收藏数-->
-                        <a class="m-l-sm post-item-comment">
-                            <a-icon type="star"/>&nbsp;{{blogInfo.blogCollect}}
-                        </a>
+                        <!--                                    发布时间-->
+                        <span class="blog-time">
+                                         <i class="fontello fontello-clock-o text-muted"></i>
+                                        {{$util.formatTime(blogInfo.createdTime, null)}}
+                                    </span>
+                        <!--                                    评论数-->
+                        <span class="blog-comment-count">
+                                        <i class="iconfont icon-comments-o text-muted"></i>
+                                        {{blogInfo.blogComment}}
+                                    </span>
+                        <!--                                    点赞数-->
+                        <span class="blog-good-count">
+                                         <a-icon type="like"></a-icon>
+                                        {{blogInfo.blogGoods}}
+                                    </span>
+                        <!--                                    收藏数-->
+                        <span class="blog-collect-count">
+                                         <i class="el-icon-star-off"></i>
+                                        {{blogInfo.blogCollect}}
+                                    </span>
                     </div>
                 </div>
+
             </div>
+            <van-divider>正文</van-divider>
+            <div class="blog-content" v-html="content">
 
+            </div>
+            <van-divider>评论</van-divider>
+            <!--评论区-->
+            <a-comment v-for="(item,i) in commentInfo">
+                <template slot="actions">
+                    <span >{{$util.formatTime(item.createdTime,null)}}</span>
 
-        </header>
-        <!--内容页-->
-        <div class="wrapper-md" id="post-panel">
-            <!--            <div class="user-detail" itemscope="" >-->
-            <!--                <div>-->
-            <!--                    <a-avatar shape="square" class="fly-avatar" size="large" :src="blogInfo.avatarUrl" />-->
-            <!--                </div>-->
-            <!--                <div style="margin-left: 10px;font-size: 20px">-->
-            <!--                    <span >{{blogInfo.name}}</span><br>-->
-            <!--                    <span>聂启松</span>-->
-            <!--                </div>-->
-
-            <!--            </div>-->
-            <template v-if="JSON.stringify(blogInfo) === '{}'">
-                <a-empty description="暂无数据"
-                         image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
-                         :imageStyle="{height: '150px'}"
-                ></a-empty>
-            </template>
-            <template v-else>
-
-                <div class="breadcrumb bg-white b-a" itemscope="" style="margin-top: 10px;margin-bottom: 20px;padding: 0 10px;height: 40px;">
-                    <el-breadcrumb separator-class="el-icon-arrow-right" style="line-height: 40px">
-                        <el-breadcrumb-item :to="'/user/home'">宠物生活</el-breadcrumb-item>
-                        <el-breadcrumb-item>正文</el-breadcrumb-item>
-                    </el-breadcrumb>
-                </div>
-                <div id="blog-content" v-html="content">
-
-                </div>
-                <!--帖子点赞评论操作-->
-                <div class="blog-action" v-if="this.blogInfo.userId != this.$store.state.userInfo.id">
-                    <a-tooltip placement="top">
-                        <template slot="title">
-                            <span>{{isBlogGood ? '取消点赞': '点赞'}}</span>
-                        </template>
-                        <a href="javascript:void(0);">
-                            <a-icon :theme="isBlogGood ? 'twoTone': 'outlined'" twoToneColor="#52c41a" type="like" @click="doBlogGood"/>
-                        </a>
-                    </a-tooltip>
-                    <a-tooltip placement="top">
-                        <template slot="title">
-                            <span>{{isBlogConnect ? '取消收藏': '收藏'}}</span>
-                        </template>
-                        <a href="javascript:void(0);">
-                            <a-icon :theme="isBlogConnect ? 'twoTone': 'outlined'" twoToneColor="#52c41a" type="star" @click="doBlogConnect"/>
-                        </a>
-                    </a-tooltip>
-
-                </div>
-                <a-divider>
-                    <a-icon type="message"></a-icon>
-                </a-divider>
-                <!--评论区-->
-                <a-comment v-for="(item,i) in commentInfo">
-                    <template slot="actions">
                     <span key="comment-basic-like">
-                       <a-tooltip title="点赞">
                           <a-icon :theme="item.isCommentGood ? 'twoTone': 'outlined'" twoToneColor="#52c41a" @click="doCommentGood(item)" type="like"/>
-                        </a-tooltip>
-                        <span style="padding-left: 8px;cursor: auto">
+                        <span style="padding-left: 1px;cursor: auto">
                           {{item.commentGood}}
                         </span>
                     </span>
 
-                        <a-divider type="vertical"></a-divider>
-                        <!--回复按钮-->
-                        <span @click="secCommentAction(item)"> <a-icon type="message"></a-icon>&nbsp;&nbsp;回复</span>
-                    </template>
-                    <a slot="author">{{item.commentUserName}}</a>
-                    <a-avatar
-                            alt="Han Solo"
-                            slot="avatar"
-                            :src="item.commentUserAvatarUrl"
-                    />
-                    <p slot="content" v-html="item.commentContent">
-                    </p>
-                    <a-tooltip :title="moment(item.createdTime).format('YYYY-MM-DD HH:mm:ss')" slot="datetime">
-                        <span>{{$util.formatTime(item.createdTime,null)}}</span>
-                    </a-tooltip>
-
-                    <!-- 二级评论区-->
-                    <a-comment v-if="item.commentSecList.length !== 0" v-for="(itemSec,i) in item.commentSecList">
-                        <a slot="author">{{itemSec.secCommentUserName}}</a>
-                        <a-avatar
-                                slot="avatar"
-                                :src="itemSec.secCommentUserAvatarUrl"
-                        />
-                        <p slot="content" v-html="itemSec.secContent">
-                        </p>
-                        <a-tooltip :title="moment(itemSec.createdTime).format('YYYY-MM-DD HH:mm:ss')" slot="datetime">
-                            <span>{{$util.formatTime(itemSec.createdTime,null)}}</span>
-                        </a-tooltip>
-                    </a-comment>
-                </a-comment>
-                <!--消息预览-->
-                <el-drawer
-                        title="消息预览"
-                        direction="ttb"
-                        :closable="false"
-                        :visible.sync="DrawerVisible"
-                >
-                    <div style="margin-left: 20px" v-html="commentHtml"></div>
-
-                </el-drawer>
-                <!--二级评论抬头-->
-                <template v-if="isSecond">
-                    <el-alert type="success"   effect="dark" @close="unsetSecondComment">
-                        <slot name="title">
-                            <span v-html="secondPreview"></span>
-                        </slot>
-
-                    </el-alert>
+                    <!--回复按钮-->
+                    <span  @click="secCommentAction(item)" > <a-icon type="message"></a-icon>&nbsp;&nbsp;回复</span>
                 </template>
-                <!--撰写评论区-->
-                <div class="comment-actions">
-                    <el-popover
-                            placement="top"
-                            width="400"
-                            trigger="click">
-                        <ul class="comment-actions-emojibox">
-                            <template v-for="(item,i) in emoji">
-                                <li @click="choiceEmoji(item.value,item.icon)" :value="item.value">
-                                    <img :src="item.icon" alt="">
-                                </li>
-                            </template>
-                        </ul>
-                        <a-tooltip  slot="reference" class="comment-actions-icon" title="添加表情">
-                            <a-icon  type="smile" theme="outlined"/>
+                <a slot="author">{{item.commentUserName}}</a>
+                <a-avatar
+                        slot="avatar"
+                        :src="item.commentUserAvatarUrl"
+                />
+                <p slot="content" v-html="item.commentContent">
+                </p>
 
-                        </a-tooltip>
-                    </el-popover>
-                    <a-tooltip slot="reference" class="comment-actions-icon" title="预览">
-                        <a-icon @click="previewContent" type="eye" theme="outlined"/>
+                <!-- 二级评论区-->
+                <a-comment v-if="item.commentSecList.length !== 0" v-for="(itemSec,i) in item.commentSecList">
+                    <template slot="actions">
+                        <span >{{$util.formatTime(itemSec.createdTime,null)}}</span>
+
+                    </template>
+                    <a slot="author">{{itemSec.secCommentUserName}}</a>
+                    <a-avatar
+                            slot="avatar"
+                            :src="itemSec.secCommentUserAvatarUrl"
+                    />
+                    <p slot="content" v-html="itemSec.secContent">
+                    </p>
+
+                </a-comment>
+            </a-comment>
+            <!--二级评论抬头-->
+            <template v-if="isSecond">
+                <el-alert type="success"   effect="dark" @close="unsetSecondComment">
+                    <slot name="title">
+                        <span v-html="secondPreview"></span>
+                    </slot>
+                </el-alert>
+            </template>
+            <!--撰写评论区-->
+            <div class="comment-actions">
+                <el-popover
+                        placement="top"
+                        width="300"
+                        trigger="click">
+                    <ul class="comment-actions-emojibox">
+                        <template v-for="(item,i) in emoji">
+                            <li @click="choiceEmoji(item.value,item.icon)" :value="item.value">
+                                <img :src="item.icon" alt="">
+                            </li>
+                        </template>
+                    </ul>
+                    <a-tooltip  slot="reference" class="comment-actions-icon">
+                        <a-icon  type="smile" theme="outlined"/>
 
                     </a-tooltip>
-                    <!--                <span class="comment-actions-icon">-->
-                    <!--                </span>-->
-                </div>
-                <el-form label-position="top" :model="form" :rules="rules" ref="form" class="demo-ruleForm">
+                </el-popover>
+<!--                预览 -->
+<!--                    <a-icon @click="previewContent" class="comment-actions-icon" type="eye" theme="outlined"/>-->
+            </div>
+            <el-form label-position="top" :model="form" :rules="rules" ref="form" class="demo-ruleForm">
 
-                    <el-form-item  prop="commentContent">
-                        <el-input placeholder="请输入评论内容" type="textarea" ref="commentContent" v-model="form.commentContent"
-                                  :autosize="{ minRows: 5, maxRows: 5}"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <a-button type="primary" @click="postComment('form')">发表评论</a-button>
-                    </el-form-item>
-                </el-form>
-            </template>
-<!--            <a-textarea-->
-<!--                    @change="contentChange"-->
-<!--                    v-model="commentContent"-->
-<!--                    @close="onDrawerClose"-->
-<!--                    placeholder="请输入评论内容"-->
-<!--                    :autoSize="{ minRows: 4, maxRows: 6 }"-->
-<!--            />-->
+                <el-form-item  prop="commentContent">
+                    <el-input placeholder="请输入评论内容" type="textarea" ref="commentContent" v-model="form.commentContent"
+                              :autosize="{ minRows: 5, maxRows: 5}"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <a-button type="primary" @click="postComment('form')">发表评论</a-button>
+                </el-form-item>
+            </el-form>
         </div>
+        <div class="blog-handle" v-if="this.blogInfo.userId != this.$store.state.userInfo.id">
+            <div style="width: 60%;margin-left: 5px">
+                <a-input placeholder="评论..." @click="setCommentFocus" >
+                    <a-icon slot="prefix" type="message" />
+                </a-input>
+            </div>
+            <div class="good-collect">
+                <van-icon v-if="isBlogGood" name="good-job"  color="#00a1d6"  @click="doBlogGood"/>
+                <van-icon v-else  name="good-job-o" @click="doBlogGood" />
+                <van-icon v-if="isBlogConnect" name="star"   color="#00a1d6" @click="doBlogConnect" />
+                <van-icon v-else name="star-o" @click="doBlogConnect"/>
+            </div>
+        </div>
+<!--        评论框-->
+        <van-popup v-model="isShowCommentBox" position="bottom"  :style="{height:'60%'}">
+
+        </van-popup>
     </div>
 </template>
 
 <script>
+    import service from "network/axios"
+    import marked from 'marked'
+    import moment from "moment"
     import {Breadcrumb, BreadcrumbItem, Col, Row, Popover, Table, TableColumn,Drawer,Form,FormItem,Input,Alert} from "element-ui"
     import {
         Tag as ATag,
@@ -222,12 +174,8 @@
         Button as AButton,
         Empty as AEmpty
     } from "ant-design-vue"
-    import moment from 'moment'
-    import service from "network/axios"
-    import marked from 'marked'
-
     export default {
-        name: "BlogDetail",
+        name: "MobileBlogDetail",
         components: {
             ElBreadcrumb: Breadcrumb,
             ElBreadcrumbItem: BreadcrumbItem,
@@ -249,24 +197,27 @@
             ElForm:Form,
             ElFormItem:FormItem,
             ElInput:Input,
+            AInput,
             ElAlert:Alert,
             AEmpty
         },
         data() {
             return {
+                isShowCommentBox: false,
                 //帖子ID
-                blogId: this.$route.params.id,
+                blogId: this.$route.query.blogId,
                 //帖子信息
                 blogInfo: {},
                 //评论信息
-                commentInfo:{},
+                commentInfo: {},
                 //
                 content: "",
                 //点赞数
                 goods: 0,
                 //是否点赞
                 isBlogGood: false,
-                isBlogConnect:false,
+                //是否收藏
+                isBlogConnect: false,
                 //格式化工具
                 moment,
                 //评论内容
@@ -492,13 +443,13 @@
                     value: "[话筒]"
                 }],
                 //是否显示预览
-                DrawerVisible:false,
+                DrawerVisible: false,
                 //表单校验规则
                 rules: {
 
                     commentContent: [
-                        {required: true, message: '请输入评论内容', trigger: 'blur'},
-                        {min: 1, max: 300, message: '长度在 1 到 300 个字符', trigger: 'blur'}
+                        {required: true, message: '请输入评论内容', trigger: 'submit'},
+                        {min: 1, max: 300, message: '长度在 1 到 300 个字符', trigger: 'submit'}
                     ]
                 },
                 //表单
@@ -506,26 +457,111 @@
                     commentContent: ''
                 },
                 //是否输入二级评论
-                isSecond:false,
+                isSecond: false,
                 //二级评论带 @用户 + 内容
-                secondPreview:"",
+                secondPreview: "",
                 //二级评论父ID
-                secondCommentParentId:""
+                secondCommentParentId: ""
 
             }
-        },
-        created() {
-            this.$Loading.start()
         },
         mounted() {
             this.getBlogInfoAndCommentsById()
         },
-        filters: {
-            formatDate: function (value) {
-                return moment(value).format('YYYY-MM-DD')
-            }
-        },
         methods: {
+            //提交评论
+            postComment(formName) {
+                this.$refs[formName].validate((valid) => {
+                    this.contentToHTML()
+                    const that = this;
+                    if (valid) {
+                        if (this.isSecond){
+                            service({
+                                method:'post',
+                                url:"/api/blCommentSec/addSecComment",
+                                data:{
+                                    secParent: that.secondCommentParentId,
+                                    secContent:that.commentHtml
+                                }
+                            }).then(res => {
+                                if (res.data.code === 100){
+                                    that.$Toast.success("回复成功！");
+                                    that.$refs["form"].resetFields();
+                                    that.getBlogCommonById()
+                                    that.getBlogInfoById()
+                                    that.isSecond = false
+                                } else if(res.data.code === 60001){
+                                    that.$Toast.fail("含有或疑似违规内容！请修改后重试！")
+                                }  else{
+                                    that.$Toast.fail("回复失败！请重试！")
+                                }
+                            })
+                        }else {
+                            service({
+                                method:'get',
+                                url:"/api/blComment/addComment",
+                                params:{
+                                    commentBlog: that.blogInfo.blogId,
+                                    commentContent:that.commentHtml
+                                }
+                            }).then(res => {
+                                if (res.data.code === 100){
+                                    that.$Toast.success("评论成功！");
+                                    that.$refs["form"].resetFields();
+                                    that.getBlogCommonById()
+                                    that.getBlogInfoById()
+
+                                }  else if(res.data.code === 60001){
+                                    that.$Toast.fail("含有或疑似违规内容！请修改后重试！")
+                                }  else{
+                                    that.$Toast.fail("评论失败！请重试！")
+                                }
+                            })
+                        }
+
+                    }
+                });
+            },
+            //选择Emoji
+            choiceEmoji: function (value, icon) {
+                this.form.commentContent += value
+            },
+            //预览评论
+            previewContent: function () {
+                this.contentToHTML()
+                this.DrawerVisible = !this.DrawerVisible
+            },
+            //评论点赞
+            doCommentGood(comment) {
+                let url = "";
+                const that = this;
+
+                if ( comment.isCommentGood ){
+                    url = "/api/good/removeCommentGood?commentId=" + comment.commentId
+                    service({
+                        method: 'get',
+                        url: url
+                    }).then(res => {
+                        if (res.data.code === 100){
+                            comment.isCommentGood = false;
+                            comment.commentGood = comment.commentGood - 1
+                        }
+                    })
+                } else {
+                    url = "/api/good/addCommentGood?commentId=" + comment.commentId
+                    service({
+                        method: 'get',
+                        url: url
+                    }).then(res => {
+                        if (res.data.code === 100){
+                            comment.isCommentGood = true;
+                            comment.commentGood = comment.commentGood + 1
+                        }
+                    })
+                }
+
+
+            },
             //帖子收藏操作
             doBlogConnect:function(){
                 let url = ""
@@ -580,102 +616,47 @@
                     }
                 })
             },
-            //取消回复二级评论
-            unsetSecondComment:function(){
-                this.isSecond = false;
-                this.secondPreview = "";
-            },
-            //设置回复二级评论顶部内容
-            secCommentAction:function(comment){
-                this.secondPreview = "回复：<strong>@" + comment.commentUserName + "</strong> &nbsp;" + comment.commentContent;
-                this.isSecond = true;
-                this.secondCommentParentId = comment.commentId
-                this.$refs['commentContent'].focus()
-
-            },
-            //评论点赞
-            doCommentGood(comment) {
-                let url = "";
-                const that = this;
-
-                if ( comment.isCommentGood ){
-                    url = "/api/good/removeCommentGood?commentId=" + comment.commentId
-                    service({
-                        method: 'get',
-                        url: url
-                    }).then(res => {
-                        if (res.data.code === 100){
-                            comment.isCommentGood = false;
-                            comment.commentGood = comment.commentGood - 1
-                        }
+            //查询帖子内容和评论内容
+            getBlogInfoAndCommentsById: function () {
+                const that = this
+                Promise.all([
+                    new Promise((resolve, reject) => {
+                        let url = "/api/blBlog/getBlogInfoById?blogId=" + this.blogId
+                        const that = this
+                        service.get(url).then(function (res) {
+                            if (res.data.code !== 100) {
+                                reject(res.data.code)
+                            }
+                            that.blogInfo = res.data.data
+                            that.content = marked(that.blogInfo.blogContent)
+                            that.isBlogGood = res.data.data.isBlogGood
+                            that.isBlogConnect = res.data.data.isBlogConnect
+                            resolve(true)
+                        })
+                    }),
+                    new Promise((resolve, reject) => {
+                        let url = "/api/blComment/getBlogCommentById?blogId=" + this.blogId
+                        const that = this
+                        service.get(url).then(function (res) {
+                            if (res.data.code === 100) {
+                                that.commentInfo = res.data.data
+                            } else {
+                                reject(res.data.code)
+                            }
+                            resolve(true)
+                        })
                     })
-                } else {
-                    url = "/api/good/addCommentGood?commentId=" + comment.commentId
-                    service({
-                        method: 'get',
-                        url: url
-                    }).then(res => {
-                        if (res.data.code === 100){
-                            comment.isCommentGood = true;
-                            comment.commentGood = comment.commentGood + 1
-                        }
-                    })
-                }
-
-
-            },
-            //提交评论
-            postComment(formName) {
-                this.$refs[formName].validate((valid) => {
-                    this.contentToHTML()
-                    const that = this;
-                    if (valid) {
-                        if (this.isSecond){
-                            service({
-                                method:'post',
-                                url:"/api/blCommentSec/addSecComment",
-                                data:{
-                                    secParent: that.secondCommentParentId,
-                                    secContent:that.commentHtml
-                                }
-                            }).then(res => {
-                                if (res.data.code === 100){
-                                    that.$Message.success("评论成功！");
-                                    that.$refs["form"].resetFields();
-                                    that.getBlogCommonById()
-                                    that.getBlogInfoById()
-                                    that.isSecond = false
-                                } else if(res.data.code === 60001){
-                                    that.$Message.error("含有或疑似违规内容！请修改后重试！")
-                                }  else{
-                                    that.$Message.error("保存失败！请重试！")
-                                }
-                            })
-                        }else {
-                            service({
-                                method:'get',
-                                url:"/api/blComment/addComment",
-                                params:{
-                                    commentBlog: that.blogInfo.blogId,
-                                    commentContent:that.commentHtml
-                                }
-                            }).then(res => {
-                                if (res.data.code === 100){
-                                    that.$Message.success("评论成功！");
-                                    that.$refs["form"].resetFields();
-                                    that.getBlogCommonById()
-                                    that.getBlogInfoById()
-
-                                }  else if(res.data.code === 60001){
-                                    that.$Message.error("含有或疑似违规内容！请修改后重试！")
-                                }  else{
-                                    that.$Message.error("保存失败！请重试！")
-                                }
-                            })
-                        }
-
+                ]).then(result => {
+                    if (result[0] && result[1]) {
                     }
-                });
+                }).catch(reason => {
+                    that.$Toast.fail("帖子不存在或已被删除，页面即将跳转！")
+
+                    setTimeout(function () {
+                        that.changeIsShowBlog()
+                    }, 1000)
+
+                })
             },
             //查询评论
             getBlogCommonById:function(){
@@ -699,62 +680,6 @@
 
                 })
             },
-            //查询帖子内容和评论内容
-            getBlogInfoAndCommentsById:function(){
-                const that = this;
-                Promise.all([
-                   new Promise((resolve, reject)=>{
-                       let url = "/api/blBlog/getBlogInfoById?blogId=" + this.blogId
-                       const that = this
-                       service.get(url).then(function (res) {
-                           if (res.data.code !== 100){
-                                reject(res.data.code)
-                           }
-                           that.blogInfo = res.data.data
-                           that.content = marked(that.blogInfo.blogContent)
-                           that.isBlogGood = res.data.data.isBlogGood
-                           that.isBlogConnect = res.data.data.isBlogConnect
-                           that.$Loading.finish()
-                           resolve(true)
-                       })
-                   }),
-                   new Promise((resolve, reject)=>{
-                       let url = "/api/blComment/getBlogCommentById?blogId=" + this.blogId
-                       const that = this
-                       service.get(url).then(function (res) {
-                           if (res.data.code === 100){
-                               that.commentInfo = res.data.data
-                           }else{
-                               reject(res.data.code)
-
-                           }
-                           resolve(true)
-                       })
-                   })
-                ]).then(result=>{
-                    if (result[0] && result[1]){
-                        that.$Loading.finish()
-                    }
-                }).catch(reason => {
-                    that.$Loading.finish()
-                    that.$msgbox.confirm('帖子不存在或已被删除！', '提示', {
-                        confirmButtonText: '返回上一页',
-                        cancelButtonText: "取消",
-                        type: 'error'
-                    }).then(() => {
-                        that.$router.back()
-                    })
-                })
-            },
-            //选择Emoji
-            choiceEmoji: function (value, icon) {
-                this.form.commentContent += value
-            },
-            //预览评论
-            previewContent: function () {
-                this.contentToHTML()
-                this.DrawerVisible = !this.DrawerVisible
-            },
             //评论内容转HTMl
             contentToHTML:function(){
                 let contentHtml = ""
@@ -776,53 +701,119 @@
                 }
                 this.commentHtml = contentHtml;
             },
-            onDrawerClose:function () {
-                this.DrawerVisible = false
+            //修改是否显示详情
+            returnBack() {
+                this.$router.back()
+                // this.$emit("changeIsShowBlog")
+            },
+            //设置回复二级评论顶部内容
+            secCommentAction:function(comment){
+                this.secondPreview = "回复：<strong>@" + comment.commentUserName + "</strong> &nbsp;" + comment.commentContent;
+                this.isSecond = true;
+                this.secondCommentParentId = comment.commentId
+                this.$refs['commentContent'].focus()
+
+            },
+
+            //取消回复二级评论
+            unsetSecondComment:function(){
+                this.isSecond = false;
+                this.secondPreview = "";
+            },
+            //获取焦点
+            setCommentFocus(){
+                this.$refs['commentContent'].focus()
+
             }
         }
     }
 </script>
 
 <style scoped>
-    .image > img {
-        height: 300px;
+    #post-panel {
+        margin: 0;
+        padding: 10px 10px;
+        height: 90vh;
+        background-color: #ffffff;
+        padding-bottom: 60px;
+    }
+    .blog-header {
+    }
+    .blog-title {
+        color: #4f4f4f;
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        line-height: 30px;
     }
 
-    #blog-content {
-        background-color: white;
-        padding: 10px;
-        min-height: 30vh;
-    }
-
-    .blog-baseInfo {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .blog-tag-title {
-        font-weight: 400;
-    }
-
-    .user-detail {
-        margin-top: 10px;
-        position: relative;
+    .blog-title > span {
+        height: 20px;
         line-height: 20px;
-        padding: 15px 15px 15px 15px;
-        font-size: 13px;
-        background-color: #f8f8f8;
-        color: #999;
-        display: flex;
     }
 
-    .blog-action {
-        margin-top: 5px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        font-size: 24px;
-        padding: 15px 15px 15px 15px;
+    .blog-tags {
+        margin: 10px 0;
     }
+
+    .blog-tags > span {
+        margin-right: 10px;
+    }
+
+    .blog-item-bottom {
+        height: 20px;
+        display: flex;
+        font-size: 12px;
+    }
+
+
+    .blog-user-avatar > img {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .blog-user-name {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .blog-desc > span {
+        margin-right: 15px;
+    }
+
+    .blog-time {
+
+    }
+    .blog-content {
+        padding-bottom: 10px;
+    }
+    .blog-handle {
+        position: fixed;
+        bottom: 0px;
+        background-color: #fff;
+        width: 100%;
+        height: 60px;
+        box-shadow: 0 0 0 0 rgba(21,21,23,.15);
+        display: flex;
+        line-height: 60px;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+    .good-collect {
+        line-height: 60px;
+        height: 60px;
+        font-size: 25px;
+    }
+    .good-collect > i{
+        margin-left: 15px;
+    }
+
+
+
+
+/*    评论】*/
 
     .comment-actions {
         margin-top:2px;
@@ -877,39 +868,4 @@
         cursor: pointer;
         margin-left: 15px;
     }
-
-    .blog-good {
-        color: #595959;
-    }
-
-    .blog-good:hover {
-        color: #595959;
-    }
-
-    .comment-good {
-        color: #595959;
-    }
-
-    .comment-good:hover {
-        color: #595959;
-    }
-
-    .blog-collection {
-        color: #595959;
-    }
-
-    .blog-collection:hover {
-        color: #595959;
-    }
-
-    .meta-active {
-        /* 标识当前是否已点赞，是否已收藏 */
-        color: red;
-    }
-
-    .meta-active:hover {
-        /* 标识当前是否已点赞，是否已收藏 */
-        color: red !important;
-    }
-
 </style>

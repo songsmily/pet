@@ -1,7 +1,7 @@
 <template>
     <div style="padding-bottom: 50px;">
         <van-sticky>
-            <van-nav-bar title="新增宠物信息" left-text="返回" @click-left="returnBack" left-arrow>
+            <van-nav-bar title="修改宠物信息" left-text="返回" @click-left="returnBack" left-arrow>
                 <template #right>
                     <van-icon name="search" size="18"/>
                 </template>
@@ -157,7 +157,7 @@
                 })
             },
             returnBack: function () {
-
+                this.$router.back()
             },
             // 校验图片文件类型
             checkImageFileType(file) {

@@ -8,14 +8,21 @@ import util from "./utils/util"
 import adminUtil from "./utils/adminUtil"
 import { Button, Select ,Dialog,Message,MessageBox,Alert} from 'element-ui';
 import { Modal,Tabs,LoadingBar,Notification} from "at-ui";
-import { NavBar as VanNavBar, Sticky,Icon as AntIcon, Popup as AntPopup, ActionSheet as AntActionSheet,Toast,Form as VanForm,
+import { NavBar as VanNavBar, Sticky as VanSticky,Icon as AntIcon, Popup as AntPopup, ActionSheet as AntActionSheet,Toast,Form as VanForm,
         Field as VanField, Button as VanButton, Picker as VanPicker, Calendar as VanCalendar, DatetimePicker as VanDatetimePicker,
         RadioGroup as VanRadioGroup, Radio as VanRadio, Uploader as VanUploader,Notify as VanNotify,Tag as VanTag ,Dialog as VanDialog, Divider as VanDivider,
-        Cell as VanCell, CellGroup as VanCellGroup, Panel as VanPanel,Collapse as VanCollapse, CollapseItem  as VanCollapseItem} from 'vant';
-
-Vue.use(VanNavBar).use(Sticky).use(AntIcon).use(AntPopup).use(AntActionSheet).use(VanForm).use(VanField).use(VanButton).use(VanPicker).use(VanCalendar)
+        Cell as VanCell, CellGroup as VanCellGroup, Panel as VanPanel,Collapse as VanCollapse, CollapseItem  as VanCollapseItem,Row as VanRow,Col as VanCol,List as VanList,
+        Loading as VanLoading,Pagination as VanPagination,Empty as VanEmpty} from 'vant';
+Vue.use(VanNavBar).use(VanSticky).use(AntIcon).use(AntPopup).use(AntActionSheet).use(VanForm).use(VanField).use(VanButton).use(VanPicker).use(VanCalendar)
     .use(VanDatetimePicker).use(VanRadioGroup).use(VanRadio).use(VanUploader).use(VanTag).use(VanDivider).use(VanCell).use(VanCellGroup).use(VanPanel)
-    .use(VanCollapse).use(VanCollapseItem);
+    .use(VanCollapse).use(VanCollapseItem).use(VanRow).use(VanCol).use(VanList).use(VanLoading).use(VanPagination).use(VanEmpty);
+
+
+import {Badge as ABadge} from "ant-design-vue"
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch, {name: 'v-touch'})
+Vue.use(ABadge)
+
 Vue.use(Dialog,Tabs,Modal)
 Vue.prototype.$layer = layer(Vue);
 Vue.prototype.$Loading = LoadingBar

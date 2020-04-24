@@ -5,7 +5,7 @@
             <div class="sc-1duRon-2 pvvuG" style="margin: 0">
                 <div  class="sm-btn-group sc-1duRon-5 dvRHZl sc-17dnj82-0 dfsiVH" style="z-index: 9999">
                     <span class="switch-tips">已有帐号？请</span>
-                    <router-link to="/login" class="sm-button  sc-1n784rm-0 sfCUt" type="default"  >登录</router-link>
+                    <router-link to="/mobile/login" class="sm-button  sc-1n784rm-0 sfCUt" type="default"  >登录</router-link>
                 </div>
 
             </div>
@@ -14,7 +14,8 @@
             <p class="sc-1I1iYs-3 kmwMDA" style='font-family: serif;font-size: 18px;color: #41464B;'>宠物之家</p>
 
         </div>
-        <div class="sc-1duRon-3 cPHJDB">
+        <div class="sc-1duRon-3 cPHJDB"  style="
+    z-index: 99999;">
             <div class="sc-1duRon-4 doAKkT">
                 <div class="sc-3JRwrF irtYus">
                     <div class="main">
@@ -95,23 +96,23 @@
     import {Button} from "at-ui"
     import axios from "axios"
     export default {
-        name: "Register",
+        name: "MobileRegister",
         data(){
             return{
                 yzmSrc:'/api/regist/yzm',//验证码获取地址
-                nickname:'',//用户名
+                nickname:'',//昵称
                 phone:'',//电话
                 password:'',//密码
                 repassword:'',//重复密码
                 imgYzm:'',//图片验证码
                 messageCode:'',//短信验证码
-                nicknameType:'',//用户名框类型
+                nicknameType:'',//昵称框类型
                 phoneType:'',//电话框类型
                 passwordType:'',//密码类型
                 repasswordType:'',//重复密码类型
                 imgYzmType:'',//图片验证码类型
                 messageCodeType:'',//短信验证码类型
-                nicknameTip:'',//用户名提示
+                nicknameTip:'',//昵称提示
                 phoneTip:'',//电话提示
                 passwordTip:'',//密码提示
                 repasswordTip:'',//重复密码提示
@@ -150,10 +151,7 @@
         },
         methods:{
             doRegist:function(){
-                this.$Message({
-                    message: '正在注册中....',
-                    duration:0
-                });
+
                 let val = false
                 let checkPassword = this.checkPassword()
                 let checkRePassword = this.checkRepassword()
@@ -220,13 +218,17 @@
                                 that.nicknameTip = "核验通过！"
                             } else {
                                 that.nicknameType = 'error'
-                                that.nicknameTip = "该用户名已被使用！"
+                                that.nicknameTip = "该昵称已被使用！"
                             }
                             resolve(res)
                         })
                     })]
                 ).then(results => {
                     if (checkPassword && checkRePassword && results[0] && results[0].data.code === 100 && results[1].data.code === 100 && results[2].data.code === 100 && results[3].data.code === 100) {
+                        this.$Toast.loading({
+                            message: '正在注册中...',
+                            forbidClick: true,
+                        });
                         let url = "/api/regist/doRegist"
                         let data = {
                             "phone": this.phone,
@@ -235,25 +237,18 @@
                         }
                         const that = this
                         axios.post(url, data).then(function (res) {
-                            that.$Message.closeAll()
+                            that.$Toast.clear()
                             if (res.data.code === 100) {
-                                that.$Message({
-                                    message: '注册成功，请返回登录！',
-                                    type: 'success'
-                                });
+                                that.$Toast.clear()
+                                that.$Toast.success("注册成功，请返回登录！")
                             } else {
-                                that.$Message({
-                                    message: '注册失败，请重新注册！',
-                                    type: 'warning'
-                                });
+                                that.$Toast.success("注册失败，请重试")
+
                             }
                         })
                     }else{
-                        this.$Message.closeAll()
-                        this.$Message({
-                            message: '信息填写错误,请核查！',
-                            type:"warning"
-                        });
+                        this.$Toast.clear()
+                        this.$Toast.success("信息填写有误！")
                     }
                 })
 
@@ -277,7 +272,7 @@
                                 }
                             },1000)
                         }else{
-                            that.$Message.error("验证码发送失败，请重新点击发送！")
+                            that.$Toast.fail("验证码发送失败，请重新点击发送！")
                         }
                     })
 
@@ -392,7 +387,7 @@
                     return false
                 }
             },
-            //判断用户名
+            //判断昵称
             checkNickname:function () {
                 if (this.nickname.length >= 1 && this.nickname.length <= 12) {
                     const that = this
@@ -408,7 +403,7 @@
                     })
                 }else{
                     this.nicknameType = 'error'
-                    this.nicknameTip = "昵称长度1-12个字符！"
+                    this.nicknameTip = "昵称长度5-12个字符！"
                     return false
                 }
 

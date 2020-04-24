@@ -6,7 +6,6 @@
     <h2 style="color: white;">您访问的页面不存在！</h2>
     <div>
         <a-button ghost style="margin: 10px" @click="returnIndex">返回首页</a-button>
-        <a-button ghost @click="$router.back()">后退一步</a-button>
 
     </div>
     <img src="https://assets.smcdn.cn/assets/images/404_illustration-331b4c7a8a.jpg" alt=""   style="width: 300px;position: absolute;bottom: 0;margin-left: -137px;">

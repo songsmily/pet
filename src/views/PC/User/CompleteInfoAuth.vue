@@ -15,8 +15,8 @@
                                 <el-row :gutter="30" style="overflow: scroll;padding-bottom: 20px;margin-top: 30px;">
                                     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                                         <a-form-model ref="userInfo" :model="userInfo" :rules="rules" layout="vertical">
-                                            <a-form-model-item has-feedback label="用户名(昵称)" prop="username">
-                                                <a-input v-model="userInfo.username" autocomplete="off" placeholder="请输入用户名"/>
+                                            <a-form-model-item has-feedback label="昵称" prop="username">
+                                                <a-input v-model="userInfo.username" autocomplete="off" placeholder="请输入昵称"/>
                                             </a-form-model-item>
 
                                             <a-form-model-item has-feedback label="真实姓名" prop="realName">
@@ -194,17 +194,17 @@
                 }
                 callback()
             }
-            //检验用户名
+            //检验昵称
             let checkUsername = (rule, value, callback) => {
                 if (value.length < 5 || value.length > 12) {
-                    return callback(new Error('请输入正确的用户名，长度5-12位！'))
+                    return callback(new Error('请输入正确的昵称，长度1-12位！'))
                 } else{
                     let url = "/api/regist/checkNickname?nickname=" + value
                     axios.get(url).then(function (res) {
                         if (res.data.code === 100) {
                             callback()
                         } else {
-                            return callback(new Error('用户名已存在！'))
+                            return callback(new Error('该昵称已存在！'))
                         }
                     })
                 }

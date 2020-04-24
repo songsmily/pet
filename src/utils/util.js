@@ -87,13 +87,18 @@ export default {
     logOut(that) {
         const _this = this
         axios.get("/api/user/logOut").then(function (res) {
-            that.$Message({
-                message: '已退出登录！',
-                type: "success"
-            })
             sessionStorage.removeItem("userInfo")
             _this.setUserInfoAndLoginTypeToStore(that)
-            that.$router.push('/login')
+            if (parseInt(sessionStorage.getItem("isMobile")) === 1) {
+                that.$Toast.success("已退出登录")
+                that.$router.push('/mobile/login')
+            } else {
+                that.$Message({
+                    message: '已退出登录！',
+                    type: "success"
+                })
+                that.$router.push('/login')
+            }
         })
     },
     returnUrl() {

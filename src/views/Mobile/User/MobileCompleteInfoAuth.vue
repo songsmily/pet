@@ -8,17 +8,20 @@
                         <h1>请完善个人信息</h1>
                         <el-divider></el-divider>
                         <div>
-                            <a-steps :current="current">
-                                <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-                            </a-steps>
-                            <div class="steps-content" v-if="current === 0">
+                            <van-steps :active="active">
+                                <van-step>基本信息</van-step>
+                                <van-step>电话号码</van-step>
+                            </van-steps>
+<!--                            <a-steps :current="current">-->
+<!--                                <a-step v-for="item in steps" :key="item.title" :title="item.title" />-->
+<!--                            </a-steps>-->
+                            <div class="steps-content" v-if="active === 0">
                                 <el-row :gutter="30" style="overflow: scroll;padding-bottom: 20px;margin-top: 30px;">
                                     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                                         <a-form-model ref="userInfo" :model="userInfo" :rules="rules" layout="vertical">
-                                            <a-form-model-item has-feedback label="用户名(昵称)" prop="username">
+                                            <a-form-model-item has-feedback label="昵称" prop="username">
                                                 <a-input v-model="userInfo.username" autocomplete="off" placeholder="请输入用户名"/>
                                             </a-form-model-item>
-
                                             <a-form-model-item has-feedback label="真实姓名" prop="realName">
                                                 <a-input v-model="userInfo.realName" autocomplete="off" placeholder="请输入真实姓名"/>
                                             </a-form-model-item>
@@ -51,7 +54,7 @@
 
                                 </el-row>
                             </div>
-                            <div class="steps-content" v-if="current === 1">
+                            <div class="steps-content" v-if="active === 1">
                                 <el-row :gutter="30" style="overflow: scroll;padding-bottom: 20px;margin-top: 30px;">
                                     <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                                         <a-form-model ref="phone" :model="userInfo" :rules="rulesPhone" layout="vertical">
@@ -87,11 +90,11 @@
                                 </el-row>
                             </div>
                             <div class="steps-action">
-                                <a-button v-if="current < steps.length - 1" type="primary" @click="next">
+                                <a-button v-if="active < steps.length - 1" type="primary" @click="next">
                                     下一步
                                 </a-button>
                                 <a-button
-                                        v-if="current == steps.length - 1"
+                                        v-if="active == steps.length - 1"
                                         type="primary"
                                         @click="submitForm('phone')"
                                 >
@@ -131,6 +134,7 @@
     import moment from "moment"
     import service from "../../../network/axios"
     import axios from "axios"
+    import { Step as VanStep, Steps as VanSteps } from 'vant';
     export default {
         name: "MobileCompleteInfoAuth",
         components: {
@@ -156,7 +160,9 @@
             ElDivider: Divider,
             ACascader,
             ASteps:Steps,
-            AStep:Steps.Step
+            AStep:Steps.Step,
+            VanSteps,
+            VanStep
         },
         data() {
             let checkPending
@@ -246,6 +252,7 @@
                 },
                 options: [],
                 current: 0,
+                active: 0,
                 steps: [
                     {
                         title: '基本信息',
@@ -270,17 +277,16 @@
         methods: {
             next() {
                 this.$refs["userInfo"].validate(valid => {
-
                     if (valid) {
-                        this.$msgbox.confirm('请确定信息填写无误？！', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'success',
-                        }).then(res => {
-                            this.current++;
-                        }).catch(res => {
-
+                        this.$VanDialog.confirm({
+                            title: '提示',
+                            message: '确认信息填写无误吗？',
                         })
+                        .then(() => {
+                            this.active++;
+                        })
+                        .catch(() => {
+                        });
                     }
                 })
             },
@@ -305,7 +311,7 @@
                                         }
                                     }, 1000)
                                 } else {
-                                    that.$Message.error("验证码发送失败，请重新点击发送！")
+                                    that.$Toast.fail("验证码发送失败，请重新点击发送！")
                                 }
                             })
                         }
@@ -334,9 +340,10 @@
                                         url: "/api/user/completeUserInfo",
                                         data: userInfo
                                     }).then(res => {
-                                        that.$Message.closeAll()
+                                        that.$Toast.clear()
                                         if (res.data.code === 100) {
-                                            that.$Message.success("保存成功")
+
+                                            that.$Toast.success("保存成功")
                                             axios.get("/api/user/returnUserInfo").then(function (res) {
                                                 if (res.data.data) {
                                                     sessionStorage.setItem('userInfo', JSON.stringify(res.data.data))
@@ -346,18 +353,18 @@
                                                 }
                                             })
                                         } else {
-                                            that.$Message.error("保存失败，请重试")
+                                            that.$Toast.fail("保存失败，请重试")
                                         }
 
                                     })
                                 } else if (res.data.code === 60000){
-                                    that.$Message.warning("验证码已过期，请重新发送！")
+                                    that.$Toast.fail("验证码已过期，请重新发送！")
                                 }else {
-                                    that.$Message.warning("验证码匹配失败！")
+                                    that.$Toast.fail("验证码匹配失败！")
                                 }
                             })
                         }else{
-                            that.$Message.warning("请输入验证码，长度为6位！")
+                            that.$Toast.fail("请输入验证码，长度为6位！")
                         }
                     }
                 })

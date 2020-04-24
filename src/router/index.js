@@ -83,6 +83,8 @@ import MobileCompleteInfo from "../views/Mobile/User/MobileCompleteInfo"
 import MobileCompleteInfoAuth from "../views/Mobile/User/MobileCompleteInfoAuth"
 import MobileInformation from "../views/Mobile/Information/MobileInformation"
 import MobileInfoDetail from "../views/Mobile/Information/MobileInfoDetail"
+import MobileLogin from "../components/Mobile/MobileLogin"
+import MobileRegister from "../components/Mobile/MobileRegister"
 Vue.use(VueRouter)
 
 const routes = [
@@ -101,6 +103,20 @@ const routes = [
     {
         path:"/regist",
         component:Register,
+        meta:{
+            tittle:"注册"
+        }
+    },
+    {
+        path:"/mobile/login",
+        component:MobileLogin,
+        meta:{
+            tittle:"登录"
+        }
+    },
+    {
+        path:"/mobile/regist",
+        component:MobileRegister,
         meta:{
             tittle:"注册"
         }
@@ -301,9 +317,9 @@ const routes = [
     },
     {
         path: "/mobile/completeInfoAuth",
-        component:MobilePetInfoDetail,
+        component:MobileCompleteInfoAuth,
         meta:{
-            tittle: "宠物详情",
+            tittle: "完善个人信息",
             navBarIndex: -1
         },
     },
@@ -742,7 +758,7 @@ const routes = [
 
 ]
 // const unAuthRoute = ["/user/manage","/pet/upload","/pet/petinfo/detail","/pet/petinfo","/admin/home"]
-const unAuthRoute = ["/login","/regist","/error","/404"]
+const unAuthRoute = ["/login","/regist","/error","/404","/mobile/login","/mobile/regist"]
 const router = new VueRouter({
     routes,
     mode: 'history'
@@ -754,6 +770,15 @@ router.beforeEach((to,from,next) => {
         from.name ? next({ name:from.name }) : next('/404');
     }
 
+    //判断是否是移动端访问
+    let isMobile = sessionStorage.getItem('isMobile');
+
+    if(isMobile == null){
+        let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+
+        isMobile = flag ? 1 : 0
+        sessionStorage.setItem("isMobile", isMobile)
+    }
 
 
 
@@ -767,17 +792,6 @@ router.beforeEach((to,from,next) => {
             document.title = to.meta.tittle
             next()
         }else{
-
-            //判断是否是移动端访问
-            let isMobile = sessionStorage.getItem('isMobile');
-
-            if(isMobile == null){
-                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-
-                isMobile = flag ? 1 : 0
-                sessionStorage.setItem("isMobile", isMobile)
-            }
-
             if (parseInt(isMobile) === 1) {
                 if (to.path.indexOf("mobile") === -1) {
                     next('/mobile/user/home');
@@ -803,7 +817,7 @@ router.beforeEach((to,from,next) => {
 
                                 }
                             } else {
-                                if( userInfo.phone == null || userInfo.realName == null || userInfo.username == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
+                                if( userInfo.phone == null || userInfo.realName == null || userInfo.name == null || userInfo.address === null  || userInfo.phone == null  || userInfo.location == null  || userInfo.email == null  ){
                                     if (parseInt(isMobile) === 1)
                                         router.replace("/mobile/completeInfoAuth")
                                     else
@@ -853,6 +867,12 @@ router.beforeEach((to,from,next) => {
         }
 
     } else {
+        document.title = to.meta.tittle
+        if (parseInt(isMobile) === 1) {
+            if (to.path.indexOf("mobile") === -1) {
+                next('/mobile' + to.path);
+            }
+        }
         document.title = to.meta.tittle
         next()
     }

@@ -247,6 +247,8 @@
                 }],
             }
         },
+        created(){
+        },
         mounted() {
             this.getPetInfos(this.$route.query.id)
         },

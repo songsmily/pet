@@ -7,7 +7,7 @@
                 <div class="clearfix hidden-xs text-center  show" id="aside-user">
                     <div class="dropdown wrapper" style="text-align: center;">
                         <div ui-nav="">
-                            <a href="index.php/cross.html">
+                            <a href="#">
                                 <span class="thumb-lg w-auto-folded avatar m-t-sm">
                       <img v-if="this.$store.state.loginType" :src="this.$store.state.userInfo.avatarUrl"
                            class="img-full">

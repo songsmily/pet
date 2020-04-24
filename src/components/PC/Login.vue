@@ -35,7 +35,7 @@
 
                                             <form action="">
                                                 <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">用户名</label>
-                                                    <at-input v-model="phone"  :status="phoneType" :icon="''"></at-input>
+                                                    <at-input v-model="phone"   :status="phoneType" :icon="''"></at-input>
                                                     <div :class="{'errorTips':phoneType === 'error' , 'successTips':phoneType === 'success'}" id="usernameTip">{{phoneTip}}</div>
                                                 </div>
                                                 <div class="sc-3ksGSP kPTEpp" type="mobileOrEmail"><label class="label">登录密码</label>
@@ -63,7 +63,7 @@
                                                     管理员登录</button>
                                             </form>
                                         </div>
-
+<!--        授权登录-->
                                         <div class="sc-2oZUsG-1 krkGsR">
                                             <tooltip placement="bottom" content="Github登录">
                                                 <a @click="GithubAuth">
@@ -277,12 +277,20 @@
                     return false
                 }
             },
+            // GithubAuth:function () {
+            //     let url = "https://github.com/login/oauth/authorize?client_id=4523142b190f9a6fec47&redirect_uri=http://www.songsmily.cn:8099/GithubCallback&scope=user&state=1"
+            //     window.location.href = url
+            // },
+            // QQAuth:function () {
+            //     let url = "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=101826131&response_type=code&scope=get_info%2Cget_user_info&redirect_uri=http://127.0.0.1:8099/QQCallBack&state=2"
+            //     window.location.href = url
+            // },
             GithubAuth:function () {
-                let url = "https://github.com/login/oauth/authorize?client_id=4523142b190f9a6fec47&redirect_uri=http://localhost:8099/GithubCallback&scope=user&state=1"
+                let url = "https://github.com/login/oauth/authorize?client_id=4523142b190f9a6fec47&redirect_uri=http://www.songsmily.cn:8099/GithubCallback&scope=user&state=1"
                 window.location.href = url
             },
             QQAuth:function () {
-                let url = "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=101826131&response_type=code&scope=get_info%2Cget_user_info&redirect_uri=http://127.0.0.1:8099/QQCallBack&state=2"
+                let url = "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=101868669&response_type=code&scope=get_info%2Cget_user_info&redirect_uri=http://www.songsmily.cn:8099/qqCallBack&state=2"
                 window.location.href = url
             }
         }

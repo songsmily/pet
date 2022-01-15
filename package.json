@@ -18,7 +18,7 @@
     "gulp": "^4.0.2",
     "less": "^2.7.3",
     "less-loader": "^5.0.0",
-    "marked": "^0.8.2",
+    "marked": "^4.0.10",
     "mavon-editor": "^2.8.3",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
